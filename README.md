@@ -3,7 +3,8 @@ WWC_Spartan
 
 * Members
  - Jugwan Eom
- - Sungeun Kim
+ - Sungeun Kim!
  - Gina Du
  - Tommy Park
  - Vijay R
+=======
