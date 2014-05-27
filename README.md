@@ -6,3 +6,4 @@ WWC_Spartan
  - Sungeun Kim
  - Gina Du
  - Tommy Park
+ - Vijay R
