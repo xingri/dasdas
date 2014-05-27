@@ -1,3 +1,0 @@
-customer applictiaon = customer + server + protocol
-supervisor application = supervisor + DB 설계까지
-warehouse system = control HW, 
