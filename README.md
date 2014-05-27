@@ -5,3 +5,4 @@ WWC_Spartan
  - Jugwan Eom
  - Sungeun Kim
  - Gina Du
+ - Tommy Park
