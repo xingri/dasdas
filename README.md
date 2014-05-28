@@ -1,10 +1,9 @@
-WWC_Spartan
-===========
-
+Spartan Team
+=================================
 * Members
- - Jugwan Eom
- - Sungeun Kim!
- - Gina Du
- - Tommy Park
- - Vijay R
-=======
+ - Jugwan Eom (robot)
+ - Sungeun Kim (Warehouse H/W)
+ - Gina Du (Supervisor App)
+ - Tommy Park (Customer App)
+ - Vijay R (DB Schema)
+ - Sun Shin (Warehouse Server)
