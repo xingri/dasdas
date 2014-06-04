@@ -24,12 +24,6 @@ public class DAL {
 
     public boolean Initialize(String serverIPAddress, String userName, String pwd) {
         Boolean connectError = false;       // Error flag
-        int beginIndex;                     // Parsing index
-        int endIndex;                       // Parsing index
-        String orderSelection = null;       // Order selected from TextArea1
-        String orderTable = null;           // The name of the table containing the order items
-        String orderID = null;              // Product ID pnemonic
-        String productDescription = null;   // Product description
         //String SQLServerIP = "127.0.0.1";
         String SQLServerIP = serverIPAddress;
         String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/spartan";
@@ -54,7 +48,8 @@ public class DAL {
 
     public boolean Uninitialize() {
         try {
-            DBConn.close();
+            if(DBConn != null)
+                DBConn.close();
         } catch (Exception e) {
             errString = "\nProblem disconnecting to spartan database:: " + e;
             return false;
