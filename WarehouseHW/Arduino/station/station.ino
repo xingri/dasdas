@@ -65,26 +65,24 @@ void loop(void)
   Corner4SWVal = digitalRead(Corner4SWPin);
   
   // Print the photo sensor results  
-  Serial.print("Corner PC 1: ");
   Serial.print(Corner1PCVal); 
-  Serial.print(" Corner PC 2: ");
+  Serial.print(",");
   Serial.print(Corner2PCVal); 
-  Serial.print(" Corner PC 3: ");
+  Serial.print(",");
   Serial.print(Corner3PCVal); 
-  Serial.print(" Corner PC 4: ");
-  Serial.println(Corner4PCVal); 
+  Serial.print(",");
+  Serial.print(Corner4PCVal); 
   
   // Print the switch sensor results
-  
-  Serial.print("Corner SW 1: ");
+  Serial.print(",");
   Serial.print(Corner1SWVal); 
-  Serial.print(" Corner SW 2: ");
+  Serial.print(",");
   Serial.print(Corner2SWVal); 
-  Serial.print(" Corner SW 3: ");
+  Serial.print(",");
   Serial.print(Corner3SWVal); 
-  Serial.print(" Corner SW 4: ");
+  Serial.print(",");
   Serial.println(Corner4SWVal); 
  
   // Sample rate 1 second 
-  delay(1000);
+  delay(100);
 }
