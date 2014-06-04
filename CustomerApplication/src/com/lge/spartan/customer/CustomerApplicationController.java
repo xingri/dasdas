@@ -19,9 +19,13 @@ public class CustomerApplicationController {
 		System.out.println("CustomerApplicationController is configured with DummyImpl...");
 	}
 	
-	public CustomerApplicationController(String ipAddress){
+	public CustomerApplicationController(String ipAddress, int port){
 		orderSubmitter = new OrderSubmitter(
-				new OrderSubmitTCPClientImpl(ipAddress));
+				new OrderSubmitTCPClientImpl(ipAddress, port));
+		widgetTuples = new ArrayList<OrderWidgetTuple>();
+		widgetNames = new ArrayList<String>(); 
+		System.out.println("CustomerApplicationController is configured with TCPClientImpl...");
+
 	}
 	
 	public void submitOrder(Order order){

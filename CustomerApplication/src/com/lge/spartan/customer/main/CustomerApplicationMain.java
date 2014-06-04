@@ -11,7 +11,9 @@ public class CustomerApplicationMain {
 	public static void main(String[] args) {
 		System.out.println("CustomerApplication Start....");
 	
-		final CustomerApplicationController cac = new CustomerApplicationController(); 
+		//final CustomerApplicationController cac = new CustomerApplicationController(); 
+		final CustomerApplicationController cac = new CustomerApplicationController("127.0.0.1",3333); 
+		
 		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CustomerApplicationGUI(cac).display();
