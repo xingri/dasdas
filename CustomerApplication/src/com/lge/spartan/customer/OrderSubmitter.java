@@ -2,9 +2,17 @@ package com.lge.spartan.customer;
 
 import java.util.List;
 
+import com.lge.spartan.customer.data.Order;
+
 public class OrderSubmitter implements IOrderSubmit{
-	IOrderSubmit impl = null; 
+	private IOrderSubmit impl = null; 
+	public OrderSubmitter(){}
+	
 	public OrderSubmitter(IOrderSubmit impl){
+		this.impl = impl; 
+	}
+	
+	public void setOrderSubmitterImpl(IOrderSubmit impl){
 		this.impl = impl; 
 	}
 	

@@ -2,23 +2,34 @@ package com.lge.spartan.customer;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-
+import com.lge.spartan.customer.data.Order;
+import com.lge.spartan.customer.data.OrderWidgetTuple;
 
 public class CustomerApplicationGUI {
+	CustomerApplicationController controller = null; 
+	
+	String selectedWidgetName = null; 
+	
 	JFrame fMain;
 	JPanel pNewOrder;
 	JPanel pOrderStatus;
@@ -42,12 +53,15 @@ public class CustomerApplicationGUI {
 	JButton bAddWidget;
 	JButton bGetWidgetName; 
 	JButton bSubmit; 
+	JButton bGetOrderStatus; 
 	
 	JScrollPane spAddress;
 	
-	JList<String> widgetListForOrder; 
+	JList<OrderWidgetTuple> widgetListForOrder; 
 	
-	public CustomerApplicationGUI (){
+	public CustomerApplicationGUI (CustomerApplicationController cac){
+		this.controller = cac;  // Assigne Controller
+		
 		fMain = new JFrame("Customer Application");
 		//pNewOrder = new JPanel(new GridLayout(1,2));
 		pNewOrder = new JPanel(new BorderLayout());
@@ -76,18 +90,23 @@ public class CustomerApplicationGUI {
 		lWidgetName = new JLabel("Widgets: ");
 		widgetNameList = new JList<String>();
 		lWidgetOrder = new JLabel("Selected List for Your Order:");
-		widgetListForOrder = new JList<String>();
+		widgetListForOrder = new JList<OrderWidgetTuple>();
 	}
 	
 	public void showList(){
-		ArrayList<String> wList = new ArrayList<String>();
-		wList.add("BaseBallWhite");
-		wList.add("BaseketBall");
-		wList.add("BaseBallYellow");
-		wList.add("SoccerBall");
+		List<String> wList = controller.getWidgetType();
 		String[] ca= new String[wList.size()];
 		wList.toArray(ca);
 		widgetNameList.setListData(ca);
+		selectedWidgetName = wList.get(0);
+		
+		
+	}
+	public void showListTuple(){
+		List<OrderWidgetTuple> owtList= controller.getWidgetTuple();
+		OrderWidgetTuple[] owt = new OrderWidgetTuple[owtList.size()];
+		owtList.toArray(owt); 
+		widgetListForOrder.setListData(owt);
 	}
 	
 	public void display(){
@@ -127,8 +146,13 @@ public class CustomerApplicationGUI {
 		pOrderSpec.add(pWidget, BorderLayout.CENTER);
 		pOrderSpec.add(pSubmit, BorderLayout.SOUTH);
 		
+		ActionListener bHandler=new ButtonHandler();
+		bSubmit.addActionListener(bHandler);
+		bGetWidgetName.addActionListener(bHandler);
+		bAddWidget.addActionListener(bHandler);
 		
-		
+		ListSelectionListener listener=new ListHandler();
+		widgetNameList.addListSelectionListener(listener);
 /*		
 		pOrderSpec.add(lWidgetName);
 		pOrderSpec.add(new JLabel());
@@ -150,5 +174,45 @@ public class CustomerApplicationGUI {
 		fMain.setSize(800, 500);
 		fMain.setVisible(true);
 		
+	}
+	
+	class ButtonHandler implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource()== bSubmit){
+				Order order = new Order(); 
+				order.setPhoneNumber(taPhoneNumber.getText());
+				order.setAddress(taAddress.getText());
+				List<OrderWidgetTuple> listWidget = controller.getWidgetTuple();
+				order.setWidgets(listWidget);
+				
+				controller.submitOrder(order); 
+			}else if(e.getSource()== bAddWidget){
+				String quantity = JOptionPane.showInputDialog("How many ?");
+				System.out.println(selectedWidgetName + ":" + quantity);
+				controller.addWidgetTuple(selectedWidgetName, Integer.parseInt(quantity));
+				showListTuple(); 
+				
+			}else if(e.getSource()==bGetWidgetName){
+				controller.getWidgetType();
+			}else if(e.getSource()==bGetOrderStatus){
+				controller.getOrderStatus("111");
+			}
+			else{
+				//dao.close();
+				System.exit(0);
+			}
+		}
+	}
+	
+	class ListHandler implements ListSelectionListener{
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if(e.getSource()== widgetNameList){
+				selectedWidgetName = widgetNameList.getSelectedValue();
+			 
+				System.out.println(selectedWidgetName + " Selected");
+			}
+		}
 	}
 }

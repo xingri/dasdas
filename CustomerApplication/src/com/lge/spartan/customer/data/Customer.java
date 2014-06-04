@@ -1,4 +1,4 @@
-package com.lge.spartan.customer;
+package com.lge.spartan.customer.data;
 
 public class Customer {
 	private String phoneNumber;

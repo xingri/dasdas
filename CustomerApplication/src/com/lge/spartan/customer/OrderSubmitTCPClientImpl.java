@@ -2,6 +2,8 @@ package com.lge.spartan.customer;
 
 import java.util.List;
 
+import com.lge.spartan.customer.data.Order;
+
 public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 	String ipAddress;
 	

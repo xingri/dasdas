@@ -1,12 +1,13 @@
-package com.lge.spartan.customer;
+package com.lge.spartan.customer.data;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Order implements Serializable {
 	private String phoneNumber;
 	private String address;
-	private int quantity;
-	private String widgetType;
+	List<OrderWidgetTuple> widgets; 
+
 	private OrderStatus status; 
 
 	public enum OrderStatus {Ordered, Inprocess, Backordered, Completed}
@@ -26,21 +27,13 @@ public class Order implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public int getQuantity() {
-		return quantity;
+	
+	public List<OrderWidgetTuple> getWidgets() {
+		return widgets;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public String getWidgetType() {
-		return widgetType;
-	}
-
-	public void setWidgetType(String widgetType) {
-		this.widgetType = widgetType;
+	public void setWidgets(List<OrderWidgetTuple> widgets) {
+		this.widgets = widgets;
 	}
 
 	public OrderStatus getStatus() {
@@ -49,8 +42,13 @@ public class Order implements Serializable {
 
 	public void setStatus(OrderStatus status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [phoneNumber=" + phoneNumber + ", address=" + address
+				+ ", widgets=" + widgets + ", status=" + status + "]";
 	};
-	
 	
 	
 }
