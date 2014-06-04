@@ -39,7 +39,8 @@ public class CustomerApplicationGUI {
 	JList<String> widgetNameList;
 	JLabel lWidgetOrder; 
 
-	JButton bAddWidget; 
+	JButton bAddWidget;
+	JButton bGetWidgetName; 
 	JButton bSubmit; 
 	
 	JScrollPane spAddress;
@@ -57,7 +58,7 @@ public class CustomerApplicationGUI {
 		pTitle = new JPanel(new GridLayout(1,3)); 
 		pWidget = new JPanel(new GridLayout(1,3));
 		pAdd = new JPanel();
-		pSubmit = new JPanel(); 
+		pSubmit = new JPanel(new GridLayout(1,3)); 
 		
 		lPhoneNumber = new JLabel("Phone Number: ", JLabel.LEFT);
 		lAddress = new JLabel("Address: ", JLabel.LEFT); 
@@ -70,6 +71,7 @@ public class CustomerApplicationGUI {
 		bSubmit = new JButton("Order Submit");
 		bSubmit.setSize(20,5);
 		bAddWidget = new JButton(">>");
+		bGetWidgetName = new JButton("Referesh WidgetName");
 		
 		lWidgetName = new JLabel("Widgets: ");
 		widgetNameList = new JList<String>();
@@ -118,6 +120,8 @@ public class CustomerApplicationGUI {
 		pAdd.add(bAddWidget);
 		pWidget.add(widgetListForOrder);
 		
+		pSubmit.add(bGetWidgetName);
+		pSubmit.add(new JLabel());
 		pSubmit.add(bSubmit);
 		pOrderSpec.add(pTitle, BorderLayout.NORTH);
 		pOrderSpec.add(pWidget, BorderLayout.CENTER);
