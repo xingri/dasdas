@@ -23,8 +23,8 @@ int pos = 0; // variable to store the servo position
 int tslot = 0;
 int stop = 0;
 
-//char ssid[] = "CMU";           // The network SSID (name) 
-char ssid[] = "Shadyside Inn";
+char ssid[] = "CMU";           // The network SSID (name) 
+//char ssid[] = "Shadyside Inn";
 char pass[] = "hotel5405";
 int status = WL_IDLE_STATUS;   // The status of the network connections
 WiFiServer server(PORTID);     // The WIFI status,.. we are using port 500
@@ -48,7 +48,7 @@ void setup()
    { 
      Serial.print("Attempting to connect to SSID: ");
      Serial.println(ssid);
-     status = WiFi.begin(ssid, pass);
+     status = WiFi.begin(ssid);
    }  
    
    // Print connection information to the debug terminal
@@ -95,7 +95,7 @@ void loop()
         break;
         
       case 'G': // Go Next Station
-      case 'g': 
+      case 'F': 
         Right();
         delay(NINEDEGR);
         stop = 0;
@@ -118,6 +118,7 @@ void loop()
     left = RCTime(LSENPIN);
     right = RCTime(RSENPIN);
     
+    /*
     Serial.print("Left: ");
     Serial.print(left);
     
@@ -126,6 +127,7 @@ void loop()
     
     Serial.print(", Rigth: ");
     Serial.print(right);
+    */
    
     int w_cnt = 0;
     if (center < 60)
@@ -134,10 +136,12 @@ void loop()
       w_cnt++;
     if (right < 60)
       w_cnt++;
+    /*
     if (w_cnt >= 2)
       Serial.println(" in Route");
     else
       Serial.println(" in Statin");
+    */
    
     if (w_cnt >= 2) {
       if (center < 60 && (left > 60 || right > 60)) { 

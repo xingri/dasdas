@@ -41,9 +41,11 @@ public class UpdateWidget extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         comboName = new javax.swing.JComboBox();
         textFieldDesc = new javax.swing.JTextField();
-        textFieldQuant = new javax.swing.JTextField();
+        textFieldCurQuant = new javax.swing.JTextField();
         btnUpdateWidget = new javax.swing.JButton();
         textFieldStation = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        textFieldNewQuant = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Update Widget");
@@ -52,7 +54,7 @@ public class UpdateWidget extends javax.swing.JFrame {
 
         jLabel2.setText("Widget Description");
 
-        jLabel3.setText("No of new items");
+        jLabel3.setText("No. of current items");
 
         jLabel4.setText("Station");
 
@@ -68,10 +70,13 @@ public class UpdateWidget extends javax.swing.JFrame {
         });
 
         textFieldDesc.setEditable(false);
+        textFieldDesc.setEnabled(false);
 
-        textFieldQuant.addActionListener(new java.awt.event.ActionListener() {
+        textFieldCurQuant.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        textFieldCurQuant.setEnabled(false);
+        textFieldCurQuant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldQuantActionPerformed(evt);
+                textFieldCurQuantActionPerformed(evt);
             }
         });
 
@@ -83,30 +88,34 @@ public class UpdateWidget extends javax.swing.JFrame {
         });
 
         textFieldStation.setEditable(false);
+        textFieldStation.setEnabled(false);
+
+        jLabel5.setText("No. of new items");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnUpdateWidget)
+                .addGap(155, 155, 155))
             .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboName, 0, 112, Short.MAX_VALUE)
-                            .addComponent(textFieldDesc)
-                            .addComponent(textFieldQuant)
-                            .addComponent(textFieldStation)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(btnUpdateWidget)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(102, 102, 102)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(textFieldStation)
+                    .addComponent(textFieldCurQuant)
+                    .addComponent(textFieldDesc)
+                    .addComponent(comboName, 0, 147, Short.MAX_VALUE)
+                    .addComponent(textFieldNewQuant))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,25 +129,28 @@ public class UpdateWidget extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2))
                     .addComponent(textFieldDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(textFieldQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(textFieldCurQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(textFieldStation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(btnUpdateWidget)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(textFieldNewQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(textFieldStation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addComponent(btnUpdateWidget))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textFieldQuantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldQuantActionPerformed
+    private void textFieldCurQuantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldCurQuantActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldQuantActionPerformed
+    }//GEN-LAST:event_textFieldCurQuantActionPerformed
 
     private void comboNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboNameActionPerformed
         // TODO add your handling code here:
@@ -150,8 +162,9 @@ public class UpdateWidget extends javax.swing.JFrame {
         {
             if(w.name.equals(comboName.getSelectedItem()))
             {
-                textFieldDesc.setText(w.desc);
-                //textFieldQuant.setText(w.quantity);
+                textFieldDesc.setText(w.desc);                
+                textFieldCurQuant.setText(Integer.toString(w.quantity));
+                textFieldStation.setText(Integer.toString(w.stationId + 1));
                 break;
             }
         }
@@ -159,7 +172,10 @@ public class UpdateWidget extends javax.swing.JFrame {
 
     private void btnUpdateWidgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateWidgetActionPerformed
         // TODO add your handling code here:
-        int res = Supervisor.d.IncWidgets((String) comboName.getSelectedItem(), Integer.parseInt(textFieldQuant.getText()));
+        int res = Supervisor.d.IncWidgets((String) comboName.getSelectedItem()
+                , Integer.parseInt(textFieldNewQuant.getText()
+                ));
+        
         if(res == -1)
             JOptionPane.showMessageDialog(this, "Failed");
         else
@@ -210,8 +226,10 @@ public class UpdateWidget extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField textFieldCurQuant;
     private javax.swing.JTextField textFieldDesc;
-    private javax.swing.JTextField textFieldQuant;
+    private javax.swing.JTextField textFieldNewQuant;
     private javax.swing.JTextField textFieldStation;
     // End of variables declaration//GEN-END:variables
 }

@@ -38,51 +38,46 @@ class RobotControl
 	String GoNext  = "G";			// Brief turn left command
 	String Disconnect = "X";		// Disconnect from the server and exit app
 
-	Socket clientSocket = null;		// The socket.
-   	int	portNum = 501;				// Port number for server socket
+    int	portNum = 501;				// Port number for server socket
+    String robotIP = null;
 
-   	BufferedReader UserInput; 		// User keyboard input
-   	BufferedWriter out = null;		// Socket output to server
+    public RobotControl(String robotIP) {
+        this.robotIP = robotIP;
+    }
 
-	public void sendGoNextCmd(String robotIP) {
+	public void sendGoNextCmd() {
+        Socket clientSocket;		// The socket.
+   	    BufferedWriter out = null;		// Socket output to server
 		try {
+            System.out.println("Trying to connect Robot: " + robotIP);
 			clientSocket = new Socket(robotIP, portNum);
 			out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 			out.write( GoNext, 0, GoNext.length());
 			out.flush();
+            Thread.sleep(1000);
 			out.close();
-			clientSocket.close();
+            clientSocket.close();
 
 		} catch (Exception e) {
             System.err.println( "Handling GoNext Exception: " + e);
 		}
 	}
 
-	public void sendStopCmd(String robotIP) {
+	public void sendStopCmd() {
+        Socket clientSocket;		// The socket.
+   	    BufferedWriter out = null;		// Socket output to server
 		try {
+            System.out.println("Trying to connect Robot: " + robotIP);
 			clientSocket = new Socket(robotIP, portNum);
 			out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 			out.write( FullStop, 0, FullStop.length());
 			out.flush();
+            Thread.sleep(1000);
 			out.close();
-			clientSocket.close();
+            clientSocket.close();
 
 		} catch (Exception e) {
             System.err.println( "Handling Stop Exception: " + e);
-		}
-	}
-
-	public void sendFwdCmd(String robotIP) {
-		try {
-			clientSocket = new Socket(robotIP, portNum);
-			out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-			out.write( Forward, 0, Forward.length());
-			out.flush();
-			out.close();
-			clientSocket.close();
-
-		} catch (Exception e) {
-            System.err.println( "Handling Fwd Exception: " + e);
 		}
 	}
 

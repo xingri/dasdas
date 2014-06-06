@@ -24,26 +24,20 @@ public class DAL {
 
     public boolean Initialize(String serverIPAddress, String userName, String pwd) {
         Boolean connectError = false;       // Error flag
-        int beginIndex;                     // Parsing index
-        int endIndex;                       // Parsing index
-        String orderSelection = null;       // Order selected from TextArea1
-        String orderTable = null;           // The name of the table containing the order items
-        String orderID = null;              // Product ID pnemonic
-        String productDescription = null;   // Product description
         //String SQLServerIP = "127.0.0.1";
         String SQLServerIP = serverIPAddress;
         String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/spartan";
 
         try {
-            
-             //load JDBC driver class for MySQL
-            Class.forName( "com.mysql.jdbc.Driver" );
-            
+
+            //load JDBC driver class for MySQL
+            Class.forName("com.mysql.jdbc.Driver");
+
             //create a connection to the db - note the default account is "remote"
             //and the password is "remote_pass" - you will have to set this
             //account up in your database
             //DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-               DBConn = DriverManager.getConnection(sourceURL, userName, pwd);
+            DBConn = DriverManager.getConnection(sourceURL, userName, pwd);
         } catch (Exception e) {
             errString = "\nProblem connecting to spartan database:: " + e;
             connectError = true;
@@ -54,7 +48,8 @@ public class DAL {
 
     public boolean Uninitialize() {
         try {
-            DBConn.close();
+            if(DBConn != null)
+                DBConn.close();
         } catch (Exception e) {
             errString = "\nProblem disconnecting to spartan database:: " + e;
             return false;
@@ -111,7 +106,8 @@ public class DAL {
 
             SQLStatement = "(select max(orderNo) from orderinfo)";
             res = s.executeQuery(SQLStatement);
-            orderNo = res.getInt(1); //get integer from the first column of the result
+            if(res.next())
+                orderNo = res.getInt(1); //get integer from the first column of the result
 
             SQLStatement = "insert into orderdetails values ((select max(orderNo) from orderinfo)," + widgetId + "," + quant + ");";
             executeUpdateVal = s.executeUpdate(SQLStatement);
@@ -155,12 +151,15 @@ public class DAL {
         try {
             s = DBConn.createStatement();
 
+            int executeUpdateVal;           // Return value from execute indicating effected rows
             SQLStatement = "select quantity from widget where name = '" + widgetName + "';";
             res = s.executeQuery(SQLStatement);
-            quant = res.getInt(1);
+            if (res.next()) {
+                quant = res.getInt(1);
+            }
 
             SQLStatement = "update widget set quantity = " + (quant + increment) + ";";
-            res = s.executeQuery(SQLStatement);
+            executeUpdateVal = s.executeUpdate(SQLStatement);
 
             // Update the form
             msgString = "RECORD RETRIEVED...";
@@ -182,10 +181,14 @@ public class DAL {
 
             SQLStatement = "select quantity from widget where name = '" + widgetName + "';";
             res = s.executeQuery(SQLStatement);
-            quant = res.getInt(1);
+            if (res.next()) {
+                quant = res.getInt(1);
+            }
+
+            int executeUpdateVal;           // Return value from execute indicating effected rows
 
             SQLStatement = "update widget set quantity = " + (quant - decrement) + ";";
-            res = s.executeQuery(SQLStatement);
+            executeUpdateVal = s.executeUpdate(SQLStatement);
 
             // Update the form
             msgString = "RECORD RETRIEVED...";
@@ -225,20 +228,20 @@ public class DAL {
         }
         return orderList;
     }
-    
+
     public ArrayList<OrderInfo> GetShippedOrders() {
         return GetOrders("select * from orderinfo where status = 3");
     }
 
     public ArrayList<OrderInfo> GetPendingOrders() {
-          return GetOrders("select * from orderinfo where status <> 3");
+        return GetOrders("select * from orderinfo where status <> 3");
     }
-    
+
     public ArrayList<OrderInfo> GetBackorderedOrders() {
-            return GetOrders("select * from orderinfo where status = 2"); //2 - Backorder
+        return GetOrders("select * from orderinfo where status = 2"); //2 - Backorder
     }
-    
-     public ArrayList<Widget> GetWidgets() {
+
+    public ArrayList<Widget> GetWidgets() {
         ArrayList<Widget> widgetList = null;
         try {
             s = DBConn.createStatement();
