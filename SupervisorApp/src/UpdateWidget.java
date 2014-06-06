@@ -22,6 +22,7 @@ public class UpdateWidget extends javax.swing.JFrame {
         initComponents();
         
         widgetList = Supervisor.d.GetWidgets();
+        if(widgetList == null) return;
         for(Widget w: widgetList)
             comboName.addItem(w.name);
     }
@@ -172,14 +173,27 @@ public class UpdateWidget extends javax.swing.JFrame {
 
     private void btnUpdateWidgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateWidgetActionPerformed
         // TODO add your handling code here:
+        if (textFieldNewQuant.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(this, "Please enter the Quantity of the Widget.");
+            textFieldNewQuant.requestFocus();
+        } else {
+            try {
+                Integer.parseInt(textFieldNewQuant.getText());
+            } catch (NumberFormatException e) {
+                //Not an integer
+                JOptionPane.showMessageDialog(this, "Please enter the Quantity as Numeric.");
+                textFieldNewQuant.requestFocus();
+            }
+        }
+         
         int res = Supervisor.d.IncWidgets((String) comboName.getSelectedItem()
                 , Integer.parseInt(textFieldNewQuant.getText()
                 ));
         
         if(res == -1)
-            JOptionPane.showMessageDialog(this, "Failed");
+            JOptionPane.showMessageDialog(this, "Updating a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
         else
-            JOptionPane.showMessageDialog(this, "Updated successfully");
+            JOptionPane.showMessageDialog(this, "Widget is updated successfully");
     }//GEN-LAST:event_btnUpdateWidgetActionPerformed
 
     /**

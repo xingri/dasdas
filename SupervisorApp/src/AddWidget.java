@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author vijay.rachabattuni
@@ -112,11 +111,31 @@ public class AddWidget extends javax.swing.JFrame {
 
     private void addWidgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addWidgetActionPerformed
         // TODO add your handling code here:
+        if (name.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(this, "Please enter the Name of the Widget.");
+            name.requestFocus();
+        } else if (desc.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(this, "Please enter the Description of the Widget.");
+            desc.requestFocus();
+        } else if (quantity.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(this, "Please enter the Quantity of the Widget.");
+            quantity.requestFocus();
+        } else {
+            try {
+                Integer.parseInt(quantity.getText());
+            } catch (NumberFormatException e) {
+                //Not an integer
+                JOptionPane.showMessageDialog(this, "Please enter the Quantity as Numeric.");
+                quantity.requestFocus();
+            }
+        }
+
         int res = Supervisor.d.AddWidget(name.getText(), desc.getText(), Integer.parseInt(quantity.getText()), stationId.getSelectedIndex());
-        if(res == -1)
+        if (res == -1) {
             JOptionPane.showMessageDialog(this, "Adding a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
-        else
+        } else {
             JOptionPane.showMessageDialog(this, "Widget is added successfully.");
+        }
     }//GEN-LAST:event_addWidgetActionPerformed
 
     /**
