@@ -6,7 +6,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lge.spartan.customer.data.Message;
 import com.lge.spartan.customer.data.Order;
+
 
 public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 	String ipAddress;
@@ -45,7 +47,7 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 		try{
 			Socket s=new Socket(ipAddress, port);
 			System.out.println("Socket created...");
-			//ois=new ObjectInputStream(s.getInputStream());
+			ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
 			ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());
 			System.out.println("ObjectOutputStream created...");
 			new OrderSendThread(oos).start();
@@ -54,20 +56,25 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 			System.out.println("Check Server IP or PORT number...");
 		}
 	}
+	
 	class OrderSendThread extends Thread{
+		ObjectInputStream ois; 
 		ObjectOutputStream oos;
 		public OrderSendThread(ObjectOutputStream oos){
 			this.oos = oos; 
 		}
 		public void run(){
 			try{
-				oos.writeObject(order);
+				Message msg = new Message(Message.SUBMIT_ORDER, order);
+				oos.writeObject(msg);
 				System.out.println("Submitted: " + order.toString());
 			}catch(Exception e) {
 				System.out.println("Error in Sending the order...");
 			}
 		}
+		
 	}
+
 	
 
 }

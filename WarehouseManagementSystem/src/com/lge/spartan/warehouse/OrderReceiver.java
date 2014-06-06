@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.lge.spartan.customer.data.Message;
 import com.lge.spartan.customer.data.Order;
 
 public class OrderReceiver extends Thread{
@@ -44,13 +45,18 @@ public class OrderReceiver extends Thread{
 		public void run(){
 			try{
 				while(true){
-					Order receivedOrder=(Order)ois.readObject();
-					System.out.println("Got an Order: " + receivedOrder.toString());
-					orderDAO.insert(receivedOrder);
+					Message msg=(Message)ois.readObject();
+					if(msg.getMsgType() == Message.SUBMIT_ORDER){
+						Order receivedOrder = (Order)msg.getPayload();
+						System.out.println("Got an Order: " + receivedOrder.toString());
+						orderDAO.insert(receivedOrder);
+					}else{
+						System.out.println("Unknown Message Type Error: " + msg.getMsgType());
+					}
 				
 				}
 			}catch(Exception e) {
-				
+				System.out.println("Read Message Error. ");
 			}
 		}
 	}
