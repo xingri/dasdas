@@ -48,8 +48,9 @@ public class DAL {
 
     public boolean Uninitialize() {
         try {
-            if(DBConn != null)
+            if (DBConn != null) {
                 DBConn.close();
+            }
         } catch (Exception e) {
             errString = "\nProblem disconnecting to spartan database:: " + e;
             return false;
@@ -61,27 +62,12 @@ public class DAL {
         ArrayList<Customer> custList = null;
         try {
             s = DBConn.createStatement();
-            SQLStatement = "SELECT * FROM customer";
-            res = s.executeQuery(SQLStatement);
+            SQLStatement = "select * from customer";
+            ResultSet rs = s.executeQuery(SQLStatement);
 
-            custList = new ArrayList<>();
-            // Get the information from the database. Display the
-            // first and last name, address, phone number, address, and
-            // order date. Same the ordertable name - this is the name of
-            // the table that is created when an order is submitted that
-            // contains the list of order items.
-            while (res.next()) {
-                Customer c = new Customer();
-                c.phone = res.getString(1);
-                c.fname = res.getString(2);
-                c.lname = res.getString(3);
-                c.address = res.getString(4);
-                custList.add(c);
-            } // for each element in the return SQL query
+            custList = FillCustomerList(rs);
 
-            // Update the form
-            msgString = "RECORD RETRIEVED...";
-
+            rs.close();
         } catch (Exception e) {
             errString = "\nProblem getting customers:: " + e;
             return null;
@@ -92,29 +78,65 @@ public class DAL {
         return custList;
     }
 
+    private ArrayList<Customer> FillCustomerList(ResultSet rs) throws SQLException {
+        ArrayList<Customer> custList = new ArrayList<>();
+        // Get the information from the database. Display the
+        // first and last name, address, phone number, address, and
+        // order date. Same the ordertable name - this is the name of
+        // the table that is created when an order is submitted that
+        // contains the list of order items.
+        while (rs.next()) {
+            Customer c = new Customer();
+            c.phone = rs.getString(1);
+            c.fname = rs.getString(2);
+            c.lname = rs.getString(3);
+            c.address = rs.getString(4);
+            custList.add(c);
+        } // for each element in the return SQL query
+        return custList;
+    }
+
     ///Return OrderNo if success. If failure, return -1
-    public int AddOrder(int widgetId, int quant, String fname, String lname, String phone, String address) {
+    public int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address) {
         int orderNo = 0;
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             s = DBConn.createStatement();
-            SQLStatement = "insert into customer values (" + Integer.parseInt(phone) + "," + fname + "," + lname + "," + address + ");";
-            executeUpdateVal = s.executeUpdate(SQLStatement);
 
-            SQLStatement = "insert into orderinfo(phone) values (" + Integer.parseInt(phone) + ");";
+            try {
+            //If the customer phone is already existing; this insert will fail. 
+                //Ok no problem.. continue with the other insertions....
+                SQLStatement = "insert into customer values ('" + phone + "','" + fname + "','" + lname + "','" + address + "');";
+                executeUpdateVal = s.executeUpdate(SQLStatement);
+            } catch (Exception e) {
+                errString = "Exception throw while inserting customer" + e;
+            }
+
+            SQLStatement = "insert into orderinfo(phone) values ('" + phone + "');";
             executeUpdateVal = s.executeUpdate(SQLStatement);
 
             SQLStatement = "(select max(orderNo) from orderinfo)";
             res = s.executeQuery(SQLStatement);
-            if(res.next())
+            if (res.next()) {
                 orderNo = res.getInt(1); //get integer from the first column of the result
-
-            SQLStatement = "insert into orderdetails values ((select max(orderNo) from orderinfo)," + widgetId + "," + quant + ");";
-            executeUpdateVal = s.executeUpdate(SQLStatement);
-
-            // Update the form
-            msgString = "RECORD RETRIEVED...";
-
+            }
+            //SQLStatement = "insert into orderdetails values (" + orderNo +"," + widgetId + "," + quant + ");";
+            String stmnt = "insert into orderdetails values " ;
+            int i = 0;
+            int count = orderList.size();
+            for(OrderDetails od: orderList)
+            {
+                i++;
+                String str = "(";
+                str += orderNo + "," + od.widgetId + "," + od.quantity;
+                if(i == count)
+                    str += ");";
+                else
+                    str += "),";
+                stmnt += str;
+            }
+            
+            executeUpdateVal = s.executeUpdate(stmnt);
         } catch (Exception e) {
             errString = "\nProblem adding order:: " + e;
             return -1;
@@ -132,10 +154,6 @@ public class DAL {
             s = DBConn.createStatement();
             SQLStatement = "insert into widget (name, description, quantity, stationId) values ('" + widgetName + "','" + widgetDesc + "'," + quant + "," + stationId + ");";
             executeUpdateVal = s.executeUpdate(SQLStatement);
-
-            // Update the form
-            msgString = "RECORD RETRIEVED...";
-
         } catch (Exception e) {
             errString = "\nProblem adding widget:: " + e;
             return -1;
@@ -217,6 +235,9 @@ public class DAL {
                 oi.orderTime = res.getString(2);
                 oi.shippingTime = res.getString(3);
                 oi.orderStatus = res.getInt(4);
+                String strPhone = res.getString(5);//phone number
+                GetCustomerAndOrderDetails(strPhone, oi);
+
                 orderList.add(oi);
             }
         } catch (Exception e) {
@@ -227,6 +248,51 @@ public class DAL {
             // s.close();
         }
         return orderList;
+    }
+
+    private void GetCustomerAndOrderDetails(String strPhone, OrderInfo oi) {
+        try {
+            ArrayList<Customer> cust = null;
+            SQLStatement = "select * from customer where phone = '" + strPhone + "';";
+            ResultSet rs1 = s.executeQuery(SQLStatement);
+            cust = FillCustomerList(rs1);
+            oi.cust = cust.get(0);//will return only 1 customer as we are querying by strPhone which is unique
+            rs1.close();
+
+            GetOrderDetails(oi);
+        } catch (Exception e) {
+            errString = "\nProblem " + e;
+        } // end try-catch
+        finally {
+            // s.close();
+        }
+    }
+
+    private void GetOrderDetails(OrderInfo oi) {
+        try {
+            SQLStatement = "select * from orderdetails where orderno = " + oi.orderNo + ";";
+            ResultSet rs2 = s.executeQuery(SQLStatement);
+            oi.listOrderDetails = new ArrayList<>();
+            while (rs2.next()) {
+                OrderDetails od = new OrderDetails();
+                od.widgetId = rs2.getInt(2);
+                SQLStatement = "select name from widget where widgetId = " + od.widgetId + ";";
+                ResultSet rs3 = s.executeQuery(SQLStatement);
+                if (rs3.next()) {
+                    od.widgetName = rs3.getString(1);
+                }
+                rs3.close();
+
+                od.quantity = rs2.getInt(3);
+                oi.listOrderDetails.add(od);
+            }
+            rs2.close();
+        } catch (Exception e) {
+            errString = "\nProblem " + e;
+        } // end try-catch
+        finally {
+            // s.close();
+        }
     }
 
     public ArrayList<OrderInfo> GetShippedOrders() {

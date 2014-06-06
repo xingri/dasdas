@@ -61,6 +61,7 @@ public class Supervisor extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jbtnOrderRefresh = new javax.swing.JButton();
+        jbtnAddOrder = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -264,6 +265,18 @@ public class Supervisor extends javax.swing.JFrame {
 
         jbtnOrderRefresh.setText("Refresh");
         jbtnOrderRefresh.setToolTipText("");
+        jbtnOrderRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnOrderRefreshActionPerformed(evt);
+            }
+        });
+
+        jbtnAddOrder.setText("AddDummyOrders");
+        jbtnAddOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAddOrderActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -274,6 +287,8 @@ public class Supervisor extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jbtnOrderRefresh)
+                        .addGap(100, 100, 100)
+                        .addComponent(jbtnAddOrder)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
                 .addContainerGap())
@@ -282,7 +297,9 @@ public class Supervisor extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(jbtnOrderRefresh)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnOrderRefresh)
+                    .addComponent(jbtnAddOrder))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(67, Short.MAX_VALUE))
@@ -380,7 +397,7 @@ public class Supervisor extends javax.swing.JFrame {
 
     private void jbtnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCustRefreshActionPerformed
         // TODO add your handling code here:
-         ArrayList<Customer> custList = Supervisor.d.GetCustomers();
+        ArrayList<Customer> custList = Supervisor.d.GetCustomers();
         if (custList == null) {
             return;
         }
@@ -394,6 +411,39 @@ public class Supervisor extends javax.swing.JFrame {
             model.addRow(new Object[]{i, c.fname, c.lname, c.phone, c.address});
         }
     }//GEN-LAST:event_jbtnCustRefreshActionPerformed
+
+    private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrderRefreshActionPerformed
+        // TODO add your handling code here:
+        ArrayList<OrderInfo> orderList = Supervisor.d.GetPendingOrders();
+        if (orderList == null) {
+            return;
+        }
+        DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
+        dtm.getDataVector().removeAllElements();
+        dtm.fireTableDataChanged();
+        int i = 0;
+        for (OrderInfo oi : orderList) {
+            i++;
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+
+            model.addRow(new Object[]{i, oi.orderNo, oi.orderTime, oi.orderStatus,
+                oi.shippingTime != null ? oi.shippingTime : ' ',
+                oi.cust != null ? oi.cust.fname : ' ',
+                oi.cust != null ? oi.cust.phone : ' '});
+        }
+    }//GEN-LAST:event_jbtnOrderRefreshActionPerformed
+
+    private void jbtnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddOrderActionPerformed
+        // TODO add your handling code here:
+        ArrayList<OrderDetails> list = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            OrderDetails od = new OrderDetails();
+            od.quantity = i * 4;
+            od.widgetId = (i %4) + 1;
+            list.add(od);
+        }
+        Supervisor.d.AddOrder(list, "amar", "rachabattuni", "1-123-2344", "NewYork");
+    }//GEN-LAST:event_jbtnAddOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -455,6 +505,7 @@ public class Supervisor extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JButton jbtnAddOrder;
     private javax.swing.JButton jbtnCustRefresh;
     private javax.swing.JButton jbtnOrderRefresh;
     private javax.swing.JButton jbtnRefresh;

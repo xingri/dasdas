@@ -1,6 +1,3 @@
-
-import java.util.ArrayList;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,11 +8,8 @@ import java.util.ArrayList;
  *
  * @author vijay.rachabattuni
  */
-public class OrderInfo {
-  int orderNo;
-  String orderTime;
-  String shippingTime;
-  int orderStatus;
-  Customer cust;
-  ArrayList<OrderDetails> listOrderDetails;
+public class OrderDetails {
+    int widgetId;
+    String widgetName;//not madatory for the customer app to update this
+    int quantity;
 }
