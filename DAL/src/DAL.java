@@ -236,7 +236,7 @@ public class DAL {
                 oi.shippingTime = res.getString(3);
                 oi.orderStatus = res.getInt(4);
                 String strPhone = res.getString(5);//phone number
-                GetCustomerAndOrderDetails(strPhone, oi);
+               // GetCustomerAndOrderDetails(strPhone, oi);
 
                 orderList.add(oi);
             }
