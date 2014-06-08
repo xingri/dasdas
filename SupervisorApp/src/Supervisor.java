@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -15,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 public class Supervisor extends javax.swing.JFrame {
 
     static DAL d = new DAL();
+
+    ArrayList<OrderInfo> orderList = null;
 
     /**
      * Creates new form Supervisor
@@ -72,6 +76,7 @@ public class Supervisor extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jlblOrderNo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -377,6 +382,9 @@ public class Supervisor extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Order# ");
 
+        jlblOrderNo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jlblOrderNo.setText("        ");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -387,12 +395,14 @@ public class Supervisor extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                     .addComponent(jScrollPane4)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jbtnOrderRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnAddOrder)))
+                        .addComponent(jbtnAddOrder))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlblOrderNo)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -405,7 +415,9 @@ public class Supervisor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
-                .addComponent(jLabel1)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jlblOrderNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
@@ -489,9 +501,7 @@ public class Supervisor extends javax.swing.JFrame {
         if (widgetList == null) {
             return;
         }
-        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-        dtm.getDataVector().removeAllElements();
-        dtm.fireTableDataChanged();
+        ClearTable(jTable1);
         int i = 0;
         for (Widget w : widgetList) {
             i++;
@@ -506,9 +516,7 @@ public class Supervisor extends javax.swing.JFrame {
         if (custList == null) {
             return;
         }
-        DefaultTableModel dtm = (DefaultTableModel) jTable2.getModel();
-        dtm.getDataVector().removeAllElements();
-        dtm.fireTableDataChanged();
+        ClearTable(jTable2);
         int i = 0;
         for (Customer c : custList) {
             i++;
@@ -519,13 +527,11 @@ public class Supervisor extends javax.swing.JFrame {
 
     private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrderRefreshActionPerformed
         // TODO add your handling code here:
-        ArrayList<OrderInfo> orderList = Supervisor.d.GetPendingOrders();
+        orderList = Supervisor.d.GetPendingOrders();
         if (orderList == null) {
             return;
         }
-        DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
-        dtm.getDataVector().removeAllElements();
-        dtm.fireTableDataChanged();
+        ClearTable(jTable3);
         int i = 0;
         for (OrderInfo oi : orderList) {
             i++;
@@ -536,7 +542,39 @@ public class Supervisor extends javax.swing.JFrame {
                 oi.cust != null ? oi.cust.fname : ' ',
                 oi.cust != null ? oi.cust.phone : ' '});
         }
+        jTable3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if (orderList == null) {
+                    return;
+                }
+                ClearTable(jTable4);
+                String sorderNo = jTable3.getValueAt(jTable3.getSelectedRow(), 1).toString();
+                int orderNo = Integer.parseInt(sorderNo);
+                jlblOrderNo.setText(sorderNo);
+                for (OrderInfo oi : orderList) {
+                    if (oi.orderNo != orderNo) {
+                        continue;
+                    }
+                    FillOrderDetails(oi);
+                }
+            }
+
+            private void FillOrderDetails(OrderInfo oi) {
+                DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+                int ii = 0;
+                for (OrderDetails od : oi.listOrderDetails) {
+                    model.addRow(new Object[]{ii++, od.widgetId, od.widgetName, od.quantity});
+                }
+            }
+        }
+        );
     }//GEN-LAST:event_jbtnOrderRefreshActionPerformed
+
+    private void ClearTable(javax.swing.JTable jtable) {
+        DefaultTableModel dtm = (DefaultTableModel) jtable.getModel();
+        dtm.getDataVector().removeAllElements();
+        dtm.fireTableDataChanged();
+    }
 
     private void jbtnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddOrderActionPerformed
         // TODO add your handling code here:
@@ -544,7 +582,7 @@ public class Supervisor extends javax.swing.JFrame {
         for (int i = 0; i < 4; i++) {
             OrderDetails od = new OrderDetails();
             od.quantity = i * 4;
-            od.widgetId = (i %4) + 1;
+            od.widgetId = (i % 4) + 1;
             list.add(od);
         }
         Supervisor.d.AddOrder(list, "amar", "rachabattuni", "1-123-2344", "NewYork");
@@ -624,5 +662,6 @@ public class Supervisor extends javax.swing.JFrame {
     private javax.swing.JButton jbtnCustRefresh;
     private javax.swing.JButton jbtnOrderRefresh;
     private javax.swing.JButton jbtnRefresh;
+    private javax.swing.JLabel jlblOrderNo;
     // End of variables declaration//GEN-END:variables
 }

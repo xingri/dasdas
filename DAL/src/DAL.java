@@ -14,22 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DAL {
-
     Connection DBConn = null;           // MySQL connection handle    
     Statement s = null;                 // SQL statement pointer
     ResultSet res = null;               // SQL query result set pointer
     String SQLStatement;                // SQL query
     String errString = null;            // String for displaying errors
-    String msgString = null;            // String for displaying non-error messages
 
     public boolean Initialize(String serverIPAddress, String userName, String pwd) {
-        Boolean connectError = false;       // Error flag
-        //String SQLServerIP = "127.0.0.1";
         String SQLServerIP = serverIPAddress;
         String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/spartan";
-
         try {
-
             //load JDBC driver class for MySQL
             Class.forName("com.mysql.jdbc.Driver");
 
@@ -40,7 +34,6 @@ public class DAL {
             DBConn = DriverManager.getConnection(sourceURL, userName, pwd);
         } catch (Exception e) {
             errString = "\nProblem connecting to spartan database:: " + e;
-            connectError = true;
             return false;
         } // end try-catch
         return true;
@@ -178,10 +171,6 @@ public class DAL {
 
             SQLStatement = "update widget set quantity = " + (quant + increment) + ";";
             executeUpdateVal = s.executeUpdate(SQLStatement);
-
-            // Update the form
-            msgString = "RECORD RETRIEVED...";
-
         } catch (Exception e) {
             errString = "\nProblem incrementing widget:: " + e;
             return -1;
@@ -207,9 +196,6 @@ public class DAL {
 
             SQLStatement = "update widget set quantity = " + (quant - decrement) + ";";
             executeUpdateVal = s.executeUpdate(SQLStatement);
-
-            // Update the form
-            msgString = "RECORD RETRIEVED...";
         } catch (Exception e) {
             errString = "\nProblem incrementing widget:: " + e;
             return -1;
@@ -236,7 +222,7 @@ public class DAL {
                 oi.shippingTime = res.getString(3);
                 oi.orderStatus = res.getInt(4);
                 String strPhone = res.getString(5);//phone number
-               // GetCustomerAndOrderDetails(strPhone, oi);
+                GetCustomerAndOrderDetails(strPhone, oi);
 
                 orderList.add(oi);
             }
@@ -252,13 +238,15 @@ public class DAL {
 
     private void GetCustomerAndOrderDetails(String strPhone, OrderInfo oi) {
         try {
+            s = DBConn.createStatement();
             ArrayList<Customer> cust = null;
-            SQLStatement = "select * from customer where phone = '" + strPhone + "';";
-            ResultSet rs1 = s.executeQuery(SQLStatement);
+            String stmnt = "select * from customer where phone = '" + strPhone + "';";
+            ResultSet rs1 = s.executeQuery(stmnt);
             cust = FillCustomerList(rs1);
             oi.cust = cust.get(0);//will return only 1 customer as we are querying by strPhone which is unique
             rs1.close();
-
+            s.close();
+            
             GetOrderDetails(oi);
         } catch (Exception e) {
             errString = "\nProblem " + e;
@@ -270,23 +258,28 @@ public class DAL {
 
     private void GetOrderDetails(OrderInfo oi) {
         try {
-            SQLStatement = "select * from orderdetails where orderno = " + oi.orderNo + ";";
-            ResultSet rs2 = s.executeQuery(SQLStatement);
+            s = DBConn.createStatement();
+            String stmnt = "select * from orderdetails where orderno = " + oi.orderNo + ";";
+            ResultSet rs2 = s.executeQuery(stmnt);
             oi.listOrderDetails = new ArrayList<>();
             while (rs2.next()) {
                 OrderDetails od = new OrderDetails();
                 od.widgetId = rs2.getInt(2);
-                SQLStatement = "select name from widget where widgetId = " + od.widgetId + ";";
-                ResultSet rs3 = s.executeQuery(SQLStatement);
-                if (rs3.next()) {
-                    od.widgetName = rs3.getString(1);
-                }
+
+                //Get the widget name from the widget id - Start
+               s = DBConn.createStatement();
+               String stmnt1 = "select name from widget where widgetId = " + od.widgetId + ";";
+                ResultSet rs3 = s.executeQuery(stmnt1);
+                if (rs3.next())  od.widgetName = rs3.getString(1);
                 rs3.close();
+                s.close();
+                //Get the widget name from the widget id - End
 
                 od.quantity = rs2.getInt(3);
                 oi.listOrderDetails.add(od);
             }
             rs2.close();
+            s.close();
         } catch (Exception e) {
             errString = "\nProblem " + e;
         } // end try-catch
