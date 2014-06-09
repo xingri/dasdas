@@ -1,7 +1,9 @@
-
-
+package com.lge.spartan.supervisor.view;
 
 import javax.swing.JOptionPane;
+import com.lge.spartan.supervisor.controller.SupervisorController;
+import com.lge.spartan.supervisor.data.Widgets;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -132,12 +134,21 @@ public class AddWidget extends javax.swing.JFrame {
             }
         }
 
+        /*
+         * move to SupervisorController class by gina du       
+        
         int res = Supervisor.d.AddWidget(name.getText(), desc.getText(), Integer.parseInt(quantity.getText()), stationId.getSelectedIndex());
         if (res == -1) {
             JOptionPane.showMessageDialog(this, "Adding a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
         } else {
             JOptionPane.showMessageDialog(this, "Widget is added successfully.");
-        }
+        }*/
+        Widgets addInventory  = new Widgets (name.getText()
+                                            , desc.getText()
+                                            , Integer.parseInt(quantity.getText())
+                                            , stationId.getSelectedIndex());
+        
+        SupervisorController.getInstance().createNewInventory(addInventory);
     }//GEN-LAST:event_addWidgetActionPerformed
 
     /**

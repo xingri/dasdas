@@ -1,6 +1,6 @@
+package com.lge.spartan.supervisor.data;        
 
-
-
+import com.lge.spartan.supervisor.view.Supervisor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -16,17 +16,21 @@ import javax.swing.JOptionPane;
  */
 public class UpdateWidget extends javax.swing.JFrame {
 
-    ArrayList<Widget> widgetList = null;
+    ArrayList<Widgets> widgetList = null;
     /**
      * Creates new form UpdateWidget
      */
     public UpdateWidget() {
+        // TODO 
+        /*
         initComponents();
         
         widgetList = Supervisor.d.GetWidgets();
         if(widgetList == null) return;
         for(Widget w: widgetList)
             comboName.addItem(w.name);
+        
+        */
     }
 
     /**
@@ -161,7 +165,7 @@ public class UpdateWidget extends javax.swing.JFrame {
 
     private void comboNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboNameItemStateChanged
         // TODO add your handling code here:
-        for(Widget w: widgetList)
+        for(Widgets w: widgetList)
         {
             if(w.name.equals(comboName.getSelectedItem()))
             {
@@ -187,8 +191,9 @@ public class UpdateWidget extends javax.swing.JFrame {
                 textFieldNewQuant.requestFocus();
             }
         }
-         
-        int res = Supervisor.d.IncWidgets((String) comboName.getSelectedItem()
+        
+        // TODO
+        /*int res = Supervisor.d.IncWidgets((String) comboName.getSelectedItem()
                 , Integer.parseInt(textFieldNewQuant.getText()
                 ));
         
@@ -196,6 +201,7 @@ public class UpdateWidget extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Updating a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
         else
             JOptionPane.showMessageDialog(this, "Widget is updated successfully");
+        */
     }//GEN-LAST:event_btnUpdateWidgetActionPerformed
 
     /**
