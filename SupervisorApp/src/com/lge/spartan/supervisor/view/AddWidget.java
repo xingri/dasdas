@@ -1,5 +1,6 @@
 package com.lge.spartan.supervisor.view;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import com.lge.spartan.supervisor.controller.SupervisorController;
 import com.lge.spartan.supervisor.data.Widgets;
@@ -21,6 +22,7 @@ public class AddWidget extends javax.swing.JFrame {
      */
     public AddWidget() {
         initComponents();
+		updateWarehouseId();
     }
 
     /**
@@ -41,6 +43,8 @@ public class AddWidget extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         stationId = new javax.swing.JComboBox();
         addWidget = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        warehouseId = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Add Widget");
@@ -62,29 +66,34 @@ public class AddWidget extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Warehouse System");
+
+        warehouseId.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Item 1"}));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(name)
-                            .addComponent(desc)
-                            .addComponent(quantity)
-                            .addComponent(stationId, 0, 99, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(addWidget, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(desc, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(warehouseId, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stationId, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(addWidget, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,13 +110,17 @@ public class AddWidget extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(warehouseId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(stationId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addComponent(addWidget)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -134,23 +147,36 @@ public class AddWidget extends javax.swing.JFrame {
             }
         }
 
-        /*
-         * move to SupervisorController class by gina du       
-        
-        int res = Supervisor.d.AddWidget(name.getText(), desc.getText(), Integer.parseInt(quantity.getText()), stationId.getSelectedIndex());
-        if (res == -1) {
-            JOptionPane.showMessageDialog(this, "Adding a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
-        } else {
-            JOptionPane.showMessageDialog(this, "Widget is added successfully.");
-        }*/
         Widgets addInventory  = new Widgets (name.getText()
                                             , desc.getText()
                                             , Integer.parseInt(quantity.getText())
-                                            , stationId.getSelectedIndex());
+                                            , stationId.getSelectedIndex());        
+                
+        int res = SupervisorController.getInstance().createNewInventory(addInventory);
         
-        SupervisorController.getInstance().createNewInventory(addInventory);
+        if (res == -1)
+            JOptionPane.showMessageDialog(this, "Adding a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
+        else if (res == -2) 
+            JOptionPane.showMessageDialog(this, "Adding a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
+        else
+            JOptionPane.showMessageDialog(this, "Widget is added successfully.");
     }//GEN-LAST:event_addWidgetActionPerformed
 
+    public void updateWarehouseId() {        
+        ArrayList<Integer> warehouseIdList = SupervisorController.getInstance().getWarehouseIdList();
+        
+        for (Integer id : warehouseIdList) {
+           warehouseId.addItem(Integer.toString(id));            
+        }
+    }
+    
+    public void updateStationId(int warehoudId) {
+        /*ArrayList<Integer> warehouseIdList = SupervisorController.getInstance().getAddWarehouseIdList();
+        
+        for (Integer id : warehouseIdList) {
+           warehouseId.addItem(Integer.toString(id));            
+        }*/
+    }
     /**
      * @param args the command line arguments
      */
@@ -193,8 +219,10 @@ public class AddWidget extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField name;
     private javax.swing.JTextField quantity;
     private javax.swing.JComboBox stationId;
+    private javax.swing.JComboBox warehouseId;
     // End of variables declaration//GEN-END:variables
 }

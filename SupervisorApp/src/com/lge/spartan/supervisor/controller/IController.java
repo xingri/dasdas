@@ -13,4 +13,6 @@ package com.lge.spartan.supervisor.controller;
 interface IController {
     boolean connectDB();
     boolean disconnectDB();
+    
+    void    handleError();
 }

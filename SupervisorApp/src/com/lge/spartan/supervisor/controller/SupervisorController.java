@@ -12,18 +12,18 @@
 package com.lge.spartan.supervisor.controller;        
 
 import java.util.ArrayList;
-import com.lge.spartan.supervisor.data.Widgets;
-import com.lge.spartan.supervisor.data.Customer;
-import com.lge.spartan.supervisor.data.OrderInfo;
+import com.lge.spartan.supervisor.data.*;
+import com.lge.spartan.supervisor.view.*;
 
 public class SupervisorController implements IController {
     private static volatile SupervisorController obj_instance = null;
-    boolean bDBConnectState = false;
-            
-    private SupervisorController() {
-        //static DAL d = new DAL();
-    }
+    boolean bDBConnectState;    
     
+    private SupervisorController () {
+        // TODO static DAL d = new DAL();
+         bDBConnectState = false;
+    }
+ 
     public static SupervisorController getInstance() {
         if (obj_instance == null) {
            synchronized(SupervisorController.class) {
@@ -51,6 +51,11 @@ public class SupervisorController implements IController {
         return false;        
     }
     
+    @Override
+    public void handleError() {
+       
+    }            
+    
     void setConnectDBState(boolean dbState) {
         bDBConnectState = dbState;
     }
@@ -59,12 +64,25 @@ public class SupervisorController implements IController {
         return bDBConnectState;
     }
     
-    public boolean createNewInventory(Widgets newWidget) {
+    /*
+     @return param : -2 : disconnected db, -1 : DB query error, 0 : succes
+    */
+    public int createNewInventory(Widgets newWidget) {
         if (!isConnectDB()) {
-            return false;
+            return -2;
         }
                
-        return true;
+        int res = 0;
+        return res;
+    }
+    
+    public int updateWidgetQuantity(Widgets widgetQuant) {
+        if (!isConnectDB()) {
+            return -2;
+        }
+               
+        int res = 0;
+        return res;
     }
     
     public ArrayList<Widgets> getWidgets() {
@@ -83,5 +101,14 @@ public class SupervisorController implements IController {
         // TODO
         ArrayList <OrderInfo> test = null;
         return test;
-    }    
+    }
+    
+    public ArrayList<Integer> getWarehouseIdList() {
+        // TODO
+        
+        //ArrayList<Integer> list = new ArrayList<>();
+        
+        ArrayList <Integer> test = null;
+        return test;
+    }
 }

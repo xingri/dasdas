@@ -43,4 +43,26 @@ public class Widgets {
     public int getStationId() {
         return stationId;
     }
+
+    public void setWidgetId(int widgetId) {
+        this.widgetId = widgetId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setStationId(int stationId) {
+        this.stationId = stationId;
+    }
+    
+    
 }

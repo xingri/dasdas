@@ -1,6 +1,8 @@
-package com.lge.spartan.supervisor.data;        
+package com.lge.spartan.supervisor.view;
 
-import com.lge.spartan.supervisor.view.Supervisor;
+import com.lge.spartan.supervisor.data.*;
+import com.lge.spartan.supervisor.controller.SupervisorController;
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -22,15 +24,13 @@ public class UpdateWidget extends javax.swing.JFrame {
      */
     public UpdateWidget() {
         // TODO 
-        /*
+        
         initComponents();
         
-        widgetList = Supervisor.d.GetWidgets();
+        widgetList = SupervisorController.getInstance().getWidgets();                
         if(widgetList == null) return;
-        for(Widget w: widgetList)
-            comboName.addItem(w.name);
-        
-        */
+        for(Widgets w: widgetList)
+            comboName.addItem(w.getName());
     }
 
     /**
@@ -167,11 +167,11 @@ public class UpdateWidget extends javax.swing.JFrame {
         // TODO add your handling code here:
         for(Widgets w: widgetList)
         {
-            if(w.name.equals(comboName.getSelectedItem()))
+            if(w.getName().equals(comboName.getSelectedItem()))
             {
-                textFieldDesc.setText(w.desc);                
-                textFieldCurQuant.setText(Integer.toString(w.quantity));
-                textFieldStation.setText(Integer.toString(w.stationId + 1));
+                textFieldDesc.setText(w.getDesc());                
+                textFieldCurQuant.setText(Integer.toString(w.getQuantity()));
+                textFieldStation.setText(Integer.toString(w.getStationId() + 1));
                 break;
             }
         }
@@ -190,18 +190,18 @@ public class UpdateWidget extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter the Quantity as Numeric.");
                 textFieldNewQuant.requestFocus();
             }
-        }
+        }        
         
-        // TODO
-        /*int res = Supervisor.d.IncWidgets((String) comboName.getSelectedItem()
-                , Integer.parseInt(textFieldNewQuant.getText()
-                ));
-        
+        Widgets widget = (Widgets)widgetList.get(comboName.getSelectedIndex());
+        widget.setQuantity (Integer.parseInt(textFieldNewQuant.getText()));
+                
+        int res = SupervisorController.getInstance().updateWidgetQuantity(widget);
         if(res == -1)
             JOptionPane.showMessageDialog(this, "Updating a widget failed.\nMay be widget is already existing.\nOr server is not connected.");
+        else if (res == -2)
+            JOptionPane.showMessageDialog(this, "DB Connection Fail. Could you check DB Connection");
         else
             JOptionPane.showMessageDialog(this, "Widget is updated successfully");
-        */
     }//GEN-LAST:event_btnUpdateWidgetActionPerformed
 
     /**
