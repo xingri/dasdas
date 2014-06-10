@@ -9,21 +9,29 @@ package com.lge.spartan.dal;
  *
  * @author vijay.rachabattuni
  */
-import com.lge.spartan.dal.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 //public class MySQLDALImpl implements IDAL  {
 public class MySQLDALImpl implements DAL {
+
+    // Define a static logger variable so that it references the
+// Logger instance named "MyApp".
+static final Logger logger = LogManager.getLogger(MySQLDALImpl.class.getName());
+
 
     Connection DBConn = null;           // MySQL connection handle    
     Statement s = null;                 // SQL statement pointer
     ResultSet res = null;               // SQL query result set pointer
     String SQLStatement;                // SQL query
-    String errString = null;            // String for displaying errors
 
     public boolean Initialize(String serverIPAddress, String userName, String pwd) {
+         logger.entry();
+         boolean b = logger.isDebugEnabled();
         String SQLServerIP = serverIPAddress;
         String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/spartan";
         try {
@@ -33,25 +41,27 @@ public class MySQLDALImpl implements DAL {
             //create a connection to the db 
             DBConn = DriverManager.getConnection(sourceURL, userName, pwd);
         } catch (Exception e) {
-            errString = "\nProblem connecting to spartan database:: " + e;
+            logger.error("Exception " + e);
             return false;
         } // end try-catch
-        return true;
+        return logger.exit(true);
     }
 
     public boolean Uninitialize() {
+        logger.entry();
         try {
             if (DBConn != null) {
                 DBConn.close();
             }
         } catch (Exception e) {
-            errString = "\nProblem disconnecting to spartan database:: " + e;
-            return false;
+           logger.error("Exception " + e);
+            return logger.exit(false);
         } // end try-catch
-        return true;
+        return logger.exit(true);
     }
 
     public ArrayList<Customer> GetCustomers() {
+        logger.entry();
         ArrayList<Customer> custList = null;
         ResultSet rs = null;
         try {
@@ -61,7 +71,7 @@ public class MySQLDALImpl implements DAL {
 
             custList = FillCustomerList(rs);
         } catch (Exception e) {
-            errString = "\nProblem getting customers:: " + e;
+            logger.error("Exception " + e);
             CleanUp(rs, s);
             return null;
         } // end try-catch
@@ -72,6 +82,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     private void CleanUp(ResultSet rs, Statement stmt) {
+        logger.entry();
         // it is a good idea to release
         // resources in a finally{} block
         // in reverse-order of their creation
@@ -79,7 +90,8 @@ public class MySQLDALImpl implements DAL {
         if (rs != null) {
             try {
                 rs.close();
-            } catch (SQLException sqlEx) {
+            } catch (SQLException e) {
+                 logger.error("Exception " + e);
             } // ignore
 
             rs = null;
@@ -88,13 +100,15 @@ public class MySQLDALImpl implements DAL {
         if (stmt != null) {
             try {
                 stmt.close();
-            } catch (SQLException sqlEx) {
+            } catch (SQLException e) {
+                 logger.error("Exception " + e);
             } // ignore
             stmt = null;
         }
     }
 
     private ArrayList<Customer> FillCustomerList(ResultSet rs) throws SQLException {
+         logger.entry();
         ArrayList<Customer> custList = new ArrayList<>();
         // Get the information from the database. Display the
         // first and last name, address, phone number, address, and
@@ -114,6 +128,7 @@ public class MySQLDALImpl implements DAL {
 
     ///Return OrderNo if success. If failure, return -1
     public int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address) {
+         logger.entry();
         int orderNo = 0;
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
@@ -125,7 +140,7 @@ public class MySQLDALImpl implements DAL {
                 SQLStatement = "insert into customer values ('" + phone + "','" + fname + "','" + lname + "','" + address + "');";
                 executeUpdateVal = s.executeUpdate(SQLStatement);
             } catch (Exception e) {
-                errString = "Exception throw while inserting customer" + e;
+                 logger.error("Exception " + e);
             }
 
             SQLStatement = "insert into orderinfo(phone) values ('" + phone + "');";
@@ -154,7 +169,7 @@ public class MySQLDALImpl implements DAL {
 
             executeUpdateVal = s.executeUpdate(stmnt);
         } catch (Exception e) {
-            errString = "\nProblem adding order:: " + e;
+             logger.error("Exception " + e);
             CleanUp(res, s);
             return -1;
         } // end try-catch
@@ -166,13 +181,14 @@ public class MySQLDALImpl implements DAL {
 
     ///Return OrderNo if success. If failure, return -1
     public int AddWidget(String widgetName, String widgetDesc, int quant, int stationId) {
+         logger.entry();
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             s = DBConn.createStatement();
             SQLStatement = "insert into widget (name, description, quantity, stationId) values ('" + widgetName + "','" + widgetDesc + "'," + quant + "," + stationId + ");";
             executeUpdateVal = s.executeUpdate(SQLStatement);
         } catch (Exception e) {
-            errString = "\nProblem adding widget:: " + e;
+             logger.error("Exception " + e);
             CleanUp(null, s);
             return -1;
         } // end try-catch
@@ -183,6 +199,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     public int IncWidgets(String widgetName, int increment) {
+         logger.entry();
         int quant = 0;
         try {
             s = DBConn.createStatement();
@@ -197,7 +214,7 @@ public class MySQLDALImpl implements DAL {
             SQLStatement = "update widget set quantity = " + (quant + increment) + ";";
             executeUpdateVal = s.executeUpdate(SQLStatement);
         } catch (Exception e) {
-            errString = "\nProblem incrementing widget:: " + e;
+             logger.error("Exception " + e);
             CleanUp(res, s);
             return -1;
         } // end try-catch
@@ -208,6 +225,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     public int DecWidgets(String widgetName, int decrement) {
+         logger.entry();
         int quant = 0;
         try {
             s = DBConn.createStatement();
@@ -223,7 +241,7 @@ public class MySQLDALImpl implements DAL {
             SQLStatement = "update widget set quantity = " + (quant - decrement) + ";";
             executeUpdateVal = s.executeUpdate(SQLStatement);
         } catch (Exception e) {
-            errString = "\nProblem incrementing widget:: " + e;
+             logger.error("Exception " + e);
             CleanUp(res, s);
             return -1;
         } // end try-catch
@@ -234,6 +252,7 @@ public class MySQLDALImpl implements DAL {
     }
     
      public int GetOrderStatus(int orderNo) {
+          logger.entry();
            int status = 0;
         try {
             s = DBConn.createStatement();
@@ -244,7 +263,7 @@ public class MySQLDALImpl implements DAL {
                 status = res.getInt(1);
             }
         } catch (Exception e) {
-            errString = "\nProblem incrementing widget:: " + e;
+             logger.error("Exception " + e);
             CleanUp(res, s);
             return -1;
         } // end try-catch
@@ -255,6 +274,7 @@ public class MySQLDALImpl implements DAL {
      }
 
     private ArrayList<OrderInfo> GetOrders(String sqlStmnt) {
+         logger.entry();
         ArrayList<OrderInfo> orderList = null;
         try {
             s = DBConn.createStatement();
@@ -275,7 +295,7 @@ public class MySQLDALImpl implements DAL {
                 orderList.add(oi);
             }
         } catch (Exception e) {
-            errString = "\nProblem incrementing widget:: " + e;
+             logger.error("Exception " + e);
             CleanUp(res, s);
             return null;
         } // end try-catch
@@ -286,6 +306,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     private void GetCustomerAndOrderDetails(String strPhone, OrderInfo oi) {
+         logger.entry();
         try {
             s = DBConn.createStatement();
             ArrayList<Customer> cust = null;
@@ -298,7 +319,8 @@ public class MySQLDALImpl implements DAL {
 
             GetOrderDetails(oi);
         } catch (Exception e) {
-            errString = "\nProblem " + e;
+             logger.error("Exception " + e);
+             //CleanUp(rs1, s);
         } // end try-catch
         finally {
             CleanUp(res, s);
@@ -306,6 +328,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     private void GetOrderDetails(OrderInfo oi) {
+         logger.entry();
         try {
             s = DBConn.createStatement();
             String stmnt = "select * from orderdetails where orderno = " + oi.getOrderNo() + ";";
@@ -332,7 +355,7 @@ public class MySQLDALImpl implements DAL {
             rs2.close();
             s.close();
         } catch (Exception e) {
-            errString = "\nProblem " + e;
+             logger.error("Exception " + e);
         } // end try-catch
         finally {
             CleanUp(res, s);
@@ -340,18 +363,22 @@ public class MySQLDALImpl implements DAL {
     }
 
     public ArrayList<OrderInfo> GetShippedOrders() {
+         logger.entry();
         return GetOrders("select * from orderinfo where status = 3");
     }
 
     public ArrayList<OrderInfo> GetPendingOrders() {
+         logger.entry();
         return GetOrders("select * from orderinfo where status <> 3");
     }
 
     public ArrayList<OrderInfo> GetBackorderedOrders() {
+         logger.entry();
         return GetOrders("select * from orderinfo where status = 2"); //2 - Backorder
     }
 
     public ArrayList<Widget> GetWidgets() {
+         logger.entry();
         ArrayList<Widget> widgetList = null;
         try {
             s = DBConn.createStatement();
@@ -370,7 +397,7 @@ public class MySQLDALImpl implements DAL {
                 widgetList.add(w);
             }
         } catch (Exception e) {
-            errString = "\nProblem incrementing widget:: " + e;
+             logger.error("Exception " + e);
             CleanUp(res, s);
             return null;
         } // end try-catch
