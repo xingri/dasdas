@@ -5,10 +5,17 @@ package com.lge.spartan.dal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+//To correctly size a connection pool for your application, 
+//create load test scripts with tools such as Apache JMeter or The Grinder,
+//and load test your application.
 /**
  *
  * @author vijay.rachabattuni
  */
+import com.lge.spartan.data.Widget;
+import com.lge.spartan.data.OrderDetails;
+import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.Customer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +43,7 @@ public class MySQLDALImpl implements DAL {
     String pwd;
     DataSource ds;
     Connection con = null;
-    final boolean CONNECTION_POOL = false;
+    final boolean CONNECTION_POOL = true;
 
     public boolean Initialize(String serverIPAddress, String user, String p) {
         logger.entry();
@@ -172,8 +179,12 @@ public class MySQLDALImpl implements DAL {
         return custList;
     }
 
+    public int AddOrder(List<OrderDetails> orderList, Customer cust) {
+        return AddOrder(orderList, cust.getFname(), cust.getLname(), cust.getPhone(), cust.getAddress()) ;
+     }
+    
     ///Return OrderNo if success. If failure, return -1
-    public int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address) {
+    private int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address) {
         logger.entry();
         System.out.println("DAL:AddOrder: FName:" + fname + ", LName:" + lname + ", Phone:" + phone + ", Address:" + address);
         int orderNo = 0;
@@ -343,7 +354,7 @@ public class MySQLDALImpl implements DAL {
                 oi.setOrderNo(res.getInt(1));
                 oi.setOrderTime(res.getString(2));
                 oi.setShippingTime(res.getString(3));
-                oi.setOrderStatus(res.getInt(4));
+                oi.setStatus(res.getInt(4));
                 String strPhone = res.getString(5);//phone number
                 GetCustomerAndOrderDetails(strPhone, oi);
 

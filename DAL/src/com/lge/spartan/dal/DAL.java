@@ -1,5 +1,9 @@
 package com.lge.spartan.dal;
 
+import com.lge.spartan.data.Widget;
+import com.lge.spartan.data.OrderDetails;
+import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +22,7 @@ public interface DAL {
 
     public boolean Uninitialize();
 
-    public int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address);
+    public int AddOrder(List<OrderDetails> orderList, Customer cust);
 
     public int AddWidget(String widgetName, String widgetDesc, int quant, int stationId);
 

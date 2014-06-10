@@ -1,21 +1,37 @@
-package com.lge.spartan.dal;
+package com.lge.spartan.data;
+
+import java.io.Serializable;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author vijay.rachabattuni
  */
-public class Widget {
-    public int widgetId;
-    public String name;
-    public String desc;
-    public int quantity;
-    public int stationId;
+public class Widget implements Serializable {
+
+    private int widgetId;
+    private String name;
+    private String desc;
+    private int quantity;
+    private int stationId;
+
+    public Widget(String nm, String de, int quan, int stId) {
+        setName(nm);
+        setDesc(de);
+        setQuantity(quan);
+        setStationId(stId);
+    }
+
+    public Widget() {
+    }
+
+    public String toString() {
+        return widgetId + " " + name;
+    }
 
     /**
      * @return the widgetId

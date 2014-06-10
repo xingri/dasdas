@@ -1,7 +1,7 @@
-package com.lge.spartan.dal;
+package com.lge.spartan.data;
 
-
-import com.lge.spartan.dal.Customer;
+import com.lge.spartan.data.Customer;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /*
@@ -9,18 +9,43 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author vijay.rachabattuni
  */
-public class OrderInfo {
-  public int orderNo;
-  public String orderTime;
-  public String shippingTime;
-  public int orderStatus;
-  public Customer cust;
-  public ArrayList<OrderDetails> listOrderDetails;
+public class OrderInfo implements Serializable {
+
+    private int orderNo;
+    private String orderTime;
+    private String shippingTime;
+    private int status;
+    private Customer cust;
+    private ArrayList<OrderDetails> listOrderDetails;
+
+    public OrderInfo(String ot, String st, int sta, Customer c, ArrayList<OrderDetails> listod) {
+        setOrderTime(ot);
+        setShippingTime(st);
+        setStatus(sta);
+        setCust(c);
+        setListOrderDetails(listod);
+    }
+
+    public OrderInfo(String ot, String st, int sta) {
+        setOrderTime(ot);
+        setShippingTime(st);
+        setStatus(sta);
+    }
+
+    public OrderInfo() {
+    }
+
+    @Override
+    public String toString() {
+        return "OrderInfo [orderNo=" + orderNo + ", orderTime=" + orderTime
+                + ", shippingTime=" + shippingTime + ", orderStatus="
+                + status + ", cust=" + cust + ", listOrderDetails="
+                + listOrderDetails + "]";
+    }
 
     /**
      * @return the orderNo
@@ -65,17 +90,17 @@ public class OrderInfo {
     }
 
     /**
-     * @return the orderStatus
+     * @return the status
      */
-    public int getOrderStatus() {
-        return orderStatus;
+    public int getStatus() {
+        return status;
     }
 
     /**
-     * @param orderStatus the orderStatus to set
+     * @param status the status to set
      */
-    public void setOrderStatus(int orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     /**

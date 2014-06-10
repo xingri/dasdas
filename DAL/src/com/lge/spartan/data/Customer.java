@@ -1,20 +1,38 @@
-package com.lge.spartan.dal;
+package com.lge.spartan.data;
+
+import java.io.Serializable;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author vijay.rachabattuni
  */
-public class Customer {
-    public String phone;
-    public String fname;
-    public String lname;
-    public String address;
+public class Customer implements Serializable {
+
+    private String phone;
+    private String fname;
+    private String lname;
+    private String address;
+
+    public Customer(String fn, String ln, String ph, String add) {
+        setFname(fn);
+        setLname(ln);
+        setPhone(ph);
+        setAddress(add);
+    }
+
+    public Customer() {
+    }
+
+    @Override
+    public String toString() {
+        return "Customer [phone=" + phone + ", fname=" + fname + ", lname="
+                + lname + ", address=" + address + "]";
+    }
 
     /**
      * @return the phone
