@@ -31,6 +31,7 @@ public class WHRobotInf {
 	private Socket clientSocket = null;		// The socket.
 	private String robotIP = "128.237.124.48";
 	private int	portNum = 501;				// Port number for server socket
+	private boolean robotServerStatus = true;
 
 	public WHRobotInf(int portNum) {
 		this.portNum = 501;
@@ -131,6 +132,10 @@ public class WHRobotInf {
 		return sendCmd(cmd);
 	}
 
+	public boolean isRobotServerStatus() {
+		return robotServerStatus;
+	}
+
 	private boolean sendCmd(byte cmd) {
 		boolean ret = true;
 		byte ack = 0;
@@ -146,6 +151,7 @@ public class WHRobotInf {
 			out.flush();
 		} catch (Exception e) {
 			System.out.println( "Client Socket error: send: " + e);
+			robotServerStatus = false;
 			e.printStackTrace();
 			ret = false;
 		}

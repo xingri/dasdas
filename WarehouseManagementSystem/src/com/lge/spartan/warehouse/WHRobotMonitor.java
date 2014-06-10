@@ -87,6 +87,13 @@ public class WHRobotMonitor implements Runnable {
 	public boolean isCmdProcessed() {
 		return cmdReturn;
 	}
+	
+	public boolean isRobotConnected() {
+		boolean ret = false;
+		if (robotInf != null) 
+			ret = robotInf.isRobotServerStatus();
+		return ret;
+	}
 
 	@Override
 	public void run() {
