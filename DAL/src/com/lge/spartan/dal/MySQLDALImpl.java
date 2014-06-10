@@ -12,16 +12,17 @@ package com.lge.spartan.dal;
  *
  * @author vijay.rachabattuni
  */
-import com.lge.spartan.data.Widget;
+import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
-import com.lge.spartan.data.Customer;
+import com.lge.spartan.data.Widget;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,11 +44,11 @@ public class MySQLDALImpl implements DAL {
     String pwd;
     DataSource ds;
     Connection con = null;
-    final boolean CONNECTION_POOL = true;
+    final boolean CONNECTION_POOL = false;
 
     public boolean Initialize(String serverIPAddress, String user, String p) {
         logger.entry();
-        System.out.println("DAL:Initialize " + serverIPAddress + "," + userName);
+        System.out.println("DAL:Initialize " + serverIPAddress + "," + user);
         userName = user;
         pwd = p;
 
@@ -59,6 +60,8 @@ public class MySQLDALImpl implements DAL {
                 InitialContext ctx = new InitialContext();
                 Class.forName("com.mysql.jdbc.Driver");
                 ds = (DataSource) ctx.lookup(sourceURL);
+             MysqlDataSource ds = (MysqlDataSource)ctx.lookup(sourceURL);
+             ds.setServerName(SQLServerIP);
             } catch (Exception e) {
                 logger.error("Exception " + e);
                 System.out.println("DAL:Initialize:Exception:" + e);
@@ -401,7 +404,7 @@ public class MySQLDALImpl implements DAL {
             CreateStmnt();
             String stmnt = "select * from orderdetails where orderno = " + oi.getOrderNo() + ";";
             ResultSet rs2 = s.executeQuery(stmnt);
-            oi.setListOrderDetails(new ArrayList<>());
+            oi.setListOrderDetails(new ArrayList<OrderDetails>());
             while (rs2.next()) {
                 OrderDetails od = new OrderDetails();
                 od.setWidgetId(rs2.getInt(2));
