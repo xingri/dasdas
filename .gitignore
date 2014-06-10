@@ -1,3 +1,6 @@
 SupervisorApp/src/com/lge/spartan/supervisor/data/OrderInfo.java
 *.properties
 *.xml
+/DAL/dist/
+/DALTest/nbproject/private/
+/DALTest/build/
