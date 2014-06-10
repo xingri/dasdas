@@ -8,7 +8,7 @@ public class WHEvent {
     private int stNum = 4;
 
     public WHEvent(String eventInput) {
-        String[] inputList = eventInput.split(",");
+        inputList = eventInput.split(",");
         if(inputList.length == 9) {
             isValid = true;
         }
@@ -16,9 +16,7 @@ public class WHEvent {
 
     public boolean isSSSwitch() {
         if(!isValid) return false;
-
         if(inputList[swStartIdx+stNum-1].equals("1")) return true;
-
         return false;
     }
 

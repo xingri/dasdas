@@ -1,6 +1,6 @@
 package com.lge.spartan.supervisor.view;
 
-import com.lge.spartan.supervisor.data.*;
+import com.lge.spartan.dal.*;
 import com.lge.spartan.supervisor.controller.SupervisorController;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class UpdateWidget extends javax.swing.JFrame {
 
-    ArrayList<Widgets> widgetList = null;
+    ArrayList<Widget> widgetList = null;
     /**
      * Creates new form UpdateWidget
      */
@@ -29,7 +29,7 @@ public class UpdateWidget extends javax.swing.JFrame {
         
         widgetList = SupervisorController.getInstance().getWidgets();                
         if(widgetList == null) return;
-        for(Widgets w: widgetList)
+        for(Widget w: widgetList)
             comboName.addItem(w.getName());
     }
 
@@ -54,7 +54,7 @@ public class UpdateWidget extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         textFieldNewQuant = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Update Widget");
 
         jLabel1.setText("Widget Name");
@@ -165,7 +165,7 @@ public class UpdateWidget extends javax.swing.JFrame {
 
     private void comboNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboNameItemStateChanged
         // TODO add your handling code here:
-        for(Widgets w: widgetList)
+        for(Widget w: widgetList)
         {
             if(w.getName().equals(comboName.getSelectedItem()))
             {
@@ -192,7 +192,7 @@ public class UpdateWidget extends javax.swing.JFrame {
             }
         }        
         
-        Widgets widget = (Widgets)widgetList.get(comboName.getSelectedIndex());
+        Widget widget = (Widget)widgetList.get(comboName.getSelectedIndex());
         widget.setQuantity (Integer.parseInt(textFieldNewQuant.getText()));
                 
         int res = SupervisorController.getInstance().updateWidgetQuantity(widget);

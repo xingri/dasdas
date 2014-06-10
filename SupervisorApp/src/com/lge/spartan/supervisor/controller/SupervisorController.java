@@ -12,16 +12,18 @@
 package com.lge.spartan.supervisor.controller;        
 
 import java.util.ArrayList;
-import com.lge.spartan.supervisor.data.*;
 import com.lge.spartan.supervisor.view.*;
+
+import com.lge.spartan.dal.*;
 
 public class SupervisorController implements IController {
     private static volatile SupervisorController obj_instance = null;
+    private static DAL dal = null;
     boolean bDBConnectState;    
     
     private SupervisorController () {
-        // TODO static DAL d = new DAL();
-         bDBConnectState = false;
+        dal = new DAL();
+        connectDB();        
     }
  
     public static SupervisorController getInstance() {
@@ -39,9 +41,8 @@ public class SupervisorController implements IController {
     @Override
     public boolean connectDB() {
         // TODO
-        //Initialize("127.0.0.1", "root", "");
-        setConnectDBState(true);
-        return false;
+        setConnectDBState(dal.Initialize("localhost", "root", "1234"));
+        return bDBConnectState;
     }
     
     @Override
@@ -67,47 +68,41 @@ public class SupervisorController implements IController {
     /*
      @return param : -2 : disconnected db, -1 : DB query error, 0 : succes
     */
-    public int createNewInventory(Widgets newWidget) {
+    public int createNewInventory(Widget newWidget) {
         if (!isConnectDB()) {
             return -2;
         }
                
-        int res = 0;
-        return res;
+        return dal.AddWidget(newWidget.getName(), newWidget.getDesc(), newWidget.getQuantity(), newWidget.getStationId());       
     }
     
-    public int updateWidgetQuantity(Widgets widgetQuant) {
+    public int updateWidgetQuantity(Widget widgetQuant) {
         if (!isConnectDB()) {
             return -2;
         }
                
-        int res = 0;
-        return res;
+        return dal.IncWidgets(widgetQuant.getName(), widgetQuant.getQuantity());        
     }
     
-    public ArrayList<Widgets> getWidgets() {
-        // TODO
-        ArrayList <Widgets> test = null;
-        return test;
+    public ArrayList<Widget> getWidgets() {
+        // TODO        
+        return dal.GetWidgets();        
     }
     
     public ArrayList<Customer> getCustomers() {
         // TODO
-        ArrayList <Customer> test = null;
-        return test;
+        return dal.GetCustomers();       
     }
     
     public ArrayList<OrderInfo> getPendingOrders() {
         // TODO
-        ArrayList <OrderInfo> test = null;
-        return test;
+        return dal.GetPendingOrders();        
     }
     
     public ArrayList<Integer> getWarehouseIdList() {
         // TODO
         
-        //ArrayList<Integer> list = new ArrayList<>();
-        
+        //ArrayList<Integer> list = new ArrayList<>();       
         ArrayList <Integer> test = null;
         return test;
     }
