@@ -11,7 +11,49 @@ package com.lge.spartan.dal;
  * @author vijay.rachabattuni
  */
 public class OrderDetails {
-    int widgetId;
-    String widgetName;//not madatory for the customer app to update this
-    int quantity;
+    public int widgetId;
+    public String widgetName;//not madatory for the customer app to update this
+    public int quantity;
+
+    /**
+     * @return the widgetId
+     */
+    public int getWidgetId() {
+        return widgetId;
+    }
+
+    /**
+     * @param widgetId the widgetId to set
+     */
+    public void setWidgetId(int widgetId) {
+        this.widgetId = widgetId;
+    }
+
+    /**
+     * @return the widgetName
+     */
+    public String getWidgetName() {
+        return widgetName;
+    }
+
+    /**
+     * @param widgetName the widgetName to set
+     */
+    public void setWidgetName(String widgetName) {
+        this.widgetName = widgetName;
+    }
+
+    /**
+     * @return the quantity
+     */
+    public int getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

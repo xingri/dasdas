@@ -11,9 +11,79 @@ package com.lge.spartan.dal;
  * @author vijay.rachabattuni
  */
 public class Widget {
-    int widgetId;
-    String name;
-    String desc;
-    int quantity;
-    int stationId;
+    public int widgetId;
+    public String name;
+    public String desc;
+    public int quantity;
+    public int stationId;
+
+    /**
+     * @return the widgetId
+     */
+    public int getWidgetId() {
+        return widgetId;
+    }
+
+    /**
+     * @param widgetId the widgetId to set
+     */
+    public void setWidgetId(int widgetId) {
+        this.widgetId = widgetId;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the desc
+     */
+    public String getDesc() {
+        return desc;
+    }
+
+    /**
+     * @param desc the desc to set
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * @return the quantity
+     */
+    public int getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
+     * @return the stationId
+     */
+    public int getStationId() {
+        return stationId;
+    }
+
+    /**
+     * @param stationId the stationId to set
+     */
+    public void setStationId(int stationId) {
+        this.stationId = stationId;
+    }
 }
