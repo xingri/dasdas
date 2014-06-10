@@ -1,18 +1,20 @@
 import java.io.*;
 import java.net.*;
-import java.util.concurrent.Delayed;
+import java.util.function.Function;
 
-public class WHCommandClient {
+public class WHRobotInf {
 	private enum RobotCmd {
-		GO_FWD((byte)(0<<4)),
-		GO_BWD((byte)(1<<4)),
-		TURN_L((byte)(2<<4)),
-		TURN_R((byte)(3<<4)),
-		GO_STATION((byte)(4<<4)),
-		NEAR_STATION((byte)(5<<4)),
-		STOP((byte)(6<<4));
+		GO_FWD((byte)(0<<3)),
+		GO_BWD((byte)(1<<3)),
+		TURN_L((byte)(2<<3)),
+		TURN_R((byte)(3<<3)),
+		GO_NEXT_STATION((byte)(4<<3)),
+		NEAR_STATION((byte)(5<<3)),
+		STOP((byte)(6<<3)),
+		PING((byte)(7<<3)),
+		ARRIVAL((byte)(8<<3)),
+		WATCHDOG((byte)(9<<3));
 		
-		public final static int MAX_STATION = 4;
 		public final static int MAX_GO_STEP = 8;
 		public final static int MAX_TURN_STEP = 6;
 		private byte cmd = 0;
@@ -30,28 +32,21 @@ public class WHCommandClient {
 	private String robotIP = "128.237.124.48";
 	private int	portNum = 501;				// Port number for server socket
 
-	public WHCommandClient(int portNum) {
+	public WHRobotInf(int portNum) {
 		this.portNum = 501;
 	}
 
-	public WHCommandClient(String robotIP) {
+	public WHRobotInf(String robotIP) {
 		this.robotIP = robotIP;
 	}
 
-	public WHCommandClient(String robotIP, int portNum) {
+	public WHRobotInf(String robotIP, int portNum) {
 		this.robotIP = robotIP;
 		this.portNum = portNum;
 	}
 
-	public boolean goStation(int station) {
-		byte cmd = RobotCmd.GO_STATION.getCmd();
-		
-		if (station > RobotCmd.MAX_STATION) {
-			System.out.println("Station number must be under 4..");
-			return false;
-		}
-		
-		cmd |= (byte)station;
+	public boolean goNextStation() {
+		byte cmd = RobotCmd.GO_NEXT_STATION.getCmd();
 		return sendCmd(cmd);
 	}
 
@@ -118,13 +113,31 @@ public class WHCommandClient {
 		return sendCmd(cmd);
 	}
 	
+	public boolean getHealth() {
+		byte cmd = 0;
+		cmd |= RobotCmd.PING.getCmd();
+		return sendCmd(cmd);
+	}
+
+	public boolean getArrival() {
+		byte cmd = 0;
+		cmd |= RobotCmd.ARRIVAL.getCmd();
+		return sendCmd(cmd);
+	}
+
+	public boolean getWatchdog() {
+		byte cmd = 0;
+		cmd |= RobotCmd.WATCHDOG.getCmd();
+		return sendCmd(cmd);
+	}
+
 	private boolean sendCmd(byte cmd) {
 		boolean ret = true;
 		byte ack = 0;
 		InputStream in = null;
 		BufferedWriter out = null;
 
-		System.out.println("SendCmd :" + cmd);
+		//System.out.println("SendCmd :" + cmd);
 		try {
 			clientSocket = new Socket(robotIP, portNum);
 
@@ -142,9 +155,9 @@ public class WHCommandClient {
 			in = clientSocket.getInputStream();
 			DataInputStream dis = new DataInputStream(in);
 			ack = dis.readByte();
-			System.out.println("Ack from robot: " + ack);
+			//System.out.println("Ack from robot: " + ack);
 			if (ack != cmd) {
-				System.out.println("Ack should be same with cmd sent");
+				//System.out.println("Ack should be same with cmd sent");
 				ret = false;
 			}
 		} catch (Exception e) {
