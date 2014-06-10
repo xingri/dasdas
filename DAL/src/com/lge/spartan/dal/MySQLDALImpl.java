@@ -35,7 +35,7 @@ public class MySQLDALImpl implements DAL {
     // Define a static logger variable so that it references the
 // Logger instance named "MyApp".
     static final Logger logger = LogManager.getLogger(MySQLDALImpl.class.getName());
-
+    
     Connection DBConn = null;           // MySQL connection handle    
     Statement s = null;                 // SQL statement pointer
     ResultSet res = null;               // SQL query result set pointer
@@ -45,23 +45,25 @@ public class MySQLDALImpl implements DAL {
     DataSource ds;
     Connection con = null;
     final boolean CONNECTION_POOL = false;
-
+    
     public boolean Initialize(String serverIPAddress, String user, String p) {
         logger.entry();
         System.out.println("DAL:Initialize " + serverIPAddress + "," + user);
         userName = user;
         pwd = p;
-
+        
         String SQLServerIP = serverIPAddress;
         String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/spartan";
-
+        
         if (CONNECTION_POOL == true) {
             try {
                 InitialContext ctx = new InitialContext();
                 Class.forName("com.mysql.jdbc.Driver");
                 ds = (DataSource) ctx.lookup(sourceURL);
-             MysqlDataSource ds = (MysqlDataSource)ctx.lookup(sourceURL);
-             ds.setServerName(SQLServerIP);
+                MysqlDataSource ds = (MysqlDataSource) ctx.lookup(sourceURL);
+                ds.setServerName(SQLServerIP);
+                ds.setUser("root");
+                ds.setPassword("");
             } catch (Exception e) {
                 logger.error("Exception " + e);
                 System.out.println("DAL:Initialize:Exception:" + e);
@@ -80,7 +82,7 @@ public class MySQLDALImpl implements DAL {
         }
         return logger.exit(true);
     }
-
+    
     public boolean Uninitialize() {
         logger.entry();
         System.out.println("DAL:Uninitialize()");
@@ -95,7 +97,7 @@ public class MySQLDALImpl implements DAL {
         } // end try-catch
         return logger.exit(true);
     }
-
+    
     public ArrayList<Customer> GetCustomers() {
         logger.entry();
         System.out.println("DAL:GetCustomers()");
@@ -105,7 +107,7 @@ public class MySQLDALImpl implements DAL {
             CreateStmnt();
             SQLStatement = "select * from customer";
             rs = s.executeQuery(SQLStatement);
-
+            
             custList = FillCustomerList(rs);
         } catch (Exception e) {
             logger.error("Exception " + e);
@@ -118,7 +120,7 @@ public class MySQLDALImpl implements DAL {
         }
         return custList;
     }
-
+    
     private void CreateStmnt() throws SQLException {
         if (CONNECTION_POOL == true) {
             con = ds.getConnection(userName, pwd);
@@ -127,7 +129,7 @@ public class MySQLDALImpl implements DAL {
             s = DBConn.createStatement();
         }
     }
-
+    
     private void CleanUp(ResultSet rs, Statement stmt) {
         logger.entry();
         // it is a good idea to release
@@ -144,7 +146,7 @@ public class MySQLDALImpl implements DAL {
 
             rs = null;
         }
-
+        
         if (stmt != null) {
             try {
                 stmt.close();
@@ -162,7 +164,7 @@ public class MySQLDALImpl implements DAL {
             con = null;
         }
     }
-
+    
     private ArrayList<Customer> FillCustomerList(ResultSet rs) throws SQLException {
         logger.entry();
         ArrayList<Customer> custList = new ArrayList<>();
@@ -181,11 +183,11 @@ public class MySQLDALImpl implements DAL {
         } // for each element in the return SQL query
         return custList;
     }
-
-    public int AddOrder(List<OrderDetails> orderList, Customer cust) {
-        return AddOrder(orderList, cust.getFname(), cust.getLname(), cust.getPhone(), cust.getAddress()) ;
-     }
     
+    public int AddOrder(List<OrderDetails> orderList, Customer cust) {
+        return AddOrder(orderList, cust.getFname(), cust.getLname(), cust.getPhone(), cust.getAddress());
+    }
+
     ///Return OrderNo if success. If failure, return -1
     private int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address) {
         logger.entry();
@@ -194,7 +196,7 @@ public class MySQLDALImpl implements DAL {
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             CreateStmnt();
-
+            
             try {
                 //If the customer phone is already existing; this insert will fail. 
                 //Ok no problem.. continue with the other insertions....
@@ -203,10 +205,10 @@ public class MySQLDALImpl implements DAL {
             } catch (Exception e) {
                 logger.error("Exception " + e);
             }
-
+            
             SQLStatement = "insert into orderinfo(phone) values ('" + phone + "');";
             executeUpdateVal = s.executeUpdate(SQLStatement);
-
+            
             SQLStatement = "(select max(orderNo) from orderinfo)";
             res = s.executeQuery(SQLStatement);
             if (res.next()) {
@@ -227,7 +229,7 @@ public class MySQLDALImpl implements DAL {
                 }
                 stmnt += str;
             }
-
+            
             executeUpdateVal = s.executeUpdate(stmnt);
         } catch (Exception e) {
             logger.error("Exception " + e);
@@ -261,21 +263,21 @@ public class MySQLDALImpl implements DAL {
         }
         return 0;
     }
-
+    
     public int IncWidgets(String widgetName, int increment) {
         logger.entry();
         System.out.println("DAL:IncWidgets:widgetName " + widgetName + ", increment " + increment);
         int quant = 0;
         try {
             CreateStmnt();
-
+            
             int executeUpdateVal;           // Return value from execute indicating effected rows
             SQLStatement = "select quantity from widget where name = '" + widgetName + "';";
             res = s.executeQuery(SQLStatement);
             if (res.next()) {
                 quant = res.getInt(1);
             }
-
+            
             SQLStatement = "update widget set quantity = " + (quant + increment) + ";";
             executeUpdateVal = s.executeUpdate(SQLStatement);
         } catch (Exception e) {
@@ -289,20 +291,20 @@ public class MySQLDALImpl implements DAL {
         }
         return 0;
     }
-
+    
     public int DecWidgets(String widgetName, int decrement) {
         logger.entry();
         System.out.println("DAL:DecWidgets:widgetName " + widgetName + ", decrement " + decrement);
         int quant = 0;
         try {
             CreateStmnt();
-
+            
             SQLStatement = "select quantity from widget where name = '" + widgetName + "';";
             res = s.executeQuery(SQLStatement);
             if (res.next()) {
                 quant = res.getInt(1);
             }
-
+            
             int executeUpdateVal;           // Return value from execute indicating effected rows
 
             SQLStatement = "update widget set quantity = " + (quant - decrement) + ";";
@@ -318,14 +320,14 @@ public class MySQLDALImpl implements DAL {
         }
         return 0;
     }
-
+    
     public int GetOrderStatus(int orderNo) {
         System.out.println("DAL:GetOrderuStatus:OrderNo:" + orderNo);
         logger.entry();
         int status = 0;
         try {
             CreateStmnt();
-
+            
             SQLStatement = "select status from orderinfo where orderno = " + orderNo + ";";
             res = s.executeQuery(SQLStatement);
             if (res.next()) {
@@ -342,7 +344,7 @@ public class MySQLDALImpl implements DAL {
         }
         return status;
     }
-
+    
     private ArrayList<OrderInfo> GetOrders(String sqlStmnt) {
         logger.entry();
         ArrayList<OrderInfo> orderList = null;
@@ -350,7 +352,7 @@ public class MySQLDALImpl implements DAL {
             CreateStmnt();
             SQLStatement = sqlStmnt;
             res = s.executeQuery(SQLStatement);
-
+            
             orderList = new ArrayList<>();
             while (res.next()) {
                 OrderInfo oi = new OrderInfo();
@@ -360,7 +362,7 @@ public class MySQLDALImpl implements DAL {
                 oi.setStatus(res.getInt(4));
                 String strPhone = res.getString(5);//phone number
                 GetCustomerAndOrderDetails(strPhone, oi);
-
+                
                 orderList.add(oi);
             }
         } catch (Exception e) {
@@ -374,7 +376,7 @@ public class MySQLDALImpl implements DAL {
         }
         return orderList;
     }
-
+    
     private void GetCustomerAndOrderDetails(String strPhone, OrderInfo oi) {
         logger.entry();
         try {
@@ -386,7 +388,7 @@ public class MySQLDALImpl implements DAL {
             oi.setCust(cust.get(0));//will return only 1 customer as we are querying by strPhone which is unique
             rs1.close();
             s.close();
-
+            
             GetOrderDetails(oi);
         } catch (Exception e) {
             logger.error("Exception " + e);
@@ -397,7 +399,7 @@ public class MySQLDALImpl implements DAL {
             CleanUp(res, s);
         }
     }
-
+    
     private void GetOrderDetails(OrderInfo oi) {
         logger.entry();
         try {
@@ -433,31 +435,31 @@ public class MySQLDALImpl implements DAL {
             CleanUp(res, s);
         }
     }
-
+    
     public ArrayList<OrderInfo> GetShippedOrders() {
         logger.entry();
         return GetOrders("select * from orderinfo where status = 3");
     }
-
+    
     public ArrayList<OrderInfo> GetPendingOrders() {
         logger.entry();
         return GetOrders("select * from orderinfo where status <> 3");
     }
-
+    
     public ArrayList<OrderInfo> GetBackorderedOrders() {
         logger.entry();
         return GetOrders("select * from orderinfo where status = 2"); //2 - Backorder
     }
-
+    
     public ArrayList<Widget> GetWidgets() {
         logger.entry();
         ArrayList<Widget> widgetList = null;
         try {
             CreateStmnt();
-
+            
             SQLStatement = "select * from widget";
             res = s.executeQuery(SQLStatement);
-
+            
             widgetList = new ArrayList<>();
             while (res.next()) {
                 Widget w = new Widget();
