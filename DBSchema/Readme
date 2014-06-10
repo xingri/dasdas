@@ -2,3 +2,7 @@ We can create Database and User by following sequences:
 
 1. mysql -u root < DBSchema/script/Spartan_v0.4.sql 
 2. mysql -u root < DBSchema/script/User_Spartan.sql 
+
+After creation of Database tables and User, we can connect to it as follows:
+
+mysql -u spartan -p (type spartan for password)
