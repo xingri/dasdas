@@ -502,8 +502,7 @@ public class Supervisor extends javax.swing.JFrame {
 
     private void getWidgetList() {
         ArrayList<Widget> widgetList = SupervisorController.getInstance().getWidgets();
-        if (widgetList == null) {
-            JOptionPane.showMessageDialog(this, "server is not connected.");
+        if (widgetList == null) {            
             return;
         }
         

@@ -47,7 +47,7 @@ public class AddWidget extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         warehouseId = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Widget");
 
         jLabel1.setText("Widget Name");

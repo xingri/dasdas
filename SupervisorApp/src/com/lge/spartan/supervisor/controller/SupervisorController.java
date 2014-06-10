@@ -73,8 +73,7 @@ public class SupervisorController implements IController {
             return -2;
         }
                
-        int res = 0;
-        return res;
+        return dal.AddWidget(newWidget.getName(), newWidget.getDesc(), newWidget.getQuantity(), newWidget.getStationId());       
     }
     
     public int updateWidgetQuantity(Widget widgetQuant) {
@@ -82,33 +81,28 @@ public class SupervisorController implements IController {
             return -2;
         }
                
-        int res = 0;
-        return res;
+        return dal.IncWidgets(widgetQuant.getName(), widgetQuant.getQuantity());        
     }
     
     public ArrayList<Widget> getWidgets() {
-        // TODO
-        ArrayList <Widget> test = null;
-        return test;
+        // TODO        
+        return dal.GetWidgets();        
     }
     
     public ArrayList<Customer> getCustomers() {
         // TODO
-        ArrayList <Customer> test = null;
-        return test;
+        return dal.GetCustomers();       
     }
     
     public ArrayList<OrderInfo> getPendingOrders() {
         // TODO
-        ArrayList <OrderInfo> test = null;
-        return test;
+        return dal.GetPendingOrders();        
     }
     
     public ArrayList<Integer> getWarehouseIdList() {
         // TODO
         
-        //ArrayList<Integer> list = new ArrayList<>();
-        
+        //ArrayList<Integer> list = new ArrayList<>();       
         ArrayList <Integer> test = null;
         return test;
     }
