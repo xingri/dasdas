@@ -12,16 +12,18 @@
 package com.lge.spartan.supervisor.controller;        
 
 import java.util.ArrayList;
-import com.lge.spartan.supervisor.data.*;
 import com.lge.spartan.supervisor.view.*;
+
+import com.lge.spartan.dal.*;
 
 public class SupervisorController implements IController {
     private static volatile SupervisorController obj_instance = null;
+    private static DAL dal = null;
     boolean bDBConnectState;    
     
     private SupervisorController () {
-        // TODO static DAL d = new DAL();
-         bDBConnectState = false;
+        dal = new DAL();
+        connectDB();        
     }
  
     public static SupervisorController getInstance() {
@@ -39,9 +41,8 @@ public class SupervisorController implements IController {
     @Override
     public boolean connectDB() {
         // TODO
-        //Initialize("127.0.0.1", "root", "");
-        setConnectDBState(true);
-        return false;
+        setConnectDBState(dal.Initialize("localhost", "root", "1234"));
+        return bDBConnectState;
     }
     
     @Override
@@ -67,7 +68,7 @@ public class SupervisorController implements IController {
     /*
      @return param : -2 : disconnected db, -1 : DB query error, 0 : succes
     */
-    public int createNewInventory(Widgets newWidget) {
+    public int createNewInventory(Widget newWidget) {
         if (!isConnectDB()) {
             return -2;
         }
@@ -76,7 +77,7 @@ public class SupervisorController implements IController {
         return res;
     }
     
-    public int updateWidgetQuantity(Widgets widgetQuant) {
+    public int updateWidgetQuantity(Widget widgetQuant) {
         if (!isConnectDB()) {
             return -2;
         }
@@ -85,9 +86,9 @@ public class SupervisorController implements IController {
         return res;
     }
     
-    public ArrayList<Widgets> getWidgets() {
+    public ArrayList<Widget> getWidgets() {
         // TODO
-        ArrayList <Widgets> test = null;
+        ArrayList <Widget> test = null;
         return test;
     }
     

@@ -3,7 +3,8 @@ package com.lge.spartan.supervisor.view;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import com.lge.spartan.supervisor.controller.SupervisorController;
-import com.lge.spartan.supervisor.data.Widgets;
+
+import com.lge.spartan.dal.*;
 
 
 /*
@@ -22,7 +23,7 @@ public class AddWidget extends javax.swing.JFrame {
      */
     public AddWidget() {
         initComponents();
-		updateWarehouseId();
+	//updateWarehouseId();
     }
 
     /**
@@ -147,10 +148,12 @@ public class AddWidget extends javax.swing.JFrame {
             }
         }
 
-        Widgets addInventory  = new Widgets (name.getText()
-                                            , desc.getText()
-                                            , Integer.parseInt(quantity.getText())
-                                            , stationId.getSelectedIndex());        
+        Widget addInventory  = new Widget ();
+        
+        addInventory.setName(name.getText());
+        addInventory.setDesc(desc.getText());
+        addInventory.setQuantity(Integer.parseInt(quantity.getText()));
+        addInventory.setStationId(stationId.getSelectedIndex());
                 
         int res = SupervisorController.getInstance().createNewInventory(addInventory);
         

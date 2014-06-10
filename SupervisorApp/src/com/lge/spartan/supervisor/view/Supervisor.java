@@ -7,7 +7,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.lge.spartan.supervisor.controller.*;
-import com.lge.spartan.supervisor.data.*;
+import com.lge.spartan.dal.*;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,6 +30,7 @@ public class Supervisor extends javax.swing.JFrame {
      */
     public Supervisor() {
         initComponents();
+        getWidgetList();        
     }
 
     /*protected void finalize() throws Throwable {
@@ -153,12 +155,11 @@ public class Supervisor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3)
-                                .addGap(81, 81, 81)
-                                .addComponent(jbtnRefresh)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(81, 81, 81)
+                        .addComponent(jbtnRefresh)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -499,19 +500,25 @@ public class Supervisor extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRefreshActionPerformed
-        // TODO add your handling code here:
-        ArrayList<Widgets> widgetList = SupervisorController.getInstance().getWidgets();
+    private void getWidgetList() {
+        ArrayList<Widget> widgetList = SupervisorController.getInstance().getWidgets();
         if (widgetList == null) {
+            JOptionPane.showMessageDialog(this, "server is not connected.");
             return;
         }
+        
         ClearTable(jTable1);
         int i = 0;
-        for (Widgets w : widgetList) {
+        for (Widget w : widgetList) {
             i++;
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.addRow(new Object[]{i, w.getName(), w.getDesc(), w.getQuantity(), w.getStationId()});
         }
+    }
+    
+    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRefreshActionPerformed
+        // TODO add your handling code here:
+        getWidgetList();
     }//GEN-LAST:event_jbtnRefreshActionPerformed
 
     private void jbtnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCustRefreshActionPerformed
@@ -532,13 +539,8 @@ public class Supervisor extends javax.swing.JFrame {
 
     private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrderRefreshActionPerformed
         // TODO add your handling code here:
-        orderList = Supervisor.d.GetPendingOrders();
-        if (orderList == null) {
-            return;
-        }
-        ClearTable(jTable3);
         ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getPendingOrders();                
-        if (orderList == null) {
+        if (orderList == null) {            
             return;
         }
         
@@ -565,7 +567,7 @@ public class Supervisor extends javax.swing.JFrame {
                 int orderNo = Integer.parseInt(sorderNo);
                 jlblOrderNo.setText(sorderNo);
                 for (OrderInfo oi : orderList) {
-                    if (oi.orderNo != orderNo) {
+                    if (oi.getOrderNo() != orderNo) {
                         continue;
                     }
                     FillOrderDetails(oi);
@@ -575,8 +577,9 @@ public class Supervisor extends javax.swing.JFrame {
             private void FillOrderDetails(OrderInfo oi) {
                 DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
                 int ii = 0;
-                for (OrderDetails od : oi.listOrderDetails) {
-                    model.addRow(new Object[]{ii++, od.widgetId, od.widgetName, od.quantity});
+                
+                for (OrderDetails od : oi.getListOrderDetails()) {
+                    model.addRow(new Object[]{ii++, od.getWidgetId(), od.getWidgetName(), od.getQuantity()});
                 }
             }
         }
