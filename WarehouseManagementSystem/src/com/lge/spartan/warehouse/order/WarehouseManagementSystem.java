@@ -1,4 +1,4 @@
-package com.lge.spartan.warehouse;
+package com.lge.spartan.warehouse.order;
 
 public class WarehouseManagementSystem {
 	private OrderReceiver orderReceiver; 

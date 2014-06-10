@@ -1,8 +1,10 @@
 package com.lge.spartan.customer;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.lge.spartan.customer.data.Order;
+import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.Widget;
 
 public class OrderSubmitter implements IOrderSubmit{
 	private IOrderSubmit impl = null; 
@@ -17,17 +19,17 @@ public class OrderSubmitter implements IOrderSubmit{
 	}
 	
 	@Override
-	public void submitOrder(Order order) {
+	public void submitOrder(OrderInfo order) {
 		impl.submitOrder(order);
 	}
 
 	@Override
-	public List<String> getWidgetType() {
+	public ArrayList<Widget> getWidgetType() {
 		return impl.getWidgetType();
 	}
 
 	@Override
-	public List<Order> getOrderStatus(String phoneNumber) {
+	public ArrayList<OrderInfo> getOrderStatus(String phoneNumber) {
 		return impl.getOrderStatus(phoneNumber);
 	}
 

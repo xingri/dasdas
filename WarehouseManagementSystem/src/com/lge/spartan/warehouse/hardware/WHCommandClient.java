@@ -1,3 +1,5 @@
+package com.lge.spartan.warehouse.hardware;
+
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.Delayed;

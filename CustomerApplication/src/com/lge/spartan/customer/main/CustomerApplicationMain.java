@@ -12,7 +12,7 @@ public class CustomerApplicationMain {
 		System.out.println("CustomerApplication Start....");
 	
 		//final CustomerApplicationController cac = new CustomerApplicationController(); 
-		final CustomerApplicationController cac = new CustomerApplicationController("127.0.0.1",3333); 
+		final CustomerApplicationController cac = new CustomerApplicationController("10.253.202.128",3333); 
 		
 		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -3,28 +3,30 @@ package com.lge.spartan.customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lge.spartan.customer.data.Order;
+import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.Widget;
+
 
 public class OrderSubmitDummyImpl implements IOrderSubmit {
 
 	@Override
-	public void submitOrder(Order order) {
+	public void submitOrder(OrderInfo order) {
 		System.out.println("Submitted: " + order.toString());
 	}
 
 	@Override
-	public List<String> getWidgetType() {
-		List<String> widgetList = new ArrayList<String>();
-		widgetList.add("BasketBall");
+	public ArrayList<Widget> getWidgetType() {
+		ArrayList<Widget> widgetList = new ArrayList<Widget>();
+/*		widgetList.add("BasketBall");
 		widgetList.add("BaseBall");
 		widgetList.add("TennisBall");
 		widgetList.add("CrickeetBall");
-		System.out.println("Got WidgetNames...");
+*/		System.out.println("Got WidgetNames...");
 		return widgetList;
 	}
 
 	@Override
-	public List<Order> getOrderStatus(String phoneNumber) {
+	public ArrayList<OrderInfo> getOrderStatus(String phoneNumber) {
 		return null;
 	}
 
