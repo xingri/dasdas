@@ -41,4 +41,6 @@ public interface DAL {
     public ArrayList<OrderInfo> GetBackorderedOrders();
     
     public int GetOrderStatus(int orderNo);
+    
+    public ArrayList<OrderInfo> GetOrdersByPhone(String phone/* Enum orderStatus*/) ;
 }

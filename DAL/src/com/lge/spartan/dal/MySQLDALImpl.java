@@ -15,6 +15,7 @@ package com.lge.spartan.dal;
 import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.OrderStatus;
 import com.lge.spartan.data.Widget;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*;
@@ -447,6 +448,21 @@ public class MySQLDALImpl implements DAL {
     public ArrayList<OrderInfo> GetBackorderedOrders() {
         logger.entry();
         return GetOrders("select * from orderinfo where status = 2"); //2 - Backorder
+    }
+    
+     public ArrayList<OrderInfo> GetOrdersByPhone(String phone/* Enum orderStatus*/) {
+        logger.entry();
+        return GetOrders("select * from orderinfo where phone = '" + phone + "';");
+       /* switch(orderStatus)
+        {
+            case OrderStatus.Pending:
+            case OrderStatus.Inprogress:
+                break;
+            case OrderStatus.Backordered:
+                break;
+            case OrderStatus.Complete:
+                break;
+        }*/
     }
     
     public ArrayList<Widget> GetWidgets() {
