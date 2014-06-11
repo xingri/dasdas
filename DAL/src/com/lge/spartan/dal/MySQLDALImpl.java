@@ -278,7 +278,7 @@ public class MySQLDALImpl implements DAL {
                 quant = res.getInt(1);
             }
             
-            SQLStatement = "update widget set quantity = " + (quant + increment) + ";";
+            SQLStatement = "update widget set quantity = " + (quant + increment) + " where name = '" + widgetName + "';";
             executeUpdateVal = s.executeUpdate(SQLStatement);
         } catch (Exception e) {
             logger.error("Exception " + e);
@@ -307,7 +307,7 @@ public class MySQLDALImpl implements DAL {
             
             int executeUpdateVal;           // Return value from execute indicating effected rows
 
-            SQLStatement = "update widget set quantity = " + (quant - decrement) + ";";
+            SQLStatement = "update widget set quantity = " + (quant - decrement) + " where name = '" + widgetName + "';";
             executeUpdateVal = s.executeUpdate(SQLStatement);
         } catch (Exception e) {
             logger.error("Exception " + e);
