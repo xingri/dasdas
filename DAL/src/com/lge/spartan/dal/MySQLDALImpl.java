@@ -63,8 +63,8 @@ public class MySQLDALImpl implements DAL {
                 ds = (DataSource) ctx.lookup(sourceURL);
                 MysqlDataSource ds = (MysqlDataSource) ctx.lookup(sourceURL);
                 ds.setServerName(SQLServerIP);
-                ds.setUser("root");
-                ds.setPassword("");
+                ds.setUser(user);
+                ds.setPassword(p);
             } catch (Exception e) {
                 logger.error("Exception " + e);
                 System.out.println("DAL:Initialize:Exception:" + e);
