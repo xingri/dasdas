@@ -10,8 +10,9 @@ package com.lge.spartan.data;
  * @author vijay.rachabattuni
  */
 public enum OrderStatus {
-    Pending,
-    Inprogress,
-    Backordered,
-    Complete
+    Pending, //obj.ordinal() returns 0
+    Inprogress,//obj.ordinal() returns 1
+    Backordered,//obj.ordinal() returns 2
+    Complete,//obj.ordinal() returns 3
+    All//obj.ordinal() returns 4
 }

@@ -43,4 +43,6 @@ public interface DAL {
     public int GetOrderStatus(int orderNo);
     
     public ArrayList<OrderInfo> GetOrdersByPhone(String phone/* Enum orderStatus*/) ;
+    
+    public boolean UpdateOrderStatus(int orderNo, Enum orderStatus);
 }

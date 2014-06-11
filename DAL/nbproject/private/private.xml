@@ -5,6 +5,7 @@
         <group>
             <file>file:/E:/Architecture/CMUBlackboard/Implementation/dasdas/DAL/src/com/lge/spartan/dal/MySQLDALImpl.java</file>
             <file>file:/E:/Architecture/CMUBlackboard/Implementation/dasdas/DAL/src/com/lge/spartan/data/Customer.java</file>
+            <file>file:/E:/Architecture/CMUBlackboard/Implementation/dasdas/DAL/src/com/lge/spartan/data/OrderDetails.java</file>
             <file>file:/E:/Architecture/CMUBlackboard/Implementation/dasdas/DAL/src/com/lge/spartan/data/OrderInfo.java</file>
             <file>file:/E:/Architecture/CMUBlackboard/Implementation/dasdas/DAL/src/com/lge/spartan/dal/DAL.java</file>
         </group>
