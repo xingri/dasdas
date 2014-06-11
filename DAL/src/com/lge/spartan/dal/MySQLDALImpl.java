@@ -396,7 +396,7 @@ public class MySQLDALImpl implements DAL {
         finally {
             CleanUp(rs1, s);
         }
-        GetOrderDetails(oi);
+        //GetOrderDetails(oi);
     }
     
     private void GetOrderDetails(OrderInfo oi) {
