@@ -252,7 +252,7 @@ public class DALTestForm extends javax.swing.JFrame {
         boolean res = dal.Initialize("127.0.0.1", "root", "");//vijay
         if(res == true)
         {
-            JOptionPane.showMessageDialog(this, "DB Init Success");
+            JOptionPane.showMessageDialog(this, "DB Init Success11");
         }
         else
             JOptionPane.showMessageDialog(this, "DB Init Failed");
