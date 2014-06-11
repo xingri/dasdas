@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lge.spartan.customer.data.Message;
+import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.Widget;
 
@@ -71,12 +72,6 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 		return widgetList;
 	}
 
-	@Override
-	public ArrayList<OrderInfo> getOrderStatus(String phoneNumber) {
-		return null;
-	}
-	
-	
 	public void sendOrder(){
 		try{
 			Socket s=new Socket(ipAddress, port);
@@ -99,6 +94,52 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 			e.printStackTrace();
 			System.out.println("Check Server IP or PORT number...");
 		}
+	}
+	
+	public ArrayList<OrderInfo> getOrderStatus(String phoneNumber){
+		ArrayList<OrderInfo> orderList = new ArrayList<OrderInfo>();
+		try{
+			Socket s=new Socket(ipAddress, port);
+			System.out.println("Socket created...");
+			ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
+			ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());
+			System.out.println("ObjectOutputStream created...");
+		
+			Message request = new Message(Message.GET_ORDER_STATUS, phoneNumber);
+			oos.writeObject(request);
+			System.out.println("Reqeust Order Status: ");
+			Message reply = (Message)ois.readObject();
+			System.out.println(reply.getMsgType());
+			
+			orderList = (ArrayList<OrderInfo>)reply.getPayload();
+			System.out.println(orderList);
+			
+			
+		/*	ois.close();
+			oos.close();
+			s.close();*/
+			//new OrderSendThread(oos, ois).start();
+			//System.out.println("Creating OrderSendThread...");
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Check Server IP or PORT number...");
+		}
+		
+		OrderInfo order = new OrderInfo();
+		ArrayList<OrderDetails> od = new ArrayList<OrderDetails>();
+		OrderDetails od1 = new OrderDetails();
+		od1.setQuantity(1);
+		od1.setWidgetId(1);
+		od1.setWidgetName("PP");
+		od.add(od1);
+		order.setOrderNo(1);
+		order.setOrderTime("1974");
+		order.setShippingTime("444");
+		order.setStatus(1);
+		order.setListOrderDetails(od);
+		orderList.add(order);
+		
+		return orderList;
 	}
 	
 	

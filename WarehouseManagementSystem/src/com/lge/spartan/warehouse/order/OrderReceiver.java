@@ -25,8 +25,8 @@ public class OrderReceiver extends Thread{
 	public void run(){
 		System.out.println("OrderServer is now running....");
 	
-		//boolean dbCheck = db.Initialize("localhost", "root", "seo10jin");
-		boolean dbCheck = db.Initialize("10.254.16.189", "root", "");
+		boolean dbCheck = db.Initialize("localhost", "root", "seo10jin");
+		//boolean dbCheck = db.Initialize("10.254.17.157", "spartan", "spartan");
 		if(dbCheck == false){
 			System.out.println("DB initailization Error");
 		}
@@ -101,7 +101,32 @@ public class OrderReceiver extends Thread{
 						oos.flush();
 						System.out.println("Msg Send");
 					
-					}else{
+					}else if (msg.getMsgType() == Message.GET_ORDER_STATUS){
+						System.out.println("Got request");
+						String phoneNumber = (String)msg.getPayload();
+						System.out.println("PhoneNumber:" + phoneNumber);
+						ArrayList<OrderInfo> oiList = new ArrayList<OrderInfo>();
+						//oiList = db.GetPendingOrders();
+						OrderInfo order = new OrderInfo();
+						ArrayList<OrderDetails> od = new ArrayList<OrderDetails>();
+						OrderDetails od1 = new OrderDetails();
+						od1.setQuantity(1);
+						od1.setWidgetId(1);
+						od1.setWidgetName("BasketBall");
+						od.add(od1);
+						order.setOrderNo(27);
+						order.setOrderTime("2014-06-11");
+						order.setShippingTime("2014-06-11");
+						order.setStatus(1);
+						order.setListOrderDetails(od);
+						oiList.add(order);
+						
+						Message reply = new Message(104, oiList);
+						oos.writeObject(reply);
+						oos.flush();
+						System.out.println("Msg Send");
+					}
+					else{
 						System.out.println("Unknown Message Type Error: " + msg.getMsgType());
 					}
 				
