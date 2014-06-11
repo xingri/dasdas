@@ -4,23 +4,33 @@ public class HWStationManagerImpl implements StationManager {
     boolean inStation = false;
     boolean isSwitchOn = false;
 
-    RobotControl rb;
+    //RobotControl rb;
+    WHRobotInf rb;
 
     // SS goes to < 600 when robot arrived
     int SS1, SS2, SS3, SS4;
 
     // SW goes to 0 when it pushed
     int SW1, SW2, SW3, SW4;
+    int prevSta = 0;
 
     public HWStationManagerImpl(String robotIP) {
         this.robotIP = robotIP;
-        this.rb = new RobotControl(robotIP);
+        //this.rb = new RobotControl(robotIP);
+        this.rb = new WHRobotInf(robotIP);
     }
 
     public void eventHandler(String inputLine) {
 
+        int currSta = 0;
+
         System.out.println("check msg: " + inputLine);
         String[] sensList = inputLine.split(",");
+
+        if(sensList.length != 9) {
+            System.out.println("garbage!!!!");
+            return;
+        }
 
         SS1 = Integer.parseInt(sensList[1]);
         SS2 = Integer.parseInt(sensList[2]);
@@ -35,10 +45,12 @@ public class HWStationManagerImpl implements StationManager {
 
         //if one of Switch (SW1~SW4) is pressed(!=1) then need to call Go Next Station
         if( (SW1!=0) || (SW2!=0) || (SW3!=0) || (SW4!=0) ) {
+        //if( (SW1!=0) || (SW2!=0) || (SW3!=0) ) {
             if(!isSwitchOn)  {
                 isSwitchOn = true;
                 System.out.println("switch on - go Next Station: " + robotIP);
-                rb.sendGoNextCmd();
+                //rb.sendGoNextCmd();
+                rb.goNextStation();
             }
         } else {
             isSwitchOn = false;
@@ -46,15 +58,34 @@ public class HWStationManagerImpl implements StationManager {
 
         //if one of Sensors (SS1~SS4) is below 600, then need to call stop
         if( (SS1!=0) || (SS2!=0) || (SS3!=0) || (SS4!=0) ) {
-            if(!inStation) {
+            if(SS1 == 1) 
+                currSta  = 1;
+            if(SS2 == 1) 
+                currSta  = 2;
+            if(SS3 == 1) 
+                currSta  = 3;
+            if(SS4 == 1) 
+                currSta  = 4;
+
+            if(!inStation && prevSta != currSta) {
                 inStation = true;
-				try {Thread.sleep(500);} catch (InterruptedException ie) {}
+				try {Thread.sleep(300);} catch (InterruptedException ie) {}
                 System.out.println("In station - Stop(1): " + robotIP);
-                rb.sendStopCmd();
+                //rb.sendStopCmd();
+                rb.nearStation();
+                if(SS1 == 1) 
+                    prevSta  = 1;
+                if(SS2 == 1) 
+                    prevSta  = 2;
+                if(SS3 == 1) 
+                    prevSta  = 3;
+                if(SS4 == 1) 
+                    prevSta  = 4;
             }
-        } else {
-            inStation = false;
-        }
+        } 
+       else {
+          inStation = false;
+       }
     }
     
 	public static void main(String[] argv) throws Exception {
