@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.lge.spartan.customer.data.OrderDisplay;
 import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
@@ -43,13 +44,14 @@ public class CustomerApplicationGUI {
 	JPanel pWidget;
 	JPanel pAdd; 
 	JPanel pSubmit; 
+	JPanel pGetStatus; 
+	JPanel pListOrder; 
 	
-	JLabel lPhoneNumber, lAddress; 
+	JLabel lPhoneNumber, lAddress, lOrderStatus; 
 	JTextField taPhoneNumber;
 	JTextArea taAddress;
 
 	JLabel lWidgetName;
-	JList<Widget> widgetNameList;
 	JLabel lWidgetOrder; 
 
 	JButton bAddWidget;
@@ -58,8 +60,10 @@ public class CustomerApplicationGUI {
 	JButton bGetOrderStatus; 
 	
 	JScrollPane spAddress;
-	
+
+	JList<Widget> widgetNameList;
 	JList<OrderDetails> widgetListForOrder; 
+	JList<OrderDisplay> orderDisplay; 
 	
 	public CustomerApplicationGUI (CustomerApplicationController cac){
 		this.controller = cac;  // Assigne Controller
@@ -70,6 +74,8 @@ public class CustomerApplicationGUI {
 		pOrderStatus = new JPanel(new BorderLayout());
 		pCustomerInfo = new JPanel(new GridLayout(4,1));
 		pOrderSpec = new JPanel(new BorderLayout());
+		pListOrder = new JPanel(new BorderLayout());
+		pGetStatus = new JPanel();
 		
 		pTitle = new JPanel(new GridLayout(1,3)); 
 		pWidget = new JPanel(new GridLayout(1,3));
@@ -77,7 +83,8 @@ public class CustomerApplicationGUI {
 		pSubmit = new JPanel(new GridLayout(1,3)); 
 		
 		lPhoneNumber = new JLabel("Phone Number: ", JLabel.LEFT);
-		lAddress = new JLabel("Address: ", JLabel.LEFT); 
+		lAddress = new JLabel("Address: ", JLabel.LEFT);	
+		lOrderStatus = new JLabel("OrderNo.    Status    OrderTime    ShipTime   Desc.");
 		
 		taPhoneNumber = new JTextField();
 		taAddress = new JTextArea(30, 5);
@@ -88,11 +95,13 @@ public class CustomerApplicationGUI {
 		bSubmit.setSize(20,5);
 		bAddWidget = new JButton(">>");
 		bGetWidgetName = new JButton("Referesh WidgetName");
+		bGetOrderStatus = new JButton("GetOrderStatus");
 		
 		lWidgetName = new JLabel("Widgets: ");
 		widgetNameList = new JList<Widget>();
 		lWidgetOrder = new JLabel("Selected List for Your Order:");
 		widgetListForOrder = new JList<OrderDetails>();
+		orderDisplay = new JList<OrderDisplay>(); 
 	}
 	
 	public void showList(){
@@ -109,8 +118,23 @@ public class CustomerApplicationGUI {
 		widgetListForOrder.setListData(owt);
 	}
 	
-	public void updateGUI(){
+	public void showOrderStatus(){
+		ArrayList<OrderDisplay> odList = new ArrayList<OrderDisplay>();
+		ArrayList<OrderInfo> oiList = new ArrayList<OrderInfo>();
+		oiList = controller.getOrderStatus("111");
+		for(OrderInfo oi : oiList){
+			OrderDisplay od = new OrderDisplay();
+			od.setDetails("???");
+			od.setOrderNo(oi.getOrderNo());
+			od.setOrderStatus(oi.getStatus());
+			od.setOrderTime(oi.getOrderTime());
+			od.setShippingTime(oi.getShippingTime());
+			odList.add(od);
+		}
 		
+		OrderDisplay[] owt = new OrderDisplay[odList.size()];
+		odList.toArray(owt); 
+		orderDisplay.setListData(owt);
 	}
 	
 	public void registerHandler(){
@@ -119,6 +143,7 @@ public class CustomerApplicationGUI {
 		bSubmit.addActionListener(bHandler);
 		bGetWidgetName.addActionListener(bHandler);
 		bAddWidget.addActionListener(bHandler);
+		bGetOrderStatus.addActionListener(bHandler);
 		
 		ListSelectionListener listener=new ListHandler();
 		widgetNameList.addListSelectionListener(listener);
@@ -162,19 +187,13 @@ public class CustomerApplicationGUI {
 		pOrderSpec.add(pWidget, BorderLayout.CENTER);
 		pOrderSpec.add(pSubmit, BorderLayout.SOUTH);
 		
-		
+		pOrderStatus.add(lOrderStatus, BorderLayout.NORTH);
+		pOrderStatus.add(pListOrder, BorderLayout.CENTER);
+		pOrderStatus.add(pGetStatus, BorderLayout.SOUTH);
 
-/*		
-		pOrderSpec.add(lWidgetName);
-		pOrderSpec.add(new JLabel());
-		pOrderSpec.add(lWidgetOrder); 
-		pOrderSpec.add(widgetNameList);
-		pOrderSpec.add(bAddWidget);
-		pOrderSpec.add(widgetListForOrder);
-		pOrderSpec.add(new JLabel(""));
-		pOrderSpec.add(new JLabel(""));
-		pOrderSpec.add(bSubmit);
-		*/
+		pListOrder.add(orderDisplay);
+		pGetStatus.add(bGetOrderStatus);
+
 		
 		//showList();
 		registerHandler(); 
@@ -211,8 +230,9 @@ public class CustomerApplicationGUI {
 			}else if(e.getSource()==bGetWidgetName){
 				showList(); 
 			}else if(e.getSource()==bGetOrderStatus){
-				controller.getOrderStatus("111");
-			}
+				System.out.println("GetOrderStatus Called");
+				showOrderStatus();
+			}	
 			else{
 				//dao.close();
 				System.exit(0);

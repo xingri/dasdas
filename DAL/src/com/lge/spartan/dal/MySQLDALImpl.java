@@ -48,7 +48,8 @@ public class MySQLDALImpl implements DAL {
     
     public boolean Initialize(String serverIPAddress, String user, String p) {
         logger.entry();
-        System.out.println("DAL:Initialize " + serverIPAddress + "," + user);
+        System.out.println("***********************************************");
+        System.out.println("DAL:Initialize##" + serverIPAddress + "," + user);
         userName = user;
         pwd = p;
         
@@ -62,8 +63,8 @@ public class MySQLDALImpl implements DAL {
                 ds = (DataSource) ctx.lookup(sourceURL);
                 MysqlDataSource ds = (MysqlDataSource) ctx.lookup(sourceURL);
                 ds.setServerName(SQLServerIP);
-                ds.setUser("root");
-                ds.setPassword("");
+                ds.setUser(user);
+                ds.setPassword(p);
             } catch (Exception e) {
                 logger.error("Exception " + e);
                 System.out.println("DAL:Initialize:Exception:" + e);
@@ -92,7 +93,7 @@ public class MySQLDALImpl implements DAL {
             }
         } catch (Exception e) {
             logger.error("Exception " + e);
-            System.out.println("DAL:Initialize:Exception:" + e);
+            System.out.println("DAL:Uninitialize:Exception:" + e);
             return logger.exit(false);
         } // end try-catch
         return logger.exit(true);
@@ -111,7 +112,7 @@ public class MySQLDALImpl implements DAL {
             custList = FillCustomerList(rs);
         } catch (Exception e) {
             logger.error("Exception " + e);
-            System.out.println("DAL:Initialize:Exception:" + e);
+            System.out.println("DAL:GetCustomers:Exception:" + e);
             CleanUp(rs, s);
             return null;
         } // end try-catch
@@ -141,7 +142,7 @@ public class MySQLDALImpl implements DAL {
                 rs.close();
             } catch (SQLException e) {
                 logger.error("Exception " + e);
-                System.out.println("DAL:Initialize:Exception:" + e);
+                System.out.println("DAL:Cleanup:Exception:" + e);
             } // ignore
 
             rs = null;
@@ -361,13 +362,13 @@ public class MySQLDALImpl implements DAL {
                 oi.setShippingTime(res.getString(3));
                 oi.setStatus(res.getInt(4));
                 String strPhone = res.getString(5);//phone number
-                GetCustomerAndOrderDetails(strPhone, oi);
+                //GetCustomerAndOrderDetails(strPhone, oi);
                 
                 orderList.add(oi);
             }
         } catch (Exception e) {
             logger.error("Exception " + e);
-            System.out.println("DAL:Initialize:Exception:" + e);
+            System.out.println("DAL:GetOrders:Exception:" + e);
             CleanUp(res, s);
             return null;
         } // end try-catch
@@ -386,18 +387,15 @@ public class MySQLDALImpl implements DAL {
             ResultSet rs1 = s.executeQuery(stmnt);
             cust = FillCustomerList(rs1);
             oi.setCust(cust.get(0));//will return only 1 customer as we are querying by strPhone which is unique
-            rs1.close();
-            s.close();
-            
-            GetOrderDetails(oi);
         } catch (Exception e) {
             logger.error("Exception " + e);
-            System.out.println("DAL:Initialize:Exception:" + e);
-            //CleanUp(rs1, s);
+            System.out.println("DAL:GetCustomerAndOrderDetails:Exception:" + e);
         } // end try-catch
         finally {
             CleanUp(res, s);
         }
+        
+         GetOrderDetails(oi);
     }
     
     private void GetOrderDetails(OrderInfo oi) {
@@ -429,7 +427,7 @@ public class MySQLDALImpl implements DAL {
             s.close();
         } catch (Exception e) {
             logger.error("Exception " + e);
-            System.out.println("DAL:Initialize:Exception:" + e);
+            System.out.println("DAL:GetOrderDetails:Exception:" + e);
         } // end try-catch
         finally {
             CleanUp(res, s);
@@ -472,7 +470,7 @@ public class MySQLDALImpl implements DAL {
             }
         } catch (Exception e) {
             logger.error("Exception " + e);
-            System.out.println("DAL:Initialize:Exception:" + e);
+            System.out.println("DAL:GetWidgets:Exception:" + e);
             CleanUp(res, s);
             return null;
         } // end try-catch
