@@ -60,7 +60,7 @@ public class CustomerApplicationGUI {
 	JButton bGetOrderStatus; 
 	
 	JScrollPane spAddress;
-
+	JScrollPane spWidget; 
 	JList<Widget> widgetNameList;
 	JList<OrderDetails> widgetListForOrder; 
 	JList<OrderDisplay> orderDisplay; 
@@ -90,7 +90,6 @@ public class CustomerApplicationGUI {
 		taAddress = new JTextArea(30, 5);
 		spAddress = new JScrollPane();
 		spAddress.setViewportView(taAddress);
-		
 		bSubmit = new JButton("Order Submit");
 		bSubmit.setSize(20,5);
 		bAddWidget = new JButton(">>");
@@ -102,6 +101,10 @@ public class CustomerApplicationGUI {
 		lWidgetOrder = new JLabel("Selected List for Your Order:");
 		widgetListForOrder = new JList<OrderDetails>();
 		orderDisplay = new JList<OrderDisplay>(); 
+		
+		spWidget = new JScrollPane();
+		spWidget.setViewportView(widgetNameList);;
+
 	}
 	
 	public void showList(){
@@ -121,7 +124,7 @@ public class CustomerApplicationGUI {
 	public void showOrderStatus(){
 		ArrayList<OrderDisplay> odList = new ArrayList<OrderDisplay>();
 		ArrayList<OrderInfo> oiList = new ArrayList<OrderInfo>();
-		oiList = controller.getOrderStatus("111");
+		oiList = controller.getOrderStatus(taPhoneNumber.getText());
 		for(OrderInfo oi : oiList){
 			OrderDisplay od = new OrderDisplay();
 			od.setDetails("???");
@@ -162,31 +165,32 @@ public class CustomerApplicationGUI {
 		pOrderSpec.setBorder(BorderFactory.createTitledBorder("Order Spec."));
 		pOrderStatus.setBorder(BorderFactory.createTitledBorder("Order Status"));
 		
+		pOrderSpec.add(pTitle, BorderLayout.NORTH);
+		pOrderSpec.add(pWidget, BorderLayout.CENTER);
+		pOrderSpec.add(pSubmit, BorderLayout.SOUTH);
+		
 		pCustomerInfo.add(lPhoneNumber);
 		pCustomerInfo.add(taPhoneNumber); 
 		pCustomerInfo.add(lAddress);
 		pCustomerInfo.add(spAddress);
-	
+		
 		pNewOrder.add(pCustomerInfo, BorderLayout.CENTER);
 		pNewOrder.add(pOrderSpec, BorderLayout.EAST);
-		
 		
 		pTitle.add(lWidgetName);
 		pTitle.add(new JLabel(""));
 		pTitle.add(lWidgetOrder); 
 
 		pWidget.add(widgetNameList);
+		//pWidget.add(spWidget);
 		pWidget.add(pAdd);
 		pAdd.add(bAddWidget);
 		pWidget.add(widgetListForOrder);
-		
+
 		pSubmit.add(bGetWidgetName);
 		pSubmit.add(new JLabel());
 		pSubmit.add(bSubmit);
-		pOrderSpec.add(pTitle, BorderLayout.NORTH);
-		pOrderSpec.add(pWidget, BorderLayout.CENTER);
-		pOrderSpec.add(pSubmit, BorderLayout.SOUTH);
-		
+
 		pOrderStatus.add(lOrderStatus, BorderLayout.NORTH);
 		pOrderStatus.add(pListOrder, BorderLayout.CENTER);
 		pOrderStatus.add(pGetStatus, BorderLayout.SOUTH);
@@ -194,10 +198,12 @@ public class CustomerApplicationGUI {
 		pListOrder.add(orderDisplay);
 		pGetStatus.add(bGetOrderStatus);
 
+	
 		
 		//showList();
 		registerHandler(); 
 		
+
 		fMain.setLayout(new GridLayout(2, 1));
 		fMain.getContentPane().add(pNewOrder);
 		fMain.getContentPane().add(pOrderStatus); 
