@@ -381,11 +381,12 @@ public class MySQLDALImpl implements DAL {
     
     private void GetCustomerAndOrderDetails(String strPhone, OrderInfo oi) {
         logger.entry();
+        ResultSet rs1 = null;
         try {
             CreateStmnt();
             ArrayList<Customer> cust = null;
             String stmnt = "select * from customer where phone = '" + strPhone + "';";
-            ResultSet rs1 = s.executeQuery(stmnt);
+            rs1 = s.executeQuery(stmnt);
             cust = FillCustomerList(rs1);
             oi.setCust(cust.get(0));//will return only 1 customer as we are querying by strPhone which is unique
         } catch (Exception e) {
@@ -393,45 +394,42 @@ public class MySQLDALImpl implements DAL {
             System.out.println("DAL:GetCustomerAndOrderDetails:Exception:" + e);
         } // end try-catch
         finally {
-            CleanUp(res, s);
+            CleanUp(rs1, s);
         }
-        
-         GetOrderDetails(oi);
+        GetOrderDetails(oi);
     }
     
     private void GetOrderDetails(OrderInfo oi) {
         logger.entry();
+        ResultSet rs2 = null;
         try {
             CreateStmnt();
             String stmnt = "select * from orderdetails where orderno = " + oi.getOrderNo() + ";";
-            ResultSet rs2 = s.executeQuery(stmnt);
+            rs2 = s.executeQuery(stmnt);
             oi.setListOrderDetails(new ArrayList<OrderDetails>());
             while (rs2.next()) {
                 OrderDetails od = new OrderDetails();
                 od.setWidgetId(rs2.getInt(2));
 
                 //Get the widget name from the widget id - Start
-                s = DBConn.createStatement();
+                Statement s1 = DBConn.createStatement();
                 String stmnt1 = "select name from widget where widgetId = " + od.getWidgetId() + ";";
-                ResultSet rs3 = s.executeQuery(stmnt1);
+                ResultSet rs3 = s1.executeQuery(stmnt1);
                 if (rs3.next()) {
                     od.setWidgetName(rs3.getString(1));
                 }
-                rs3.close();
-                s.close();
+                CleanUp(rs3, s1);
                 //Get the widget name from the widget id - End
 
                 od.setQuantity(rs2.getInt(3));
                 oi.getListOrderDetails().add(od);
             }
-            rs2.close();
-            s.close();
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:GetOrderDetails:Exception:" + e);
         } // end try-catch
         finally {
-            CleanUp(res, s);
+            CleanUp(rs2, s);
         }
     }
     
