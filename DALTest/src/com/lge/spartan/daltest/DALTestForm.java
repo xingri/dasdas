@@ -10,6 +10,7 @@ import com.lge.spartan.dal.DAL;
 import com.lge.spartan.dal.MySQLDALImpl;
 import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.OrderStatus;
 import com.lge.spartan.data.Widget;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -48,6 +49,15 @@ public class DALTestForm extends javax.swing.JFrame {
         jbtnShippingOrders = new javax.swing.JButton();
         jbtnBackorderedOrders = new javax.swing.JButton();
         jbtnOrdersByPhone = new javax.swing.JButton();
+        jbtnUpdateOrderStatus = new javax.swing.JButton();
+        jtfPhone = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jtfOrderNo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jcbOrderStatus = new javax.swing.JComboBox();
+        jPanel5 = new javax.swing.JPanel();
+        jbtnUninitDB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,7 +82,7 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jbtnGetWidgets)
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addContainerGap(470, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,7 +98,7 @@ public class DALTestForm extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 375, Short.MAX_VALUE)
+            .addGap(0, 581, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,7 +121,7 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jbtnGetCustomers)
-                .addContainerGap(262, Short.MAX_VALUE))
+                .addContainerGap(468, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,6 +161,25 @@ public class DALTestForm extends javax.swing.JFrame {
             }
         });
 
+        jbtnUpdateOrderStatus.setText("Update Order Status");
+        jbtnUpdateOrderStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnUpdateOrderStatusActionPerformed(evt);
+            }
+        });
+
+        jtfPhone.setText("1-123-2344");
+
+        jLabel1.setText("Phone");
+
+        jtfOrderNo.setText("101");
+
+        jLabel2.setText("OrderNo");
+
+        jLabel3.setText("Status");
+
+        jcbOrderStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pending", "Inprogress", "Backoredered", "Complete" }));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -161,8 +190,21 @@ public class DALTestForm extends javax.swing.JFrame {
                     .addComponent(jbtnBackorderedOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbtnShippingOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbtnPendingOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbtnOrdersByPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(204, Short.MAX_VALUE))
+                    .addComponent(jbtnOrdersByPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnUpdateOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtfPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                    .addComponent(jtfOrderNo))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,11 +216,41 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbtnBackorderedOrders)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnOrdersByPhone)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnOrdersByPhone)
+                    .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnUpdateOrderStatus)
+                    .addComponent(jtfOrderNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Orders", jPanel4);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 581, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 197, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("All", jPanel5);
+
+        jbtnUninitDB.setText("Uninitialize DB");
+        jbtnUninitDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnUninitDBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,6 +259,8 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jbtnInitDB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbtnUninitDB)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -197,7 +271,9 @@ public class DALTestForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jbtnInitDB)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnInitDB)
+                    .addComponent(jbtnUninitDB))
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
@@ -265,6 +341,16 @@ public class DALTestForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbtnOrdersByPhoneActionPerformed
 
+    private void jbtnUpdateOrderStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpdateOrderStatusActionPerformed
+        // TODO add your handling code here:
+        dal.UpdateOrderStatus(101, OrderStatus.Inprogress);
+    }//GEN-LAST:event_jbtnUpdateOrderStatusActionPerformed
+
+    private void jbtnUninitDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUninitDBActionPerformed
+        // TODO add your handling code here:
+        UninitDB();
+    }//GEN-LAST:event_jbtnUninitDBActionPerformed
+
     
     
     private void InitDB() {
@@ -324,10 +410,14 @@ public class DALTestForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbtnBackorderedOrders;
     private javax.swing.JButton jbtnGetCustomers;
@@ -336,5 +426,10 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnOrdersByPhone;
     private javax.swing.JButton jbtnPendingOrders;
     private javax.swing.JButton jbtnShippingOrders;
+    private javax.swing.JButton jbtnUninitDB;
+    private javax.swing.JButton jbtnUpdateOrderStatus;
+    private javax.swing.JComboBox jcbOrderStatus;
+    private javax.swing.JTextField jtfOrderNo;
+    private javax.swing.JTextField jtfPhone;
     // End of variables declaration//GEN-END:variables
 }
