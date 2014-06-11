@@ -363,7 +363,7 @@ public class MySQLDALImpl implements DAL {
                 oi.setShippingTime(res.getString(3));
                 oi.setStatus(res.getInt(4));
                 String strPhone = res.getString(5);//phone number
-                //GetCustomerAndOrderDetails(strPhone, oi);
+                GetCustomerAndOrderDetails(strPhone, oi);
                 
                 orderList.add(oi);
             }
