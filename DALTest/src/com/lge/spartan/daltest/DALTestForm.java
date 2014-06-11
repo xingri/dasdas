@@ -58,8 +58,13 @@ public class DALTestForm extends javax.swing.JFrame {
         jcbOrderStatus = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
         jbtnUninitDB = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DAL Test Application");
 
         jbtnInitDB.setText("Initialize DB");
         jbtnInitDB.addActionListener(new java.awt.event.ActionListener() {
@@ -89,7 +94,7 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jbtnGetWidgets)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inventory", jPanel1);
@@ -102,7 +107,7 @@ public class DALTestForm extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 197, Short.MAX_VALUE)
+            .addGap(0, 176, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Monitor", jPanel2);
@@ -128,7 +133,7 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jbtnGetCustomers)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Customers", jPanel3);
@@ -227,7 +232,7 @@ public class DALTestForm extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Orders", jPanel4);
@@ -240,7 +245,7 @@ public class DALTestForm extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 197, Short.MAX_VALUE)
+            .addGap(0, 176, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("All", jPanel5);
@@ -251,6 +256,23 @@ public class DALTestForm extends javax.swing.JFrame {
                 jbtnUninitDBActionPerformed(evt);
             }
         });
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Help");
+
+        jMenuItem1.setText("About");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -334,7 +356,8 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnOrdersByPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrdersByPhoneActionPerformed
         // TODO add your handling code here:
-          ArrayList<OrderInfo> listOI = dal.GetOrdersByPhone("1-123-2344");
+        System.out.println("DALTest: Phone" + jtfPhone.getText());
+        ArrayList<OrderInfo> listOI = dal.GetOrdersByPhone(jtfPhone.getText());
         for(OrderInfo oi : listOI)
         {
             System.out.println(oi.toString());
@@ -343,13 +366,21 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnUpdateOrderStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpdateOrderStatusActionPerformed
         // TODO add your handling code here:
-        dal.UpdateOrderStatus(101, OrderStatus.Inprogress);
+        int on = Integer.parseInt(jtfOrderNo.getText());
+        int status = jcbOrderStatus.getSelectedIndex();
+        System.out.println("DALTest: OrderNo: " + on + ", Status: " + status);
+        dal.UpdateOrderStatus(101, OrderStatus.values[status]);
     }//GEN-LAST:event_jbtnUpdateOrderStatusActionPerformed
 
     private void jbtnUninitDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUninitDBActionPerformed
         // TODO add your handling code here:
         UninitDB();
     }//GEN-LAST:event_jbtnUninitDBActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Developed by Team3 Vijay.\nThis is for testing Data Access Layer (DAL)");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     
     
@@ -413,6 +444,10 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
