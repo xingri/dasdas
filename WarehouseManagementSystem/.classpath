@@ -2,5 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/workspace/Eclipse/Example/DALProject/libs/mysql-connector-java-5.1.30-bin.jar"/>
+	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/log4j-core-2.0-rc1.jar"/>
+	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/log4j-1.2-api-2.0-rc1.jar"/>
+	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/log4j-api-2.0-rc1.jar"/>
+	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/DALNew.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

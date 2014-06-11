@@ -22,13 +22,16 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.lge.spartan.customer.data.Order;
-import com.lge.spartan.customer.data.OrderWidgetTuple;
+import com.lge.spartan.data.Customer;
+import com.lge.spartan.data.OrderDetails;
+import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.Widget;
 
 public class CustomerApplicationGUI {
 	CustomerApplicationController controller = null; 
 	
 	String selectedWidgetName = null; 
+	int selectedWidgetID; 
 	
 	JFrame fMain;
 	JPanel pNewOrder;
@@ -41,13 +44,12 @@ public class CustomerApplicationGUI {
 	JPanel pAdd; 
 	JPanel pSubmit; 
 	
-	
 	JLabel lPhoneNumber, lAddress; 
 	JTextField taPhoneNumber;
 	JTextArea taAddress;
 
 	JLabel lWidgetName;
-	JList<String> widgetNameList;
+	JList<Widget> widgetNameList;
 	JLabel lWidgetOrder; 
 
 	JButton bAddWidget;
@@ -57,7 +59,7 @@ public class CustomerApplicationGUI {
 	
 	JScrollPane spAddress;
 	
-	JList<OrderWidgetTuple> widgetListForOrder; 
+	JList<OrderDetails> widgetListForOrder; 
 	
 	public CustomerApplicationGUI (CustomerApplicationController cac){
 		this.controller = cac;  // Assigne Controller
@@ -88,25 +90,39 @@ public class CustomerApplicationGUI {
 		bGetWidgetName = new JButton("Referesh WidgetName");
 		
 		lWidgetName = new JLabel("Widgets: ");
-		widgetNameList = new JList<String>();
+		widgetNameList = new JList<Widget>();
 		lWidgetOrder = new JLabel("Selected List for Your Order:");
-		widgetListForOrder = new JList<OrderWidgetTuple>();
+		widgetListForOrder = new JList<OrderDetails>();
 	}
 	
 	public void showList(){
-		List<String> wList = controller.getWidgetType();
-		String[] ca= new String[wList.size()];
+		List<Widget> wList = controller.getWidgetType();
+		Widget[] ca= new Widget[wList.size()];
 		wList.toArray(ca);
 		widgetNameList.setListData(ca);
-		selectedWidgetName = wList.get(0);
-		
-		
+		selectedWidgetName = wList.get(0).getName();
 	}
 	public void showListTuple(){
-		List<OrderWidgetTuple> owtList= controller.getWidgetTuple();
-		OrderWidgetTuple[] owt = new OrderWidgetTuple[owtList.size()];
+		ArrayList<OrderDetails> owtList= controller.getWidgetTuple();
+		OrderDetails[] owt = new OrderDetails[owtList.size()];
 		owtList.toArray(owt); 
 		widgetListForOrder.setListData(owt);
+	}
+	
+	public void updateGUI(){
+		
+	}
+	
+	public void registerHandler(){
+		
+		ActionListener bHandler=new ButtonHandler();
+		bSubmit.addActionListener(bHandler);
+		bGetWidgetName.addActionListener(bHandler);
+		bAddWidget.addActionListener(bHandler);
+		
+		ListSelectionListener listener=new ListHandler();
+		widgetNameList.addListSelectionListener(listener);
+
 	}
 	
 	public void display(){
@@ -146,13 +162,8 @@ public class CustomerApplicationGUI {
 		pOrderSpec.add(pWidget, BorderLayout.CENTER);
 		pOrderSpec.add(pSubmit, BorderLayout.SOUTH);
 		
-		ActionListener bHandler=new ButtonHandler();
-		bSubmit.addActionListener(bHandler);
-		bGetWidgetName.addActionListener(bHandler);
-		bAddWidget.addActionListener(bHandler);
 		
-		ListSelectionListener listener=new ListHandler();
-		widgetNameList.addListSelectionListener(listener);
+
 /*		
 		pOrderSpec.add(lWidgetName);
 		pOrderSpec.add(new JLabel());
@@ -165,7 +176,8 @@ public class CustomerApplicationGUI {
 		pOrderSpec.add(bSubmit);
 		*/
 		
-		showList();
+		//showList();
+		registerHandler(); 
 		
 		fMain.setLayout(new GridLayout(2, 1));
 		fMain.getContentPane().add(pNewOrder);
@@ -180,21 +192,24 @@ public class CustomerApplicationGUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()== bSubmit){
-				Order order = new Order(); 
-				order.setPhoneNumber(taPhoneNumber.getText());
-				order.setAddress(taAddress.getText());
-				List<OrderWidgetTuple> listWidget = controller.getWidgetTuple();
-				order.setWidgets(listWidget);
-				
+				OrderInfo order = new OrderInfo(); 
+				Customer customer = new Customer();
+				customer.setAddress(taAddress.getText());
+				customer.setPhone(taPhoneNumber.getText());
+				customer.setFname("Tommy");
+				customer.setLname("Park");
+				order.setCust(customer);
+				ArrayList<OrderDetails> listWidget = controller.getWidgetTuple();
+				order.setListOrderDetails(listWidget);
 				controller.submitOrder(order); 
 			}else if(e.getSource()== bAddWidget){
 				String quantity = JOptionPane.showInputDialog("How many ?");
-				System.out.println(selectedWidgetName + ":" + quantity);
-				controller.addWidgetTuple(selectedWidgetName, Integer.parseInt(quantity));
+				System.out.println(selectedWidgetID + ":" + selectedWidgetName + ":" + quantity);
+				controller.addWidgetTuple(selectedWidgetID, selectedWidgetName, Integer.parseInt(quantity));
 				showListTuple(); 
 				
 			}else if(e.getSource()==bGetWidgetName){
-				controller.getWidgetType();
+				showList(); 
 			}else if(e.getSource()==bGetOrderStatus){
 				controller.getOrderStatus("111");
 			}
@@ -209,9 +224,9 @@ public class CustomerApplicationGUI {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			if(e.getSource()== widgetNameList){
-				selectedWidgetName = widgetNameList.getSelectedValue();
-			 
-				System.out.println(selectedWidgetName + " Selected");
+				selectedWidgetName = widgetNameList.getSelectedValue().getName();
+				selectedWidgetID = widgetNameList.getSelectedValue().getWidgetId();
+				System.out.println(selectedWidgetID + "," + selectedWidgetName + " Selected");
 			}
 		}
 	}

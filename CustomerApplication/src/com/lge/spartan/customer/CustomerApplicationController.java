@@ -3,51 +3,66 @@ package com.lge.spartan.customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lge.spartan.customer.data.Order;
-import com.lge.spartan.customer.data.OrderWidgetTuple;
+import com.lge.spartan.data.OrderDetails;
+import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.Widget;
 
 public class CustomerApplicationController {
 	private OrderSubmitter orderSubmitter; 
-	private List<OrderWidgetTuple> widgetTuples;  
-	private List<String> widgetNames; 
-	private Order lastOrder; 
+	private ArrayList<OrderDetails> widgetTuples;  
+	private ArrayList<Widget> widgetNames; 
+	private OrderInfo lastOrder; 
+	
+	private CustomerApplicationGUI view; 
 	
 	public CustomerApplicationController(){
 		orderSubmitter = new OrderSubmitter(new OrderSubmitDummyImpl());
-		widgetTuples = new ArrayList<OrderWidgetTuple>();
-		widgetNames = new ArrayList<String>(); 
+		widgetTuples = new ArrayList<OrderDetails>();
+		widgetNames = new ArrayList<Widget>(); 
 		System.out.println("CustomerApplicationController is configured with DummyImpl...");
 	}
 	
 	public CustomerApplicationController(String ipAddress, int port){
 		orderSubmitter = new OrderSubmitter(
 				new OrderSubmitTCPClientImpl(ipAddress, port));
-		widgetTuples = new ArrayList<OrderWidgetTuple>();
-		widgetNames = new ArrayList<String>(); 
+		widgetTuples = new ArrayList<OrderDetails>();
+		widgetNames = new ArrayList<Widget>(); 
 		System.out.println("CustomerApplicationController is configured with TCPClientImpl...");
-
 	}
 	
-	public void submitOrder(Order order){
+	public CustomerApplicationController(CustomerApplicationGUI view, String ipAddress, int port){
+		this.view = view; 
+		orderSubmitter = new OrderSubmitter(
+				new OrderSubmitTCPClientImpl(ipAddress, port));
+		widgetTuples = new ArrayList<OrderDetails>();
+		widgetNames = new ArrayList<Widget>(); 
+		System.out.println("CustomerApplicationController is configured with TCPClientImpl...");
+		view.registerHandler();
+	}
+	
+	public void submitOrder(OrderInfo order){
 		lastOrder = order; 
 		orderSubmitter.submitOrder(order);
 	}
 	
-	public List<String> getWidgetType(){
+	public ArrayList<Widget> getWidgetType(){
 		widgetNames = orderSubmitter.getWidgetType();
 		return widgetNames; 
 	}
 	
-	public List<Order> getOrderStatus(String phoneNumber){
+	public ArrayList<OrderInfo> getOrderStatus(String phoneNumber){
 		return orderSubmitter.getOrderStatus(phoneNumber);
 	}
 	
-	public void addWidgetTuple(String name, int quantity){
-		widgetTuples.add(new OrderWidgetTuple(name,quantity));
-		System.out.println("Added: "+ name + "," + quantity);
+	public void addWidgetTuple(int id, String name, int quantity){
+		OrderDetails od = new OrderDetails(id,quantity);
+		od.setWidgetName(name);
+		widgetTuples.add(od);
+		
+		System.out.println("Added: "+ id + "," + name + "," + quantity);
 	}
 	
-	public List<OrderWidgetTuple> getWidgetTuple(){
+	public ArrayList<OrderDetails> getWidgetTuple(){
 		return widgetTuples; 
 	}
 	

@@ -1,6 +1,6 @@
 package com.lge.spartan.warehouse.main;
 
-import com.lge.spartan.warehouse.WarehouseManagementSystem;
+import com.lge.spartan.warehouse.order.WarehouseManagementSystem;
 
 public class WarehouseManagementSystemMain {
 

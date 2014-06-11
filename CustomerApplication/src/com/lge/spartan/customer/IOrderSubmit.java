@@ -1,11 +1,13 @@
 package com.lge.spartan.customer;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import com.lge.spartan.customer.data.Order;
+import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.Widget;
+
 
 interface IOrderSubmit {
-	void submitOrder(Order order);
-	List<String> getWidgetType();
-	List<Order> getOrderStatus(String phoneNumber); 
+	void submitOrder(OrderInfo order);
+	ArrayList<Widget> getWidgetType();
+	ArrayList<OrderInfo> getOrderStatus(String phoneNumber); 
 }
