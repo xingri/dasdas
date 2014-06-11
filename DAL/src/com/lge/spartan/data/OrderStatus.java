@@ -14,5 +14,7 @@ public enum OrderStatus {
     Inprogress,//obj.ordinal() returns 1
     Backordered,//obj.ordinal() returns 2
     Complete,//obj.ordinal() returns 3
-    All//obj.ordinal() returns 4
+    All;//obj.ordinal() returns 4
+    
+   public static final OrderStatus values[] = values();
 }
