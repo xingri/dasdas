@@ -5,6 +5,7 @@ public class WarehouseMain implements StationManager {
     WHEvent cachedSwEvent = null;
 
     public void eventHandler(String inputLine) {
+
         if(inputLine != null) {
 
             WHWorker whWorker = WHWorkerFactory.create(inputLine);
