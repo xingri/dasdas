@@ -47,6 +47,7 @@ public class DALTestForm extends javax.swing.JFrame {
         jbtnPendingOrders = new javax.swing.JButton();
         jbtnShippingOrders = new javax.swing.JButton();
         jbtnBackorderedOrders = new javax.swing.JButton();
+        jbtnOrdersByPhone = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,6 +144,13 @@ public class DALTestForm extends javax.swing.JFrame {
             }
         });
 
+        jbtnOrdersByPhone.setText("Get Orders By Phone");
+        jbtnOrdersByPhone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnOrdersByPhoneActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -152,7 +160,8 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbtnBackorderedOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbtnShippingOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbtnPendingOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbtnPendingOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnOrdersByPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(204, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -164,7 +173,9 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addComponent(jbtnShippingOrders)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbtnBackorderedOrders)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbtnOrdersByPhone)
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Orders", jPanel4);
@@ -245,6 +256,15 @@ public class DALTestForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbtnBackorderedOrdersActionPerformed
 
+    private void jbtnOrdersByPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrdersByPhoneActionPerformed
+        // TODO add your handling code here:
+          ArrayList<OrderInfo> listOI = dal.GetOrdersByPhone("1-123-2344");
+        for(OrderInfo oi : listOI)
+        {
+            System.out.println(oi.toString());
+        }
+    }//GEN-LAST:event_jbtnOrdersByPhoneActionPerformed
+
     
     
     private void InitDB() {
@@ -313,6 +333,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnGetCustomers;
     private javax.swing.JButton jbtnGetWidgets;
     private javax.swing.JButton jbtnInitDB;
+    private javax.swing.JButton jbtnOrdersByPhone;
     private javax.swing.JButton jbtnPendingOrders;
     private javax.swing.JButton jbtnShippingOrders;
     // End of variables declaration//GEN-END:variables
