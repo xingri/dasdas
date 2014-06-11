@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import com.lge.spartan.supervisor.controller.SupervisorController;
 
 import com.lge.spartan.dal.*;
-
+import com.lge.spartan.data.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,12 +16,12 @@ import com.lge.spartan.dal.*;
  *
  * @author vijay.rachabattuni
  */
-public class AddWidget extends javax.swing.JFrame {
+public class AddWidgetView extends SupervisorView {
 
     /**
      * Creates new form AddWidget
      */
-    public AddWidget() {
+    public AddWidgetView() {
         initComponents();
 	//updateWarehouseId();
     }
@@ -214,22 +214,27 @@ public class AddWidget extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddWidget().setVisible(true);
+                new AddWidgetView().setVisible(true);
             }
-        });
+        });       
+        
+    }
+    
+    public void refreshData() {
+        // TODO        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

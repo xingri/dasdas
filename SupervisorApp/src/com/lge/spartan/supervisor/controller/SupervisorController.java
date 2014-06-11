@@ -15,17 +15,18 @@ import java.util.ArrayList;
 import com.lge.spartan.supervisor.view.*;
 
 import com.lge.spartan.dal.*;
+import com.lge.spartan.data.*;
 
-public class SupervisorController implements IController {
+public class SupervisorController extends Thread/*implements IController*/ {
     private static volatile SupervisorController obj_instance = null;
-    private static DAL dal = null;
+    private static DAL dal;
     boolean bDBConnectState;    
     
-    private SupervisorController () {
-        dal = new DAL();
-        connectDB();        
+    private SupervisorController () {        
+        dal = new MySQLDALImpl();
+        connectDB();
     }
- 
+    
     public static SupervisorController getInstance() {
         if (obj_instance == null) {
            synchronized(SupervisorController.class) {
@@ -38,24 +39,18 @@ public class SupervisorController implements IController {
         return obj_instance;
     }
     
-    @Override
     public boolean connectDB() {
         // TODO
-        setConnectDBState(dal.Initialize("localhost", "root", "1234"));
+        //setConnectDBState(dal.Initialize("10.254.18.128", "root", "seo10jin"));        
+        setConnectDBState(dal.Initialize("localhost", "root", "1234"));        
         return bDBConnectState;
     }
     
-    @Override
     public boolean disconnectDB() {
         // TODO
         setConnectDBState(false);
         return false;        
     }
-    
-    @Override
-    public void handleError() {
-       
-    }            
     
     void setConnectDBState(boolean dbState) {
         bDBConnectState = dbState;

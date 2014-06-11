@@ -1,6 +1,7 @@
 package com.lge.spartan.supervisor.view;
 
 import com.lge.spartan.dal.*;
+import com.lge.spartan.data.*;
 import com.lge.spartan.supervisor.controller.SupervisorController;
 
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ import javax.swing.JOptionPane;
  *
  * @author vijay.rachabattuni
  */
-public class UpdateWidget extends javax.swing.JFrame {
+public class UpdateWidgetView extends SupervisorView {
 
     ArrayList<Widget> widgetList = null;
     /**
      * Creates new form UpdateWidget
      */
-    public UpdateWidget() {
+    public UpdateWidgetView() {
         // TODO 
         
         initComponents();
@@ -237,13 +238,13 @@ public class UpdateWidget extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UpdateWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UpdateWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UpdateWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UpdateWidget.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateWidgetView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -252,9 +253,13 @@ public class UpdateWidget extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UpdateWidget().setVisible(true);
+                new UpdateWidgetView().setVisible(true);
             }
         });
+    }
+    
+    public void refreshData() {
+        // TODO
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

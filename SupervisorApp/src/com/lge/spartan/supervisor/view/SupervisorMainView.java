@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 
 import com.lge.spartan.supervisor.controller.*;
 import com.lge.spartan.dal.*;
+import com.lge.spartan.data.*;
+
 import javax.swing.JOptionPane;
 
 /*
@@ -19,18 +21,14 @@ import javax.swing.JOptionPane;
  *
  * @author vijay.rachabattuni
  */
-public class Supervisor extends javax.swing.JFrame {
-
-    //static DAL d = new DAL();
-
-    ArrayList<OrderInfo> orderList = null;
-
+public class SupervisorMainView extends SupervisorView {
+    
     /**
      * Creates new form Supervisor
      */
-    public Supervisor() {
+    public SupervisorMainView() {
         initComponents();
-        getWidgetList();        
+        updateWidgetLists();
     }
 
     /*protected void finalize() throws Throwable {
@@ -482,13 +480,13 @@ public class Supervisor extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        AddWidget aw = new AddWidget();
+        AddWidgetView aw = new AddWidgetView();
         aw.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        UpdateWidget aw = new UpdateWidget();
+        UpdateWidgetView aw = new UpdateWidgetView();
         aw.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -497,7 +495,7 @@ public class Supervisor extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void getWidgetList() {
+    private void updateWidgetLists() {
         ArrayList<Widget> widgetList = SupervisorController.getInstance().getWidgets();
         if (widgetList == null) {            
             return;
@@ -512,9 +510,23 @@ public class Supervisor extends javax.swing.JFrame {
         }
     }
     
+    public void refreshData() {
+        // TODO
+        switch (jTabbedPane1.getSelectedIndex()) {
+            case 0:                
+                updateWidgetLists();
+                break;
+            case 2:
+            case 3:
+                updateOrderLists();
+                break;
+            default:
+        }       
+    }
+    
     private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRefreshActionPerformed
         // TODO add your handling code here:
-        getWidgetList();
+        updateWidgetLists();
     }//GEN-LAST:event_jbtnRefreshActionPerformed
 
     private void jbtnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCustRefreshActionPerformed
@@ -533,10 +545,9 @@ public class Supervisor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbtnCustRefreshActionPerformed
 
-    private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrderRefreshActionPerformed
-        // TODO add your handling code here:
+    private void updateOrderLists() {
         ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getPendingOrders();                
-        if (orderList == null) {            
+            if (orderList == null) {            
             return;
         }
         
@@ -548,7 +559,7 @@ public class Supervisor extends javax.swing.JFrame {
             i++;
             DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
 
-            model.addRow(new Object[]{i, oi.getOrderNo(), oi.getOrderTime(), oi.getOrderStatus(),
+            model.addRow(new Object[]{i, oi.getOrderNo(), oi.getOrderTime(), oi.getStatus(),                    
                 oi.getShippingTime() != null ? oi.getShippingTime() : ' ',
                 oi.getCust() != null ? oi.getCust().getFname() : ' ',
                 oi.getCust() != null ? oi.getCust().getPhone() : ' '});
@@ -580,6 +591,11 @@ public class Supervisor extends javax.swing.JFrame {
             }
         }
         );
+    }
+    
+    private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrderRefreshActionPerformed
+        // TODO add your handling code here:
+        updateOrderLists();
     }//GEN-LAST:event_jbtnOrderRefreshActionPerformed
 
     private void ClearTable(javax.swing.JTable jtable) {
@@ -595,51 +611,15 @@ public class Supervisor extends javax.swing.JFrame {
         // TODO
         /*for (int i = 0; i < 4; i++) {
             OrderDetails od = new OrderDetails();
-            od.quantity = i * 4;
-            od.widgetId = (i % 4) + 1;
+            od.setQuantity() = i * 4;
+            od.setWidgetId() = (i % 4) + 1;
             list.add(od);
         }
-        Supervisor.d.AddOrder(list, "amar", "rachabattuni", "1-123-2344", "NewYork");
+        
+        SupervisorController.getInstance().addOrderForTest(list, "amar", "rachabattuni", "1-123-2344", "NewYork");
         */
     }//GEN-LAST:event_jbtnAddOrderActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Supervisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Supervisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Supervisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Supervisor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        //d.Initialize("127.0.0.1", "root", "");
-        //d.Initialize("localhost", "root", "1234");
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Supervisor().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
