@@ -188,6 +188,14 @@ public class MySQLDALImpl implements DAL {
     }
 
     public int AddOrder(List<OrderDetails> orderList, Customer cust) {
+        if (orderList == null) {
+            System.out.println("DAL:AddOrder:Orders are empty. So Order cannot be added");
+            return -1;
+        }
+        if (cust == null) {
+            System.out.println("DAL:AddOrder:Customer is null. So Order cannot be added");
+            return -1;
+        }
         return AddOrder(orderList, cust.getFname(), cust.getLname(), cust.getPhone(), cust.getAddress());
     }
 
@@ -207,6 +215,8 @@ public class MySQLDALImpl implements DAL {
                 executeUpdateVal = s.executeUpdate(SQLStatement);
             } catch (Exception e) {
                 logger.error("Exception " + e);
+                System.out.println("DAL:AddOrder:Insert customer:Exception:" + e);
+                System.out.println("DAL:AddOrder:Insert customer:Exception:Customer is already existing. So adding the order to this customer");
             }
 
             SQLStatement = "insert into orderinfo(phone) values ('" + phone + "');";
@@ -243,6 +253,7 @@ public class MySQLDALImpl implements DAL {
         finally {
             CleanUp(res, s);
         }
+        System.out.println("DAL:AddOrder:Order added successfully. Order No is " + orderNo);
         return orderNo;
     }
 
@@ -255,6 +266,9 @@ public class MySQLDALImpl implements DAL {
             CreateStmnt();
             SQLStatement = "insert into widget (name, description, quantity, stationId) values ('" + widgetName + "','" + widgetDesc + "'," + quant + "," + stationId + ");";
             executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:AddWidget:Widget added successfully");
+            }
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:AddWidget:Exception:" + e);
@@ -283,6 +297,11 @@ public class MySQLDALImpl implements DAL {
 
             SQLStatement = "update widget set quantity = " + (quant + increment) + " where name = '" + widgetName + "';";
             executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:IncWidgets:Incremented Widget quantity successfully");
+            } else {
+                System.out.println("DAL:IncWidgets:Increment Widget quantity failed");
+            }
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:IncWidgets:Exception:" + e);
@@ -312,6 +331,11 @@ public class MySQLDALImpl implements DAL {
 
             SQLStatement = "update widget set quantity = " + (quant - decrement) + " where name = '" + widgetName + "';";
             executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:DecWidgets:Decremented Widget quantity successfully");
+            } else {
+                System.out.println("DAL:DecWidgets:Decrement Widget quantity failed");
+            }
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:DecWidgets:Exception:" + e);
@@ -345,6 +369,7 @@ public class MySQLDALImpl implements DAL {
         finally {
             CleanUp(res, s);
         }
+        System.out.println("DAL:GetOrderuStatus:Got the status of Order# " + orderNo + " successfully");
         return status;
     }
 
@@ -500,21 +525,45 @@ public class MySQLDALImpl implements DAL {
         return widgetList;
     }
 
+    public int GetWidgetQuantity(String widgetName) {
+        logger.entry();
+        int quantity = 0;
+        try {
+            CreateStmnt();
+
+            SQLStatement = "select quantity from widget where name = '" + widgetName + "';";
+            res = s.executeQuery(SQLStatement);
+            if (res.next()) {
+                quantity = res.getInt(1);
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetWidgetQuantity:Exception:" + e);
+            CleanUp(res, s);
+            return -9999999;//not a good approach.. Any better approach? 
+            //Better approach: Return bool and pass quantity as out param. 
+            //Unfortunately java does not support int to be passed as reference. Ah... :( or I dont know
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+        System.out.println("DAL:GetWidgetQuantity:Quantity retreived successfully. It is " + quantity);
+        return quantity;
+    }
+
     public boolean UpdateOrderStatus(int orderNo, Enum orderStatus) {
         logger.entry();
-        System.out.println("DAL:UpdateOrderStatus:OrderNo: " + orderNo +", Status: " + orderStatus.toString());
+        System.out.println("DAL:UpdateOrderStatus:OrderNo: " + orderNo + ", Status: " + orderStatus.toString());
         try {
-            if(orderStatus != OrderStatus.All)
-            {
+            if (orderStatus != OrderStatus.All) {
                 int ret;
                 CreateStmnt();
                 SQLStatement = "update orderinfo set status = " + orderStatus.ordinal() + " where orderNo = " + orderNo + ";";
                 ret = s.executeUpdate(SQLStatement);
-                if(ret > 0)
+                if (ret > 0) {
                     System.out.println("update of orderstatus is successful");
-            }
-            else
-            {
+                }
+            } else {
                 return false;
             }
         } catch (Exception e) {

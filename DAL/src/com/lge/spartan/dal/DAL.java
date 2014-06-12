@@ -29,6 +29,8 @@ public interface DAL {
     public int IncWidgets(String widgetName, int increment);
 
     public int DecWidgets(String widgetName, int decrement);
+    
+    public int GetWidgetQuantity(String widgetName);
 
     public ArrayList<Widget> GetWidgets();
 
