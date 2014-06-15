@@ -429,6 +429,19 @@ public class MySQLDALImpl implements DAL {
         GetOrderDetails(oi);
     }
 
+    public OrderInfo PickFirstOrder() {
+        logger.entry();
+        ArrayList<OrderInfo> orderList = GetOrders(
+        "SELECT * FROM orderinfo WHERE (status = 0 OR status = 2) ORDER BY status DESC, orderTime LIMIT 1");
+
+        if(orderList.size() == 1) {
+            GetOrderDetails(orderList.get(0));
+            return (OrderInfo) orderList.get(0);
+        }
+        
+        return null;
+    }
+
     private void GetOrderDetails(OrderInfo oi) {
         logger.entry();
         ResultSet rs2 = null;
