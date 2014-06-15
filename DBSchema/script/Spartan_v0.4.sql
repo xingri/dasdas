@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `orderdetails` (
 -- Dumping structure for table spartan.orderinfo
 CREATE TABLE IF NOT EXISTS `orderinfo` (
   `orderNo` int(11) NOT NULL AUTO_INCREMENT,
-  `orderTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `orderTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `shippingTime` timestamp NULL DEFAULT NULL,
   `status` tinyint(4) DEFAULT '0',
   `phone` varchar(50) DEFAULT NULL,
