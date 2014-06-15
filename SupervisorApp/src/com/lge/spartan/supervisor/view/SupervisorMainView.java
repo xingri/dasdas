@@ -525,17 +525,15 @@ public class SupervisorMainView extends SupervisorView {
        OrderInfo curOrder = orderList.get(0);
        RobotStatus robotStatus = SupervisorController.getInstance().getRobotStatus(curOrder.getOrderNo());
        
-       
-       curOrder.getOrderTime();
-       ;
-       
-       /*jTextFieldOrderNo.setText(Integer.toString(curOrder.getOrderNo()));
-       jTextFieldOrderStatus.setText(curOrder.getStatus().toString());
-       jTextFieldOrderTime.setText(curOrder.getOrderTime());
-       */
        jTextFieldOrderNo.setText(Integer.toString(curOrder.getOrderNo()));
+       jTextFieldOrderStatus.setText(curOrder.getStatus().toString());    		   
        
-       jTextFieldRobotState.setText(robotStatus.toString());
+       jTextFieldStationInfo.setText(robotStatus.getStationsVisited());
+       //jTextFieldNextStation.setText(robotStatus.ge);
+       
+       /*jTextFieldStationInfo.setText(robotStatus);
+       */
+       jTextFieldRobotState.setText(robotStatus.getState().toString());
     }
     
     private void updateOrderLists() {
