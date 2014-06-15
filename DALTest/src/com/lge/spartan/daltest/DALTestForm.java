@@ -57,6 +57,8 @@ public class DALTestForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jcbOrderStatus = new javax.swing.JComboBox();
         jbtnAddOrder = new javax.swing.JButton();
+        jbtnGetPendingOrders = new javax.swing.JButton();
+        jbtnGetAllOrders = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jbtnGetWidgets = new javax.swing.JButton();
         jbtnAddWidget = new javax.swing.JButton();
@@ -147,14 +149,14 @@ public class DALTestForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("All", jPanel5);
 
-        jbtnPendingOrders.setText("Get Pending Orders");
+        jbtnPendingOrders.setText("Get InProgress Orders");
         jbtnPendingOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnPendingOrdersActionPerformed(evt);
             }
         });
 
-        jbtnShippingOrders.setText("Get Shipping Orders");
+        jbtnShippingOrders.setText("Get Shipped Orders");
         jbtnShippingOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnShippingOrdersActionPerformed(evt);
@@ -201,33 +203,51 @@ public class DALTestForm extends javax.swing.JFrame {
             }
         });
 
+        jbtnGetPendingOrders.setText("Get Pending Orders");
+        jbtnGetPendingOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGetPendingOrdersActionPerformed(evt);
+            }
+        });
+
+        jbtnGetAllOrders.setText("Get All Orders");
+        jbtnGetAllOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGetAllOrdersActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbtnAddOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jbtnBackorderedOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnShippingOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnPendingOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnOrdersByPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnUpdateOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtfPhone)
-                    .addComponent(jtfOrderNo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbtnOrdersByPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbtnUpdateOrderStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtfPhone)
+                            .addComponent(jtfOrderNo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jbtnGetAllOrders, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnGetPendingOrders, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnAddOrder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnBackorderedOrders, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnShippingOrders, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnPendingOrders, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +260,11 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addComponent(jbtnShippingOrders)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbtnBackorderedOrders)
+                .addGap(4, 4, 4)
+                .addComponent(jbtnGetPendingOrders)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbtnGetAllOrders)
+                .addGap(5, 5, 5)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnOrdersByPhone)
                     .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,7 +276,7 @@ public class DALTestForm extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Orders", jPanel4);
@@ -452,7 +476,7 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnPendingOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPendingOrdersActionPerformed
         // TODO add your handling code here:
-        ArrayList<OrderInfo> listOI = dal.GetPendingOrders();
+        ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Inprogress);
         for(OrderInfo oi : listOI)
         {
             System.out.println(oi.toString());
@@ -479,7 +503,7 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnShippingOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnShippingOrdersActionPerformed
         // TODO add your handling code here:
-         ArrayList<OrderInfo> listOI = dal.GetShippedOrders();
+         ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Complete);
         for(OrderInfo oi : listOI)
         {
             System.out.println(oi.toString());
@@ -488,7 +512,7 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnBackorderedOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBackorderedOrdersActionPerformed
         // TODO add your handling code here:
-           ArrayList<OrderInfo> listOI = dal.GetBackorderedOrders();
+           ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Backordered);
         for(OrderInfo oi : listOI)
         {
             System.out.println(oi.toString());
@@ -571,6 +595,24 @@ public class DALTestForm extends javax.swing.JFrame {
         jlblWQuantity.setText("Q: " + q);
     }//GEN-LAST:event_jbtnGetWQuantityActionPerformed
 
+    private void jbtnGetPendingOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetPendingOrdersActionPerformed
+        // TODO add your handling code here:
+            ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Pending);
+        for(OrderInfo oi : listOI)
+        {
+            System.out.println(oi.toString());
+        }
+    }//GEN-LAST:event_jbtnGetPendingOrdersActionPerformed
+
+    private void jbtnGetAllOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetAllOrdersActionPerformed
+        // TODO add your handling code here:
+          ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.All);
+        for(OrderInfo oi : listOI)
+        {
+            System.out.println(oi.toString());
+        }
+    }//GEN-LAST:event_jbtnGetAllOrdersActionPerformed
+
     private void InitDB() {
         dal = new MySQLDALImpl();
         boolean res = dal.Initialize("127.0.0.1", "root", "");//vijay
@@ -651,7 +693,9 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnAddWidget;
     private javax.swing.JButton jbtnBackorderedOrders;
     private javax.swing.JButton jbtnDecWidget;
+    private javax.swing.JButton jbtnGetAllOrders;
     private javax.swing.JButton jbtnGetCustomers;
+    private javax.swing.JButton jbtnGetPendingOrders;
     private javax.swing.JButton jbtnGetWQuantity;
     private javax.swing.JButton jbtnGetWidgets;
     private javax.swing.JButton jbtnIncWidget;
