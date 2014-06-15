@@ -487,6 +487,11 @@ public class MySQLDALImpl implements DAL {
         }
     }
 
+    public ArrayList<OrderInfo> GetProgressOrders() {
+        logger.entry();
+        return GetOrders("select * from orderinfo where status = 1");
+    }
+
     public ArrayList<OrderInfo> GetShippedOrders() {
         logger.entry();
         return GetOrders("select * from orderinfo where status = 3");

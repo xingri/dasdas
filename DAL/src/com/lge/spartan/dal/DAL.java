@@ -36,6 +36,8 @@ public interface DAL {
 
     public ArrayList<Customer> GetCustomers();
 
+    public ArrayList<OrderInfo> GetProgressOrders();
+
     public ArrayList<OrderInfo> GetShippedOrders();
 
     public ArrayList<OrderInfo> GetPendingOrders();
