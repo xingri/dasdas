@@ -4,6 +4,7 @@ import com.lge.spartan.data.Widget;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.Customer;
+import com.lge.spartan.data.RobotStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,4 +58,10 @@ public interface DAL {
     public int DecWidgets(int widgetId, int decrement);
     
     public int GetWidgetQuantity(int widgetId);
+
+    public int AddRobotStatus(RobotStatus robotStatus);
+
+    public RobotStatus GetRobotStatus(int orderNo);
+
+    public int UpdateRobotStatus(RobotStatus robotStatus);
 }

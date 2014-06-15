@@ -18,6 +18,7 @@ import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.OrderStatus;
 import com.lge.spartan.data.Widget;
+import com.lge.spartan.data.RobotStatus;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -680,5 +681,50 @@ public class MySQLDALImpl implements DAL {
             CleanUp(res, s);
         }
         return true;
+    }
+
+    ///Return 0 if success. If failure, return -1
+    public int AddRobotStatus(RobotStatus robotStatus) {
+        logger.entry();
+        System.out.println("DAL:AddRobotStatus:orderNo: " + robotStatus.getOrderNo());
+        try {
+            int executeUpdateVal;           // Return value from execute indicating effected rows
+            CreateStmnt();
+            SQLStatement = 
+            "insert into robotstatus (orderNo, stn1Visited, stn2Visited, stn3Visited, stn4Visited, stn1Need, stn2Need, stn3Need, stn4Need) values ('" 
+                + robotStatus.getOrderNo() + "','" 
+                + robotStatus.getStn1Visited() + "','" 
+                + robotStatus.getStn2Visited() + "','" 
+                + robotStatus.getStn3Visited() + "','" 
+                + robotStatus.getStn4Visited() + "','" 
+                + robotStatus.getStn1Need() + "','" 
+                + robotStatus.getStn2Need() + "','" 
+                + robotStatus.getStn3Need() + "','" 
+                + robotStatus.getStn4Need() + "'" 
+                + ");";
+
+            executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:RobootStatus added successfully");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:Add:RobotStatus:Exception:" + e);
+            CleanUp(null, s);
+            return -1;
+        } // end try-catch
+        finally {
+            CleanUp(null, s);
+        }
+        return 0;
+    }
+
+    public RobotStatus GetRobotStatus(int orderNo) {
+        RobotStatus robotStatus = new RobotStatus();
+        return robotStatus;
+    }
+
+    public int UpdateRobotStatus(RobotStatus robotStatus) {
+        return 0;
     }
 }
