@@ -348,6 +348,40 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
+    public int DecWidgets(int widgetId, int decrement) {
+        logger.entry();
+        System.out.println("DAL:DecWidgets:widgetId " + widgetId + ", decrement " + decrement);
+        int quant = 0;
+        try {
+            CreateStmnt();
+
+            SQLStatement = "select quantity from widget where widgetId = '" + widgetId + "';";
+            res = s.executeQuery(SQLStatement);
+            if (res.next()) {
+                quant = res.getInt(1);
+            }
+
+            int executeUpdateVal;           // Return value from execute indicating effected rows
+
+            SQLStatement = "update widget set quantity = " + (quant - decrement) + " where widgetId = '" + widgetId + "';";
+            executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:DecWidgets:Decremented Widget quantity by ID successfully");
+            } else {
+                System.out.println("DAL:DecWidgets:Decrement Widget quantity by ID failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:DecWidgets:Exception:" + e);
+            CleanUp(res, s);
+            return -1;
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+        return 0;
+    }
+
     public int GetOrderStatus(int orderNo) {
         System.out.println("DAL:GetOrderuStatus:OrderNo:" + orderNo);
         logger.entry();
@@ -567,6 +601,58 @@ public class MySQLDALImpl implements DAL {
         }
         System.out.println("DAL:GetWidgetQuantity:Quantity retreived successfully. It is " + quantity);
         return quantity;
+    }
+
+    public int GetWidgetQuantity(int widgetId) {
+        logger.entry();
+        int quantity = 0;
+        try {
+            CreateStmnt();
+
+            SQLStatement = "select quantity from widget where widgetId = '" + widgetId + "';";
+            res = s.executeQuery(SQLStatement);
+            if (res.next()) {
+                quantity = res.getInt(1);
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetWidgetQuantity:Exception:" + e);
+            CleanUp(res, s);
+            return -9999999;//not a good approach.. Any better approach? 
+            //Better approach: Return bool and pass quantity as out param. 
+            //Unfortunately java does not support int to be passed as reference. Ah... :( or I dont know
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+        System.out.println("DAL:GetWidgetQuantity:Quantity by ID retreived successfully. It is " + quantity);
+        return quantity;
+    }
+
+    public int GetWidgetStation(int widgetId) {
+        logger.entry();
+        int stationId = 0;
+        try {
+            CreateStmnt();
+
+            SQLStatement = "select stationId from widget where widgetId = '" + widgetId + "';";
+            res = s.executeQuery(SQLStatement);
+            if (res.next()) {
+                stationId = res.getInt(1);
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetWidgetQuantity:Exception:" + e);
+            CleanUp(res, s);
+            return -9999999;//not a good approach.. Any better approach? 
+            //Better approach: Return bool and pass quantity as out param. 
+            //Unfortunately java does not support int to be passed as reference. Ah... :( or I dont know
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+        System.out.println("DAL:GetWidgetQuantity:StationId retreived successfully. It is " + stationId);
+        return stationId;
     }
 
     public boolean UpdateOrderStatus(int orderNo, Enum orderStatus) {
