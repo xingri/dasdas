@@ -1,9 +1,10 @@
 package com.lge.spartan.dal;
 
-import com.lge.spartan.data.Widget;
+import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
-import com.lge.spartan.data.Customer;
+import com.lge.spartan.data.OrderStatus;
+import com.lge.spartan.data.Widget;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +34,11 @@ public interface DAL {
     public int GetWidgetQuantity(String widgetName);
 
     public ArrayList<Widget> GetWidgets();
+    
+    public ArrayList<OrderInfo> GetOrders(OrderStatus orderStatus);
 
     public ArrayList<Customer> GetCustomers();
 
-    public ArrayList<OrderInfo> GetShippedOrders();
-
-    public ArrayList<OrderInfo> GetPendingOrders();
-
-    public ArrayList<OrderInfo> GetBackorderedOrders();
-    
     public int GetOrderStatus(int orderNo);
     
     public ArrayList<OrderInfo> GetOrdersByPhone(String phone/* Enum orderStatus*/) ;

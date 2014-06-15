@@ -376,6 +376,7 @@ public class MySQLDALImpl implements DAL {
     private ArrayList<OrderInfo> GetOrders(String sqlStmnt) {
         logger.entry();
         ArrayList<OrderInfo> orderList = null;
+         System.out.println("DAL:GetOrders:SQL Statement:"+ sqlStmnt);
         try {
             CreateStmnt();
             SQLStatement = sqlStmnt;
@@ -393,6 +394,7 @@ public class MySQLDALImpl implements DAL {
 
                 orderList.add(oi);
             }
+            System.out.println("DAL:GetOrders:Orders count:" + orderList.size());
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:GetOrders:Exception:" + e);
@@ -474,7 +476,7 @@ public class MySQLDALImpl implements DAL {
         }
     }
 
-    public ArrayList<OrderInfo> GetShippedOrders() {
+    /*public ArrayList<OrderInfo> GetShippedOrders() {
         logger.entry();
         return GetOrders("select * from orderinfo where status = 3");
     }
@@ -487,6 +489,14 @@ public class MySQLDALImpl implements DAL {
     public ArrayList<OrderInfo> GetBackorderedOrders() {
         logger.entry();
         return GetOrders("select * from orderinfo where status = 2"); //2 - Backorder
+    }*/
+    
+    public ArrayList<OrderInfo> GetOrders(OrderStatus orderStatus) {
+        logger.entry();
+        if(orderStatus != OrderStatus.All)
+            return GetOrders("select * from orderinfo where status = " + orderStatus.ordinal() +";"); 
+        else
+            return GetOrders("select * from orderinfo");
     }
 
     public ArrayList<OrderInfo> GetOrdersByPhone(String phone /*, Enum orderStatus*/) {
