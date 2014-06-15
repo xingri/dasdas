@@ -30,7 +30,7 @@ public class Widget implements Serializable {
     }
 
     public String toString() {
-        return widgetId + " " + name;
+        return widgetId + " " + name + " " + quantity + " " + stationId;
     }
 
     /**
