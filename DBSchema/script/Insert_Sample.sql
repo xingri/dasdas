@@ -3436,3 +3436,15 @@ INSERT INTO `widget` (`widgetId`, `name`, `description`, `quantity`, `stationId`
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+-- Dumping data for table spartan.warehouse: ~0 rows (approximately)
+/*!40000 ALTER TABLE `warehouse` DISABLE KEYS */;
+INSERT INTO `robotstatus` (`orderNo`, `stn1Visited`, `stn2Visited`, `stn3Visited`, `stn4Visited`, `stn1Need`, `stn2Need`, `stn3Need`, `stn4Need` ) VALUES
+	(121, 1, 0, 0, 0, 1, 1, 1, 1),
+	(130, 1, 1, 0, 0, 1, 1, 1, 1),
+	(131, 1, 1, 1, 0, 1, 1, 1, 1),
+	(132, 0, 0, 0, 0, 1, 1, 1, 1),
+	(133, 1, 1, 1, 1, 1, 1, 1, 1),
+	(134, 1, 0, 1, 0, 1, 1, 1, 1)
+    ;
+/*!40000 ALTER TABLE `warehouse` ENABLE KEYS */;
