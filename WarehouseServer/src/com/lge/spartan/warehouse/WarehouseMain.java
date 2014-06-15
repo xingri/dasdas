@@ -2,14 +2,30 @@
 
 public class WarehouseMain implements StationManager {
 
+    WHEvent cachedSwEvent = null;
+
     public void eventHandler(String inputLine) {
+
         if(inputLine != null) {
+
             WHWorker whWorker = WHWorkerFactory.create(inputLine);
-            if(whWorker != null) {
-                whWorker.procRequest();
+            if( whWorker != null ) {
+                WHEvent currEvent = new WHEvent(inputLine);
+                if (currEvent.isSwitch()) {
+                    System.out.println("Switch IDX: " + currEvent.getSwitchIdx());
+                    whWorker.procRequest();
+                } else {
+                    if (currEvent.isValid() && ( cachedSwEvent == null 
+                            || !currEvent.isSameSensor(cachedSwEvent.getEventList())) ) {
+                        System.out.println("Sensor IDX: " + currEvent.getSensorIdx());
+                        whWorker.procRequest();
+                        cachedSwEvent = new WHEvent(inputLine);
+                    }
+                }
             } else {
                 System.out.println("Cannot create Warehouse Worker, check input [" + inputLine + "]!!!");
             }
+
         } else {
             System.out.println("invalid data comming from warehouse hardware [" + inputLine + "]!!!");
         }
@@ -28,7 +44,8 @@ public class WarehouseMain implements StationManager {
 
         WarehouseMain whMain = new WarehouseMain();
 
-        SerialInput serialInput = new SerialInput();
+        //SerialInput serialInput = new SerialInput();
+        VSerialInput serialInput = new VSerialInput();
         serialInput.setStationManager(whMain);
         serialInput.initialize();
 

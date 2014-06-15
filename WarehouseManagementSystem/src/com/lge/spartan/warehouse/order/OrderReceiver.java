@@ -106,7 +106,7 @@ public class OrderReceiver extends Thread{
 						String phoneNumber = (String)msg.getPayload();
 						System.out.println("PhoneNumber:" + phoneNumber);
 						ArrayList<OrderInfo> oiList = new ArrayList<OrderInfo>();
-						//oiList = db.GetPendingOrders();
+						oiList = db.GetOrdersByPhone(phoneNumber);
 						OrderInfo order = new OrderInfo();
 						ArrayList<OrderDetails> od = new ArrayList<OrderDetails>();
 						OrderDetails od1 = new OrderDetails();

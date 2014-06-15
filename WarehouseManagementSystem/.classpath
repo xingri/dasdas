@@ -6,6 +6,6 @@
 	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/log4j-core-2.0-rc1.jar"/>
 	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/log4j-1.2-api-2.0-rc1.jar"/>
 	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/log4j-api-2.0-rc1.jar"/>
-	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/DALNew.jar"/>
+	<classpathentry kind="lib" path="C:/git/WWC_Spartan/WarehouseManagementSystem/libs/DAL0612.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
