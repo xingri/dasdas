@@ -1,3 +1,5 @@
+USE `spartan`;
+
 drop table orderdetails;
 drop table widget;
 drop table warehouse;
