@@ -68,4 +68,6 @@ public interface DAL {
 
     public int UpdateRobotStatus(RobotStatus robotStatus);
     //Robot - End
+    
+    public boolean IsDBAvailable();
 }

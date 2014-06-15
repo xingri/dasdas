@@ -26,7 +26,21 @@ public class RobotStatus implements Serializable {
     private int stn4Need = 0;
     
     private int state = 0;
-  
+
+    public String getStationsVisited()
+    {
+        String str = "";
+        if(stn4Visited == 1)
+            str += "Station 4;";
+        if(stn3Visited == 1)
+            str += "Station 3;";
+        if(stn2Visited == 1)
+            str += "Station 2;";
+        if(stn1Visited == 1)
+            str += "Station 1;";
+        return str;
+    }
+    
     public RobotState getState()   {
         return RobotState.values[state];
     }

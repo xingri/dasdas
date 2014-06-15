@@ -791,4 +791,19 @@ public class MySQLDALImpl implements DAL {
         return ret;
     }
 
+    public boolean IsDBAvailable()    {
+        ResultSet rs = null;
+        try {
+            CreateStmnt();
+            String stmnt = "select 1";
+            rs = s.executeQuery(stmnt);
+        } catch (Exception e) {
+            CleanUp(rs, s);
+            return false;
+        } // end try-catch
+        finally{
+            CleanUp(rs, s);
+        }
+        return true;
+    }
 }
