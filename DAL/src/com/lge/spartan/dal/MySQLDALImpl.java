@@ -715,11 +715,78 @@ public class MySQLDALImpl implements DAL {
     }
 
     public RobotStatus GetRobotStatus(int orderNo) {
-        RobotStatus robotStatus = new RobotStatus();
+        logger.entry();
+        RobotStatus robotStatus = null;
+
+        try {
+            CreateStmnt();
+
+            String stmnt = "select * from robotstatus where orderNo = '" + orderNo + "';" ;
+            res = s.executeQuery(stmnt);
+
+            if(res.next()) {
+                robotStatus = new RobotStatus();
+
+                robotStatus.setOrderNo(res.getInt(1));
+                robotStatus.setStn1Visited(res.getInt(2));
+                robotStatus.setStn2Visited(res.getInt(3));
+                robotStatus.setStn3Visited(res.getInt(4));
+                robotStatus.setStn4Visited(res.getInt(5));
+                robotStatus.setStn1Need(res.getInt(6));
+                robotStatus.setStn2Need(res.getInt(7));
+                robotStatus.setStn3Need(res.getInt(8));
+                robotStatus.setStn4Need(res.getInt(9));
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobotStatus:Exception:" + e);
+            CleanUp(res, s);
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+
+        System.out.println("DAL:GetRobotStatus:RobotStatus retreived successfully.");
         return robotStatus;
     }
 
     public int UpdateRobotStatus(RobotStatus robotStatus) {
-        return 0;
+        logger.entry();
+        int ret = -1;
+
+        try {
+            CreateStmnt();
+
+            int executeUpdateVal;           // Return value from execute indicating effected rows
+
+            String stmnt = "update robotstatus set stn1Visited = " + robotStatus.getStn1Visited()
+                + ", stn2Visited = " + robotStatus.getStn2Visited()
+                + ", stn3Visited = " + robotStatus.getStn3Visited()
+                + ", stn4Visited = " + robotStatus.getStn4Visited()
+                + ", stn1Need = " + robotStatus.getStn1Need()
+                + ", stn2Need = " + robotStatus.getStn2Need()
+                + ", stn3Need = " + robotStatus.getStn3Need()
+                + ", stn4Need = " + robotStatus.getStn4Need()
+                + " where orderNo = '" + robotStatus.getOrderNo() + "';" ;
+
+            executeUpdateVal = s.executeUpdate(stmnt);
+            if(executeUpdateVal > 0) {
+                System.out.println("DAL:UpdateRobotStatus executed successfully");
+                ret = 0;
+            } else {
+                System.out.println("DAL:UpdateRobotStatus failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:UpdateRobotStatus:Exception:" + e);
+            CleanUp(res, s);
+            return ret;
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+
+        System.out.println("DAL:UpdateRobotStatus finished successfully.");
+        return ret;
     }
 }
