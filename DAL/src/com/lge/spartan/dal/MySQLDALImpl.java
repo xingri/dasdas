@@ -102,7 +102,7 @@ public class MySQLDALImpl implements DAL {
         return logger.exit(true);
     }
 
-    public ArrayList<Customer> GetCustomers() {
+    public synchronized ArrayList<Customer> GetCustomers() {
         logger.entry();
         System.out.println("DAL:GetCustomers()");
         ArrayList<Customer> custList = null;
@@ -188,7 +188,7 @@ public class MySQLDALImpl implements DAL {
         return custList;
     }
 
-    public int AddOrder(List<OrderDetails> orderList, Customer cust) {
+    public synchronized int AddOrder(List<OrderDetails> orderList, Customer cust) {
         if (orderList == null) {
             System.out.println("DAL:AddOrder:Orders are empty. So Order cannot be added");
             return -1;
@@ -259,7 +259,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     ///Return OrderNo if success. If failure, return -1
-    public int AddWidget(String widgetName, String widgetDesc, int quant, int stationId) {
+    public synchronized int AddWidget(String widgetName, String widgetDesc, int quant, int stationId) {
         logger.entry();
         System.out.println("DAL:AddWidget:widgetName: " + widgetName + ", widgetDesc: " + widgetDesc + ", quantity:" + quant + ", stationId:" + stationId);
         try {
@@ -282,7 +282,7 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
-    public int IncWidgets(String widgetName, int increment) {
+    public synchronized int IncWidgets(String widgetName, int increment) {
         logger.entry();
         System.out.println("DAL:IncWidgets:widgetName " + widgetName + ", increment " + increment);
         int quant = 0;
@@ -315,7 +315,7 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
-    public int DecWidgets(String widgetName, int decrement) {
+    public synchronized int DecWidgets(String widgetName, int decrement) {
         logger.entry();
         System.out.println("DAL:DecWidgets:widgetName " + widgetName + ", decrement " + decrement);
         int quant = 0;
@@ -349,7 +349,7 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
-    public int DecWidgets(int widgetId, int decrement) {
+    public synchronized int DecWidgets(int widgetId, int decrement) {
         logger.entry();
         System.out.println("DAL:DecWidgets:widgetId " + widgetId + ", decrement " + decrement);
         int quant = 0;
@@ -383,7 +383,7 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
-    public int GetOrderStatus(int orderNo) {
+    public synchronized int GetOrderStatus(int orderNo) {
         System.out.println("DAL:GetOrderuStatus:OrderNo:" + orderNo);
         logger.entry();
         int status = 0;
@@ -466,7 +466,7 @@ public class MySQLDALImpl implements DAL {
         GetOrderDetails(oi);
     }
 
-    public OrderInfo PickFirstOrder() {
+    public synchronized OrderInfo PickFirstOrder() {
         logger.entry();
         ArrayList<OrderInfo> orderList = GetOrders(
         "SELECT * FROM orderinfo WHERE (status = 0 OR status = 2) ORDER BY status DESC, orderTime LIMIT 1");
@@ -524,12 +524,7 @@ public class MySQLDALImpl implements DAL {
         }
     }
 
-    public ArrayList<OrderInfo> GetProgressOrders() {
-        logger.entry();
-        return GetOrders("select * from orderinfo where status = 1");
-    }
-
-    public ArrayList<OrderInfo> GetOrders(OrderStatus orderStatus) {
+    public synchronized ArrayList<OrderInfo> GetOrders(OrderStatus orderStatus) {
         logger.entry();
         if(orderStatus != OrderStatus.All)
             return GetOrders("select * from orderinfo where status = " + orderStatus.ordinal() +";"); 
@@ -537,12 +532,12 @@ public class MySQLDALImpl implements DAL {
             return GetOrders("select * from orderinfo");
     }
 
-    public ArrayList<OrderInfo> GetOrdersByPhone(String phone /*, Enum orderStatus*/) {
+    public synchronized ArrayList<OrderInfo> GetOrdersByPhone(String phone /*, Enum orderStatus*/) {
         logger.entry();
         return GetOrders("select * from orderinfo where phone = '" + phone + "';");
     }
 
-    public ArrayList<Widget> GetWidgets() {
+    public synchronized ArrayList<Widget> GetWidgets() {
         logger.entry();
         ArrayList<Widget> widgetList = null;
         try {
@@ -599,7 +594,7 @@ public class MySQLDALImpl implements DAL {
         return quantity;
     }
 
-    public int GetWidgetQuantity(int widgetId) {
+    public synchronized int GetWidgetQuantity(int widgetId) {
         logger.entry();
         int quantity = 0;
         try {
@@ -625,7 +620,7 @@ public class MySQLDALImpl implements DAL {
         return quantity;
     }
 
-    public int GetWidgetStation(int widgetId) {
+    public synchronized int GetWidgetStation(int widgetId) {
         logger.entry();
         int stationId = 0;
         try {
@@ -651,7 +646,7 @@ public class MySQLDALImpl implements DAL {
         return stationId;
     }
 
-    public boolean UpdateOrderStatus(int orderNo, Enum orderStatus) {
+    public synchronized  boolean UpdateOrderStatus(int orderNo, Enum orderStatus) {
         logger.entry();
         System.out.println("DAL:UpdateOrderStatus:OrderNo: " + orderNo + ", Status: " + orderStatus.toString());
         try {
@@ -679,7 +674,8 @@ public class MySQLDALImpl implements DAL {
     }
 
     ///Return 0 if success. If failure, return -1
-    public int AddRobotStatus(RobotStatus robotStatus) {
+    @Override
+    public synchronized int AddRobotStatus(RobotStatus robotStatus) {
         logger.entry();
         System.out.println("DAL:AddRobotStatus:orderNo: " + robotStatus.getOrderNo());
         try {
@@ -714,12 +710,12 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
-    public RobotStatus GetRobotStatus(int orderNo) {
+    public synchronized RobotStatus GetRobotStatus(int orderNo) {
         RobotStatus robotStatus = new RobotStatus();
         return robotStatus;
     }
 
-    public int UpdateRobotStatus(RobotStatus robotStatus) {
+    public synchronized int UpdateRobotStatus(RobotStatus robotStatus) {
         return 0;
     }
 }
