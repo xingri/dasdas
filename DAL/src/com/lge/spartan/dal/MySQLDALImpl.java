@@ -682,7 +682,7 @@ public class MySQLDALImpl implements DAL {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             CreateStmnt();
             SQLStatement = 
-            "insert into robotstatus (orderNo, stn1Visited, stn2Visited, stn3Visited, stn4Visited, stn1Need, stn2Need, stn3Need, stn4Need) values ('" 
+            "insert into robotstatus (orderNo, stn1Visited, stn2Visited, stn3Visited, stn4Visited, stn1Need, stn2Need, stn3Need, stn4Need, state) values ('" 
                 + robotStatus.getOrderNo() + "','" 
                 + robotStatus.getStn1Visited() + "','" 
                 + robotStatus.getStn2Visited() + "','" 
@@ -692,6 +692,7 @@ public class MySQLDALImpl implements DAL {
                 + robotStatus.getStn2Need() + "','" 
                 + robotStatus.getStn3Need() + "','" 
                 + robotStatus.getStn4Need() + "'" 
+                + robotStatus.getState().ordinal() + "'" 
                 + ");";
 
             executeUpdateVal = s.executeUpdate(SQLStatement);
@@ -732,6 +733,7 @@ public class MySQLDALImpl implements DAL {
                 robotStatus.setStn2Need(res.getInt(7));
                 robotStatus.setStn3Need(res.getInt(8));
                 robotStatus.setStn4Need(res.getInt(9));
+                robotStatus.setState(res.getInt(10));
             }
         } catch (Exception e) {
             logger.error("Exception " + e);
@@ -763,6 +765,7 @@ public class MySQLDALImpl implements DAL {
                 + ", stn2Need = " + robotStatus.getStn2Need()
                 + ", stn3Need = " + robotStatus.getStn3Need()
                 + ", stn4Need = " + robotStatus.getStn4Need()
+                + ", state = " + robotStatus.getState().ordinal()
                 + " where orderNo = '" + robotStatus.getOrderNo() + "';" ;
 
             executeUpdateVal = s.executeUpdate(stmnt);

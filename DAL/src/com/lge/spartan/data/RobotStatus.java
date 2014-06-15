@@ -24,6 +24,12 @@ public class RobotStatus implements Serializable {
     private int stn2Need = 0;
     private int stn3Need = 0;
     private int stn4Need = 0;
+    
+    private int state = 0;
+  
+    public RobotState getState()   {
+        return RobotState.values[state];
+    }
 
     public String toString() {
         return orderNo + " " + orderNo;
@@ -99,5 +105,9 @@ public class RobotStatus implements Serializable {
 
     public int getStn4Need() {
         return this.stn4Need;
+    }
+    
+    public void setState(int state) {
+        this.state = state;
     }
 }
