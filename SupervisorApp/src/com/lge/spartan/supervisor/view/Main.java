@@ -28,7 +28,7 @@ public class Main {
         
         SupervisorMainView sprView = new SupervisorMainView ();
         
-        DBNotifier dbNotifier = new DBNotifier();
+        final DBNotifier dbNotifier = new DBNotifier();
         dbNotifier.registerObserver(sprView);        
         sprView.setVisible(true); 
         

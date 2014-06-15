@@ -68,10 +68,11 @@ public class SupervisorMainView extends SupervisorView {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jbtnCustRefresh = new javax.swing.JButton();
+        jTextFieldRobotState = new javax.swing.JTextField();
+        jTextFieldOrderNo = new javax.swing.JTextField();
+        jTextFieldOrderStatus = new javax.swing.JTextField();
+        jTextFieldStationInfo = new javax.swing.JTextField();
+        jTextFieldNextStation = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
@@ -156,7 +157,7 @@ public class SupervisorMainView extends SupervisorView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbtnRefresh)
                 .addContainerGap())
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,26 +196,48 @@ public class SupervisorMainView extends SupervisorView {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Next Station");
 
+        jTextFieldRobotState.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTextFieldRobotState.setEnabled(false);
+
+        jTextFieldOrderNo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTextFieldOrderNo.setEnabled(false);
+
+        jTextFieldOrderStatus.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTextFieldOrderStatus.setEnabled(false);
+
+        jTextFieldStationInfo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTextFieldStationInfo.setEnabled(false);
+
+        jTextFieldNextStation.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTextFieldNextStation.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)))
+                        .addComponent(jLabel4)
+                        .addGap(113, 113, 113)
+                        .addComponent(jTextFieldRobotState, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
                             .addComponent(jLabel5)
+                            .addComponent(jLabel6)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel8))))
-                .addContainerGap(404, Short.MAX_VALUE))
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldOrderNo)
+                            .addComponent(jTextFieldOrderStatus)
+                            .addComponent(jTextFieldStationInfo)
+                            .addComponent(jTextFieldNextStation, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,86 +245,31 @@ public class SupervisorMainView extends SupervisorView {
                 .addGap(34, 34, 34)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldOrderNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldStationInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
-                .addGap(45, 45, 45)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldNextStation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
                 .addComponent(jLabel3)
-                .addGap(38, 38, 38)
-                .addComponent(jLabel4)
-                .addGap(242, 242, 242))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextFieldRobotState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(238, 238, 238))
         );
 
         jTabbedPane1.addTab("Monitor", jPanel2);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "S No", "First Name", "Last Name", "Phone", "Address"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
-        }
-
-        jbtnCustRefresh.setText("Refresh");
-        jbtnCustRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCustRefreshActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jbtnCustRefresh)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jbtnCustRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Customers", jPanel3);
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -392,7 +360,7 @@ public class SupervisorMainView extends SupervisorView {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                     .addComponent(jScrollPane4)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jbtnOrderRefresh)
@@ -422,6 +390,8 @@ public class SupervisorMainView extends SupervisorView {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
+        
+        updateCurOrderStatus();
 
         jTabbedPane1.addTab("Orders", jPanel4);
 
@@ -463,10 +433,7 @@ public class SupervisorMainView extends SupervisorView {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,8 +483,10 @@ public class SupervisorMainView extends SupervisorView {
             case 0:                
                 updateWidgetLists();
                 break;
+            case 1:
+            	updateCurOrderStatus();
+            	break;
             case 2:
-            case 3:
                 updateOrderLists();
                 break;
             default:
@@ -529,7 +498,8 @@ public class SupervisorMainView extends SupervisorView {
         updateWidgetLists();
     }//GEN-LAST:event_jbtnRefreshActionPerformed
 
-    private void jbtnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCustRefreshActionPerformed
+    
+    /*private void jbtnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCustRefreshActionPerformed
         // TODO add your handling code here:
         ArrayList<Customer> custList = SupervisorController.getInstance().getCustomers();
         
@@ -544,11 +514,34 @@ public class SupervisorMainView extends SupervisorView {
             model.addRow(new Object[]{i, c.getFname(), c.getLname(), c.getPhone(), c.getAddress()});
         }
     }//GEN-LAST:event_jbtnCustRefreshActionPerformed
-
+*/
+    
+    private void updateCurOrderStatus() {
+       ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getCurProgressOrder();
+       if (orderList == null || orderList.size() == 0) {            
+    	   return;
+       }
+       
+       OrderInfo curOrder = orderList.get(0);
+       RobotStatus robotStatus = SupervisorController.getInstance().getRobotStatus(curOrder.getOrderNo());
+       
+       
+       curOrder.getOrderTime();
+       ;
+       
+       /*jTextFieldOrderNo.setText(Integer.toString(curOrder.getOrderNo()));
+       jTextFieldOrderStatus.setText(curOrder.getStatus().toString());
+       jTextFieldOrderTime.setText(curOrder.getOrderTime());
+       */
+       jTextFieldOrderNo.setText(Integer.toString(curOrder.getOrderNo()));
+       
+       jTextFieldRobotState.setText(robotStatus.toString());
+    }
+    
     private void updateOrderLists() {
-        ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getPendingOrders();                
-            if (orderList == null) {            
-            return;
+        final ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getPendingOrders();                
+        if (orderList == null) {            
+        	return;
         }
         
         DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
@@ -642,19 +635,20 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTextField jTextFieldNextStation;
+    private javax.swing.JTextField jTextFieldOrderNo;
+    private javax.swing.JTextField jTextFieldOrderStatus;
+    private javax.swing.JTextField jTextFieldRobotState;
+    private javax.swing.JTextField jTextFieldStationInfo;
     private javax.swing.JButton jbtnAddOrder;
-    private javax.swing.JButton jbtnCustRefresh;
     private javax.swing.JButton jbtnOrderRefresh;
     private javax.swing.JButton jbtnRefresh;
     private javax.swing.JLabel jlblOrderNo;

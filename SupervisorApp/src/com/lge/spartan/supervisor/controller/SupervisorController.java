@@ -19,11 +19,11 @@ import com.lge.spartan.data.*;
 
 public class SupervisorController extends Thread/*implements IController*/ {
     private static volatile SupervisorController obj_instance = null;
-    private static DAL dal;
+    private static DAL db;
     boolean bDBConnectState;    
     
     private SupervisorController () {        
-        dal = new MySQLDALImpl();
+        db = new MySQLDALImpl();
         connectDB();
     }
     
@@ -42,7 +42,7 @@ public class SupervisorController extends Thread/*implements IController*/ {
     public boolean connectDB() {
         // TODO
         //setConnectDBState(dal.Initialize("10.254.18.128", "root", "seo10jin"));        
-        setConnectDBState(dal.Initialize("localhost", "root", "1234"));        
+        setConnectDBState(db.Initialize("localhost", "root", "1234"));        
         return bDBConnectState;
     }
     
@@ -68,7 +68,7 @@ public class SupervisorController extends Thread/*implements IController*/ {
             return -2;
         }
                
-        return dal.AddWidget(newWidget.getName(), newWidget.getDesc(), newWidget.getQuantity(), newWidget.getStationId());       
+        return db.AddWidget(newWidget.getName(), newWidget.getDesc(), newWidget.getQuantity(), newWidget.getStationId());       
     }
     
     public int updateWidgetQuantity(Widget widgetQuant) {
@@ -76,22 +76,30 @@ public class SupervisorController extends Thread/*implements IController*/ {
             return -2;
         }
                
-        return dal.IncWidgets(widgetQuant.getName(), widgetQuant.getQuantity());        
+        return db.IncWidgets(widgetQuant.getName(), widgetQuant.getQuantity());        
     }
     
     public ArrayList<Widget> getWidgets() {
         // TODO        
-        return dal.GetWidgets();        
+        return db.GetWidgets();        
     }
     
     public ArrayList<Customer> getCustomers() {
         // TODO
-        return dal.GetCustomers();       
+        return db.GetCustomers();       
     }
     
     public ArrayList<OrderInfo> getPendingOrders() {
         // TODO
-        return dal.GetPendingOrders();        
+        return db.GetOrders(OrderStatus.Pending);       
+    }
+    
+    public ArrayList<OrderInfo> getCurProgressOrder() {
+    	return db.GetOrders(OrderStatus.Inprogress);
+    }
+    
+    public RobotStatus getRobotStatus(int orderNo){
+    	return db.GetRobotStatus(orderNo);
     }
     
     public ArrayList<Integer> getWarehouseIdList() {
