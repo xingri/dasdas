@@ -5,5 +5,5 @@ Spartan Team
  - Sungeun Kim (Warehouse H/W)
  - Gina Du (Supervisor App)
  - Tommy Park (Customer App)
- - Vijay R (DB Schema)
+ - Vijay R (DAL:Database Abstraction Layer)
  - Sun Shin (Warehouse Server)

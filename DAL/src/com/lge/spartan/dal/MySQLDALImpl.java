@@ -18,6 +18,7 @@ import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.OrderStatus;
 import com.lge.spartan.data.Widget;
+import com.lge.spartan.data.RobotStatus;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -348,6 +349,40 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
+    public int DecWidgets(int widgetId, int decrement) {
+        logger.entry();
+        System.out.println("DAL:DecWidgets:widgetId " + widgetId + ", decrement " + decrement);
+        int quant = 0;
+        try {
+            CreateStmnt();
+
+            SQLStatement = "select quantity from widget where widgetId = '" + widgetId + "';";
+            res = s.executeQuery(SQLStatement);
+            if (res.next()) {
+                quant = res.getInt(1);
+            }
+
+            int executeUpdateVal;           // Return value from execute indicating effected rows
+
+            SQLStatement = "update widget set quantity = " + (quant - decrement) + " where widgetId = '" + widgetId + "';";
+            executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:DecWidgets:Decremented Widget quantity by ID successfully");
+            } else {
+                System.out.println("DAL:DecWidgets:Decrement Widget quantity by ID failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:DecWidgets:Exception:" + e);
+            CleanUp(res, s);
+            return -1;
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+        return 0;
+    }
+
     public int GetOrderStatus(int orderNo) {
         System.out.println("DAL:GetOrderuStatus:OrderNo:" + orderNo);
         logger.entry();
@@ -431,6 +466,19 @@ public class MySQLDALImpl implements DAL {
         GetOrderDetails(oi);
     }
 
+    public OrderInfo PickFirstOrder() {
+        logger.entry();
+        ArrayList<OrderInfo> orderList = GetOrders(
+        "SELECT * FROM orderinfo WHERE (status = 0 OR status = 2) ORDER BY status DESC, orderTime LIMIT 1");
+
+        if(orderList.size() == 1) {
+            GetOrderDetails(orderList.get(0));
+            return (OrderInfo) orderList.get(0);
+        }
+        
+        return null;
+    }
+
     private void GetOrderDetails(OrderInfo oi) {
         logger.entry();
         ResultSet rs2 = null;
@@ -476,21 +524,11 @@ public class MySQLDALImpl implements DAL {
         }
     }
 
-    /*public ArrayList<OrderInfo> GetShippedOrders() {
+    public ArrayList<OrderInfo> GetProgressOrders() {
         logger.entry();
-        return GetOrders("select * from orderinfo where status = 3");
+        return GetOrders("select * from orderinfo where status = 1");
     }
 
-    public ArrayList<OrderInfo> GetPendingOrders() {
-        logger.entry();
-        return GetOrders("select * from orderinfo where status <> 3");
-    }
-
-    public ArrayList<OrderInfo> GetBackorderedOrders() {
-        logger.entry();
-        return GetOrders("select * from orderinfo where status = 2"); //2 - Backorder
-    }*/
-    
     public ArrayList<OrderInfo> GetOrders(OrderStatus orderStatus) {
         logger.entry();
         if(orderStatus != OrderStatus.All)
@@ -561,6 +599,58 @@ public class MySQLDALImpl implements DAL {
         return quantity;
     }
 
+    public int GetWidgetQuantity(int widgetId) {
+        logger.entry();
+        int quantity = 0;
+        try {
+            CreateStmnt();
+
+            SQLStatement = "select quantity from widget where widgetId = '" + widgetId + "';";
+            res = s.executeQuery(SQLStatement);
+            if (res.next()) {
+                quantity = res.getInt(1);
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetWidgetQuantity:Exception:" + e);
+            CleanUp(res, s);
+            return -9999999;//not a good approach.. Any better approach? 
+            //Better approach: Return bool and pass quantity as out param. 
+            //Unfortunately java does not support int to be passed as reference. Ah... :( or I dont know
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+        System.out.println("DAL:GetWidgetQuantity:Quantity by ID retreived successfully. It is " + quantity);
+        return quantity;
+    }
+
+    public int GetWidgetStation(int widgetId) {
+        logger.entry();
+        int stationId = 0;
+        try {
+            CreateStmnt();
+
+            SQLStatement = "select stationId from widget where widgetId = '" + widgetId + "';";
+            res = s.executeQuery(SQLStatement);
+            if (res.next()) {
+                stationId = res.getInt(1);
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetWidgetQuantity:Exception:" + e);
+            CleanUp(res, s);
+            return -9999999;//not a good approach.. Any better approach? 
+            //Better approach: Return bool and pass quantity as out param. 
+            //Unfortunately java does not support int to be passed as reference. Ah... :( or I dont know
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+        System.out.println("DAL:GetWidgetQuantity:StationId retreived successfully. It is " + stationId);
+        return stationId;
+    }
+
     public boolean UpdateOrderStatus(int orderNo, Enum orderStatus) {
         logger.entry();
         System.out.println("DAL:UpdateOrderStatus:OrderNo: " + orderNo + ", Status: " + orderStatus.toString());
@@ -586,5 +676,50 @@ public class MySQLDALImpl implements DAL {
             CleanUp(res, s);
         }
         return true;
+    }
+
+    ///Return 0 if success. If failure, return -1
+    public int AddRobotStatus(RobotStatus robotStatus) {
+        logger.entry();
+        System.out.println("DAL:AddRobotStatus:orderNo: " + robotStatus.getOrderNo());
+        try {
+            int executeUpdateVal;           // Return value from execute indicating effected rows
+            CreateStmnt();
+            SQLStatement = 
+            "insert into robotstatus (orderNo, stn1Visited, stn2Visited, stn3Visited, stn4Visited, stn1Need, stn2Need, stn3Need, stn4Need) values ('" 
+                + robotStatus.getOrderNo() + "','" 
+                + robotStatus.getStn1Visited() + "','" 
+                + robotStatus.getStn2Visited() + "','" 
+                + robotStatus.getStn3Visited() + "','" 
+                + robotStatus.getStn4Visited() + "','" 
+                + robotStatus.getStn1Need() + "','" 
+                + robotStatus.getStn2Need() + "','" 
+                + robotStatus.getStn3Need() + "','" 
+                + robotStatus.getStn4Need() + "'" 
+                + ");";
+
+            executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:RobootStatus added successfully");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:Add:RobotStatus:Exception:" + e);
+            CleanUp(null, s);
+            return -1;
+        } // end try-catch
+        finally {
+            CleanUp(null, s);
+        }
+        return 0;
+    }
+
+    public RobotStatus GetRobotStatus(int orderNo) {
+        RobotStatus robotStatus = new RobotStatus();
+        return robotStatus;
+    }
+
+    public int UpdateRobotStatus(RobotStatus robotStatus) {
+        return 0;
     }
 }
