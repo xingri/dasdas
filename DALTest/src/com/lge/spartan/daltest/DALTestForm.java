@@ -85,6 +85,7 @@ public class DALTestForm extends javax.swing.JFrame {
         jtfGetWQuantName = new javax.swing.JTextField();
         jlblWQuantity = new javax.swing.JLabel();
         jbtnUninitDB = new javax.swing.JButton();
+        jbtnIsAvailable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -452,6 +453,13 @@ public class DALTestForm extends javax.swing.JFrame {
             }
         });
 
+        jbtnIsAvailable.setText("IsDBAvailable?");
+        jbtnIsAvailable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnIsAvailableActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -477,6 +485,8 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addComponent(jbtnInitDB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbtnUninitDB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbtnIsAvailable)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jTabbedPane1)
         );
@@ -486,7 +496,8 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnInitDB)
-                    .addComponent(jbtnUninitDB))
+                    .addComponent(jbtnUninitDB)
+                    .addComponent(jbtnIsAvailable))
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
@@ -646,6 +657,14 @@ public class DALTestForm extends javax.swing.JFrame {
         System.out.println(os.toString());
     }//GEN-LAST:event_jbtnGetOrderStatusActionPerformed
 
+    private void jbtnIsAvailableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIsAvailableActionPerformed
+        // TODO add your handling code here:
+        if(dal.IsDBAvailable())
+            System.out.println("DB is available!!");
+        else
+            System.out.println("DB is not available!!");
+    }//GEN-LAST:event_jbtnIsAvailableActionPerformed
+
     private void InitDB() {
         dal = new MySQLDALImpl();
         boolean res = dal.Initialize("127.0.0.1", "root", "");//vijay
@@ -735,6 +754,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnGetWidgets;
     private javax.swing.JButton jbtnIncWidget;
     private javax.swing.JButton jbtnInitDB;
+    private javax.swing.JButton jbtnIsAvailable;
     private javax.swing.JButton jbtnOrdersByPhone;
     private javax.swing.JButton jbtnPendingOrders;
     private javax.swing.JButton jbtnShippingOrders;
