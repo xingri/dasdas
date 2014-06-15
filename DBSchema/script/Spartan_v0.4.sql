@@ -55,10 +55,14 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
 -- Dumping structure for table spartan.robotstatus
 CREATE TABLE IF NOT EXISTS `robotstatus` (
   `orderNo` int(11) DEFAULT NULL,
-  `stn1Visited` tinyint(4) DEFAULT NULL COMMENT '0 - Not visited; 1- visited',
-  `stn2Visited` tinyint(4) DEFAULT NULL COMMENT '0 - Not visited; 1- visited',
-  `stn3Visited` tinyint(4) DEFAULT NULL COMMENT '0 - Not visited; 1- visited',
-  `stn4Visited` tinyint(4) DEFAULT NULL COMMENT '0 - Not visited; 1- visited',
+  `stn1Visited` tinyint(4) DEFAULT '0' COMMENT '0 - Not visited; 1- visited',
+  `stn2Visited` tinyint(4) DEFAULT '0' COMMENT '0 - Not visited; 1- visited',
+  `stn3Visited` tinyint(4) DEFAULT '0' COMMENT '0 - Not visited; 1- visited',
+  `stn4Visited` tinyint(4) DEFAULT '0' COMMENT '0 - Not visited; 1- visited',
+  `stn1Need`    tinyint(4) DEFAULT '0' COMMENT '0 - No need; 1- need',
+  `stn2Need`    tinyint(4) DEFAULT '0' COMMENT '0 - No need; 1- need',
+  `stn3Need`    tinyint(4) DEFAULT '0' COMMENT '0 - No need; 1- need',
+  `stn4Need`    tinyint(4) DEFAULT '0' COMMENT '0 - No need; 1- need',
   KEY `FK_robotStatus_order` (`orderNo`),
   CONSTRAINT `FK_robotStatus_order` FOREIGN KEY (`orderNo`) REFERENCES `orderinfo` (`orderNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
