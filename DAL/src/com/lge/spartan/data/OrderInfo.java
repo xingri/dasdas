@@ -92,10 +92,10 @@ public class OrderInfo implements Serializable {
     /**
      * @return the status
      */
-    public int getStatus() {
-        return status;
+    public OrderStatus getStatus() {
+        return OrderStatus.values[status];
     }
-
+    
     /**
      * @param status the status to set
      */
