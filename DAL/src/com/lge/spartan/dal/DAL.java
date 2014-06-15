@@ -30,7 +30,7 @@ public interface DAL {
 
     public ArrayList<OrderInfo> GetOrders(OrderStatus orderStatus);
 
-    public int GetOrderStatus(int orderNo);
+    public OrderStatus GetOrderStatus(int orderNo);
 
     public ArrayList<OrderInfo> GetOrdersByPhone(String phone/* Enum orderStatus*/);
 

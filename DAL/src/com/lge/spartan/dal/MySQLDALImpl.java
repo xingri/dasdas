@@ -383,7 +383,7 @@ public class MySQLDALImpl implements DAL {
         return 0;
     }
 
-    public synchronized int GetOrderStatus(int orderNo) {
+    public synchronized OrderStatus GetOrderStatus(int orderNo) {
         System.out.println("DAL:GetOrderuStatus:OrderNo:" + orderNo);
         logger.entry();
         int status = 0;
@@ -399,13 +399,13 @@ public class MySQLDALImpl implements DAL {
             logger.error("Exception " + e);
             System.out.println("DAL:GetOrderuStatus:Exception:" + e);
             CleanUp(res, s);
-            return -1;
+            return OrderStatus.None;
         } // end try-catch
         finally {
             CleanUp(res, s);
         }
         System.out.println("DAL:GetOrderuStatus:Got the status of Order# " + orderNo + " successfully");
-        return status;
+        return OrderStatus.values[status];
     }
 
     private ArrayList<OrderInfo> GetOrders(String sqlStmnt) {
