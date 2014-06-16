@@ -24,6 +24,8 @@ public class RobotStatus implements Serializable {
     private int stn2Need = 0;
     private int stn3Need = 0;
     private int stn4Need = 0;
+
+    private int nextStn = -1;
     
     private int state = 0;
 
@@ -47,6 +49,14 @@ public class RobotStatus implements Serializable {
 
     public String toString() {
         return orderNo + " " + orderNo;
+    }
+
+    public void setNextStn(int nextStn) {
+        this.nextStn = nextStn;
+    }
+
+    public int getNextStn() {
+        return this.nextStn;
     }
 
     public void setOrderNo(int orderNo) {
