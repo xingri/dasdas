@@ -8,7 +8,7 @@ import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener; 
 import java.util.Enumeration;
 
-public class SerialInput implements SerialPortEventListener {
+public class SerialInput implements SerialPortEventListener, SerialInf {
 
 	SerialPort serialPort;
     StationManager staMan = null;
