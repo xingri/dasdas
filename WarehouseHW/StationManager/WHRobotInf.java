@@ -33,9 +33,19 @@ public class WHRobotInf {
 	private int	portNum = 501;				// Port number for server socket
 	private boolean robotServerStatus = true;
 
-	public WHRobotInf(int portNum) {
-		this.portNum = 501;
+	private boolean isEmulation = false;
+	private boolean isHandshaking = false;
+
+	public WHRobotInf() {
 	}
+
+    public void setHandshakingMode() {
+        isHandshaking = true;
+    }
+
+    public void setEmulationMode() {
+        isEmulation = true;
+    }
 
 	public WHRobotInf(String robotIP) {
 		this.robotIP = robotIP;
@@ -137,6 +147,12 @@ public class WHRobotInf {
 	}
 
 	private boolean sendCmd(byte cmd) {
+
+        if(isEmulation)  {
+            System.out.println("EmulationMode(IP Address)-" + this.robotIP);
+            return true;
+        }
+
 		boolean ret = true;
 		byte ack = 0;
 		InputStream in = null;
@@ -161,23 +177,24 @@ public class WHRobotInf {
 			ret = false;
 		}
 		
-        /*
-		try {
-			Thread.sleep(100);
-			in = clientSocket.getInputStream();
-			DataInputStream dis = new DataInputStream(in);
-			ack = dis.readByte();
-			//System.out.println("Ack from robot: " + ack);
-			if (ack != cmd) {
-				//System.out.println("Ack should be same with cmd sent");
-				ret = false;
-			}
-		} catch (Exception e) {
-			System.out.println( "Client Socket error: ack: " + e);
-			e.printStackTrace();
-			ret = false;
-		}
-        */
+        if(isHandshaking) {
+
+            try {
+                Thread.sleep(100);
+                in = clientSocket.getInputStream();
+                DataInputStream dis = new DataInputStream(in);
+                ack = dis.readByte();
+                //System.out.println("Ack from robot: " + ack);
+                if (ack != cmd) {
+                    //System.out.println("Ack should be same with cmd sent");
+                    ret = false;
+                }
+            } catch (Exception e) {
+                System.out.println( "Client Socket error: ack: " + e);
+                e.printStackTrace();
+                ret = false;
+            }
+        }
 		
 		try {
 			out.close();
