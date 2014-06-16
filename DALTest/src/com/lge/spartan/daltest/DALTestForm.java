@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.lge.spartan.daltest;
 
 import com.lge.spartan.dal.DAL;
@@ -12,6 +11,8 @@ import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.OrderStatus;
+import com.lge.spartan.data.RobotState;
+import com.lge.spartan.data.RobotStatus;
 import com.lge.spartan.data.Widget;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -21,7 +22,9 @@ import javax.swing.JOptionPane;
  * @author vijay.rachabattuni
  */
 public class DALTestForm extends javax.swing.JFrame {
-     static DAL dal = null;
+
+    static DAL dal = null;
+
     /**
      * Creates new form DALTestForm
      */
@@ -84,6 +87,27 @@ public class DALTestForm extends javax.swing.JFrame {
         jbtnGetWQuantity = new javax.swing.JButton();
         jtfGetWQuantName = new javax.swing.JTextField();
         jlblWQuantity = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jbtnAddRobotStatus = new javax.swing.JButton();
+        jbtnUpdateRobotStatus = new javax.swing.JButton();
+        jbtnGetRobotStatus = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jTextField7 = new javax.swing.JTextField();
+        jTextField8 = new javax.swing.JTextField();
+        jTextField9 = new javax.swing.JTextField();
+        jTextField10 = new javax.swing.JTextField();
+        jTextField11 = new javax.swing.JTextField();
         jbtnUninitDB = new javax.swing.JButton();
         jbtnIsAvailable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -105,7 +129,7 @@ public class DALTestForm extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGap(0, 737, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,7 +152,7 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jbtnGetCustomers)
-                .addContainerGap(488, Short.MAX_VALUE))
+                .addContainerGap(624, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,7 +168,7 @@ public class DALTestForm extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGap(0, 737, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +293,7 @@ public class DALTestForm extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,6 +470,145 @@ public class DALTestForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Inventory", jPanel1);
 
+        jbtnAddRobotStatus.setText("Add Robot Status");
+        jbtnAddRobotStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAddRobotStatusActionPerformed(evt);
+            }
+        });
+
+        jbtnUpdateRobotStatus.setText("Update Robot Status");
+        jbtnUpdateRobotStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnUpdateRobotStatusActionPerformed(evt);
+            }
+        });
+
+        jbtnGetRobotStatus.setText("Get Robot Status");
+        jbtnGetRobotStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGetRobotStatusActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("OrderNo");
+
+        jLabel12.setText("St1");
+
+        jLabel13.setText("jLabel13");
+
+        jLabel14.setText("jLabel14");
+
+        jLabel15.setText("jLabel15");
+
+        jLabel16.setText("jLabel16");
+
+        jTextField1.setText("jTextField1");
+
+        jTextField2.setText("jTextField2");
+
+        jTextField3.setText("jTextField3");
+
+        jTextField4.setText("jTextField4");
+
+        jTextField5.setText("jTextField5");
+
+        jTextField6.setText("jTextField6");
+
+        jTextField7.setText("jTextField7");
+
+        jTextField8.setText("jTextField8");
+
+        jTextField9.setText("jTextField9");
+
+        jTextField10.setText("jTextField10");
+
+        jTextField11.setText("jTextField11");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbtnAddRobotStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnUpdateRobotStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnGetRobotStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel12)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel15)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16)
+                        .addGap(24, 24, 24))))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnAddRobotStatus)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel16))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbtnGetRobotStatus)
+                .addGap(8, 8, 8)
+                .addComponent(jbtnUpdateRobotStatus)
+                .addContainerGap(152, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Robot", jPanel6);
+
         jbtnUninitDB.setText("Uninitialize DB");
         jbtnUninitDB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -514,8 +677,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private void jbtnPendingOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPendingOrdersActionPerformed
         // TODO add your handling code here:
         ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Inprogress);
-        for(OrderInfo oi : listOI)
-        {
+        for (OrderInfo oi : listOI) {
             System.out.println(oi.toString());
         }
     }//GEN-LAST:event_jbtnPendingOrdersActionPerformed
@@ -523,8 +685,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private void jbtnGetCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetCustomersActionPerformed
         // TODO add your handling code here:
         ArrayList<Customer> list = dal.GetCustomers();
-        for(Customer c : list)
-        {
+        for (Customer c : list) {
             System.out.println(c.toString());
         }
     }//GEN-LAST:event_jbtnGetCustomersActionPerformed
@@ -532,26 +693,23 @@ public class DALTestForm extends javax.swing.JFrame {
     private void jbtnGetWidgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetWidgetsActionPerformed
         // TODO add your handling code here:
         ArrayList<Widget> list = dal.GetWidgets();
-        for(Widget w : list)
-        {
+        for (Widget w : list) {
             System.out.println(w.toString());
         }
     }//GEN-LAST:event_jbtnGetWidgetsActionPerformed
 
     private void jbtnShippingOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnShippingOrdersActionPerformed
         // TODO add your handling code here:
-         ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Complete);
-        for(OrderInfo oi : listOI)
-        {
+        ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Complete);
+        for (OrderInfo oi : listOI) {
             System.out.println(oi.toString());
         }
     }//GEN-LAST:event_jbtnShippingOrdersActionPerformed
 
     private void jbtnBackorderedOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBackorderedOrdersActionPerformed
         // TODO add your handling code here:
-           ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Backordered);
-        for(OrderInfo oi : listOI)
-        {
+        ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Backordered);
+        for (OrderInfo oi : listOI) {
             System.out.println(oi.toString());
         }
     }//GEN-LAST:event_jbtnBackorderedOrdersActionPerformed
@@ -560,8 +718,7 @@ public class DALTestForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("DALTest: Phone" + jtfPhone.getText());
         ArrayList<OrderInfo> listOI = dal.GetOrdersByPhone(jtfPhone.getText());
-        for(OrderInfo oi : listOI)
-        {
+        for (OrderInfo oi : listOI) {
             System.out.println(oi.toString());
         }
     }//GEN-LAST:event_jbtnOrdersByPhoneActionPerformed
@@ -591,7 +748,7 @@ public class DALTestForm extends javax.swing.JFrame {
         list.add(new OrderDetails(3, 200));
         Customer cust = new Customer("vijay", "rachabattuni", "912312879812", "Outer ring road , Bangalore India 55439945");
         Customer cust1 = new Customer("vijay", "rachabattuni", "912312879812", "Bangalore India 55439945");
-        
+
         //dal.AddOrder(null, null);
         //dal.AddOrder(list, cust);
         dal.AddOrder(list, cust1);
@@ -610,14 +767,14 @@ public class DALTestForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         String strWName = jtfIncWName.getText();
         int q = Integer.parseInt(jtfIncBy.getText());
-        dal.IncWidgets(strWName,q);
+        dal.IncWidgets(strWName, q);
     }//GEN-LAST:event_jbtnIncWidgetActionPerformed
 
     private void jbtnDecWidgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDecWidgetActionPerformed
         // TODO add your handling code here:
-         String strWName = jtfDecWName.getText();
+        String strWName = jtfDecWName.getText();
         int q = Integer.parseInt(jtfDecBy.getText());
-        dal.DecWidgets(strWName,q);
+        dal.DecWidgets(strWName, q);
     }//GEN-LAST:event_jbtnDecWidgetActionPerformed
 
     private void jbtnGetWQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetWQuantityActionPerformed
@@ -625,27 +782,26 @@ public class DALTestForm extends javax.swing.JFrame {
         String name = jtfGetWQuantName.getText();
         int q = 0;
         q = dal.GetWidgetQuantity(name);
-        if(q != -9999999)
+        if (q != -9999999) {
             System.out.println("DALTest:GetWidgetQuanity success");
-        else
+        } else {
             System.out.println("DALTest:GetWidgetQuanity failed");
+        }
         jlblWQuantity.setText("Q: " + q);
     }//GEN-LAST:event_jbtnGetWQuantityActionPerformed
 
     private void jbtnGetPendingOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetPendingOrdersActionPerformed
         // TODO add your handling code here:
-            ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Pending);
-        for(OrderInfo oi : listOI)
-        {
+        ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.Pending);
+        for (OrderInfo oi : listOI) {
             System.out.println(oi.toString());
         }
     }//GEN-LAST:event_jbtnGetPendingOrdersActionPerformed
 
     private void jbtnGetAllOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetAllOrdersActionPerformed
         // TODO add your handling code here:
-          ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.All);
-        for(OrderInfo oi : listOI)
-        {
+        ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.All);
+        for (OrderInfo oi : listOI) {
             System.out.println(oi.toString());
         }
     }//GEN-LAST:event_jbtnGetAllOrdersActionPerformed
@@ -659,33 +815,73 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnIsAvailableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIsAvailableActionPerformed
         // TODO add your handling code here:
-        if(dal.IsDBAvailable())
+        if (dal.IsDBAvailable()) {
             System.out.println("DB is available!!");
-        else
+        } else {
             System.out.println("DB is not available!!");
+        }
     }//GEN-LAST:event_jbtnIsAvailableActionPerformed
+
+    private void jbtnAddRobotStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddRobotStatusActionPerformed
+        // TODO add your handling code here:
+        RobotStatus rs = new RobotStatus();
+        rs.setOrderNo(2);
+        rs.setState(RobotState.Idle.ordinal());
+        rs.setStn1Need(1);
+        rs.setStn2Need(1);
+        rs.setStn3Need(0);
+        rs.setStn1Visited(1);
+        
+        if(dal.AddRobotStatus(rs) == 0)
+            System.out.println("AddRobotStatus success");
+        else
+            System.out.println("AddRobotStatus failed");
+    }//GEN-LAST:event_jbtnAddRobotStatusActionPerformed
+
+    private void jbtnGetRobotStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetRobotStatusActionPerformed
+        // TODO add your handling code here:
+        RobotStatus rs = dal.GetRobotStatus(1);
+        if(rs != null)
+            System.out.println("Get Robot Status success. RobotStatus:" + rs.getState().toString());
+        else
+            System.out.println("Get Robot Status failed");
+    }//GEN-LAST:event_jbtnGetRobotStatusActionPerformed
+
+    private void jbtnUpdateRobotStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpdateRobotStatusActionPerformed
+        // TODO add your handling code here:
+        RobotStatus rs = new RobotStatus();
+        rs.setOrderNo(2);
+        rs.setState(RobotState.Idle.ordinal());
+        rs.setStn1Need(1);
+        rs.setStn2Need(1);
+        rs.setStn3Need(0);
+        rs.setStn1Visited(1);
+        
+        if(dal.UpdateRobotStatus(rs) == 0)
+            System.out.println("AddRobotStatus success");
+        else
+            System.out.println("AddRobotStatus failed");
+    }//GEN-LAST:event_jbtnUpdateRobotStatusActionPerformed
 
     private void InitDB() {
         dal = new MySQLDALImpl();
         boolean res = dal.Initialize("127.0.0.1", "root", "");//vijay
-        if(res == true)
-        {
+        if (res == true) {
             JOptionPane.showMessageDialog(this, "DB Init Success11");
-        }
-        else
+        } else {
             JOptionPane.showMessageDialog(this, "DB Init Failed");
-    }
-    
-     private void UninitDB() {
-        boolean res = dal.Uninitialize();
-        if(res == true)
-        {
-            JOptionPane.showMessageDialog(this, "DB Uninit Success");
         }
-        else
-            JOptionPane.showMessageDialog(this, "DB Uninit Failed");
     }
-    
+
+    private void UninitDB() {
+        boolean res = dal.Uninitialize();
+        if (res == true) {
+            JOptionPane.showMessageDialog(this, "DB Uninit Success");
+        } else {
+            JOptionPane.showMessageDialog(this, "DB Uninit Failed");
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -724,6 +920,12 @@ public class DALTestForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -741,8 +943,21 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     private javax.swing.JButton jbtnAddOrder;
+    private javax.swing.JButton jbtnAddRobotStatus;
     private javax.swing.JButton jbtnAddWidget;
     private javax.swing.JButton jbtnBackorderedOrders;
     private javax.swing.JButton jbtnDecWidget;
@@ -750,6 +965,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnGetCustomers;
     private javax.swing.JButton jbtnGetOrderStatus;
     private javax.swing.JButton jbtnGetPendingOrders;
+    private javax.swing.JButton jbtnGetRobotStatus;
     private javax.swing.JButton jbtnGetWQuantity;
     private javax.swing.JButton jbtnGetWidgets;
     private javax.swing.JButton jbtnIncWidget;
@@ -760,6 +976,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnShippingOrders;
     private javax.swing.JButton jbtnUninitDB;
     private javax.swing.JButton jbtnUpdateOrderStatus;
+    private javax.swing.JButton jbtnUpdateRobotStatus;
     private javax.swing.JComboBox jcbOrderStatus;
     private javax.swing.JLabel jlblWQuantity;
     private javax.swing.JTextField jtfDecBy;
