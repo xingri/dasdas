@@ -1,3 +1,3 @@
 public interface WHWorker {
-    public void procRequest();
+    public void procRequest(int idx);
 }

@@ -13,12 +13,15 @@ public class WarehouseMain implements StationManager {
                 WHEvent currEvent = new WHEvent(inputLine);
                 if (currEvent.isSwitch()) {
                     System.out.println("Switch IDX: " + currEvent.getSwitchIdx());
-                    whWorker.procRequest();
+                    whWorker.procRequest(currEvent.getSwitchIdx());
                 } else {
                     if (currEvent.isValid() && ( cachedSwEvent == null 
                             || !currEvent.isSameSensor(cachedSwEvent.getEventList())) ) {
                         System.out.println("Sensor IDX: " + currEvent.getSensorIdx());
-                        whWorker.procRequest();
+
+                        //try {Thread.sleep(300);} catch (InterruptedException ie) {}
+                        try {Thread.sleep(200);} catch (InterruptedException ie) {}
+                        whWorker.procRequest(currEvent.getSensorIdx());
                         cachedSwEvent = new WHEvent(inputLine);
                     }
                 }
@@ -44,13 +47,19 @@ public class WarehouseMain implements StationManager {
 
         WarehouseMain whMain = new WarehouseMain();
 
-        //SerialInput serialInput = new SerialInput();
-        VSerialInput serialInput = new VSerialInput();
+        SerialInf serialInput;
+
+        if(WHConfig.IsEmulator()) {
+            serialInput = new VSerialInput();
+        } else { 
+            serialInput = new SerialInput();
+        }
+
         serialInput.setStationManager(whMain);
         serialInput.initialize();
 
         WHStartWorker startWorker = new WHStartWorker();
-        startWorker.procRequest();
+        startWorker.procRequest(0); // arg 0 has no meaning in case of startWorker
 
         Thread t=new Thread() {
             public void run() {

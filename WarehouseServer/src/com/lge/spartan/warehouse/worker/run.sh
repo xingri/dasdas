@@ -1,1 +1,1 @@
-javac -classpath .:../:/Users/xingri/prj/arch/work/dasdas/DAL/dist/DAL.jar ISSensorWorker.java SSSensorWorker.java WHWorker.java ISSwitchWorker.java SSSwitchWorker.java WHStartWorker.java WHWorkerFactory.java
+javac -classpath .:../:../../../../../../../DAL/dist/DAL.jar:../../../../../../../WarehouseHW/StationManager ISSensorWorker.java SSSensorWorker.java WHWorker.java ISSwitchWorker.java SSSwitchWorker.java WHStartWorker.java WHWorkerFactory.java
