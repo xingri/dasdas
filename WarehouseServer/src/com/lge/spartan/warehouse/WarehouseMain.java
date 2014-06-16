@@ -49,7 +49,7 @@ public class WarehouseMain implements StationManager {
 
         SerialInf serialInput;
 
-        if(WHConfig.IsEmulator()) {
+        if(WHConfig.IsInputEmulator()) {
             serialInput = new VSerialInput();
         } else { 
             serialInput = new SerialInput();
