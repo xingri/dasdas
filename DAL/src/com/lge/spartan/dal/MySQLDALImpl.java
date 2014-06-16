@@ -738,7 +738,10 @@ public class MySQLDALImpl implements DAL {
                 robotStatus.setStn4Need(res.getInt(9));
                 robotStatus.setNextStn(res.getInt(10));
                 robotStatus.setState(res.getInt(11));
+                 System.out.println("DAL:GetRobotStatus:RobotStatus retreived successfully.");
             }
+            else
+                 System.out.println("DAL:GetRobotStatus:RobotStatus retreived failed.");
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:GetRobotStatus:Exception:" + e);
@@ -748,7 +751,7 @@ public class MySQLDALImpl implements DAL {
             CleanUp(res, s);
         }
 
-        System.out.println("DAL:GetRobotStatus:RobotStatus retreived successfully.");
+       
         return robotStatus;
     }
 
