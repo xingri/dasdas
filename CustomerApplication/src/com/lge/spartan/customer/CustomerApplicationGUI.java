@@ -58,6 +58,7 @@ public class CustomerApplicationGUI {
 	JButton bGetWidgetName; 
 	JButton bSubmit; 
 	JButton bGetOrderStatus; 
+	JButton bClear; 
 	
 	JScrollPane spAddress;
 	JScrollPane spWidget; 
@@ -95,6 +96,7 @@ public class CustomerApplicationGUI {
 		bAddWidget = new JButton(">>");
 		bGetWidgetName = new JButton("Referesh WidgetName");
 		bGetOrderStatus = new JButton("GetOrderStatus");
+		bClear = new JButton("Clear");
 		
 		lWidgetName = new JLabel("Widgets: ");
 		widgetNameList = new JList<Widget>();
@@ -226,7 +228,9 @@ public class CustomerApplicationGUI {
 				order.setCust(customer);
 				ArrayList<OrderDetails> listWidget = controller.getWidgetTuple();
 				order.setListOrderDetails(listWidget);
-				controller.submitOrder(order); 
+				controller.submitOrder(order);
+				controller.clearOrder();
+				showListTuple(); 
 			}else if(e.getSource()== bAddWidget){
 				String quantity = JOptionPane.showInputDialog("How many ?");
 				System.out.println(selectedWidgetID + ":" + selectedWidgetName + ":" + quantity);

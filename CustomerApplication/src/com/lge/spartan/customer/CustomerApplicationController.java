@@ -62,6 +62,11 @@ public class CustomerApplicationController {
 		System.out.println("Added: "+ id + "," + name + "," + quantity);
 	}
 	
+	public void clearOrder(){
+		widgetTuples.clear();
+		System.out.println("Clear Order:");
+	}
+	
 	public ArrayList<OrderDetails> getWidgetTuple(){
 		return widgetTuples; 
 	}

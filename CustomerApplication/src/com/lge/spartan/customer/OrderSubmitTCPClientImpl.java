@@ -137,7 +137,7 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 		order.setShippingTime("444");
 		order.setStatus(1);
 		order.setListOrderDetails(od);
-		orderList.add(order);
+		//orderList.add(order);
 		
 		return orderList;
 	}

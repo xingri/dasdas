@@ -25,8 +25,8 @@ public class OrderReceiver extends Thread{
 	public void run(){
 		System.out.println("OrderServer is now running....");
 	
-		boolean dbCheck = db.Initialize("localhost", "root", "seo10jin");
-		//boolean dbCheck = db.Initialize("10.254.17.157", "spartan", "spartan");
+		//boolean dbCheck = db.Initialize("localhost", "root", "seo10jin");
+		boolean dbCheck = db.Initialize("128.237.247.93", "spartan", "spartan");
 		if(dbCheck == false){
 			System.out.println("DB initailization Error");
 		}
@@ -119,7 +119,7 @@ public class OrderReceiver extends Thread{
 						order.setShippingTime("2014-06-11");
 						order.setStatus(1);
 						order.setListOrderDetails(od);
-						oiList.add(order);
+					//	oiList.add(order);
 						
 						Message reply = new Message(104, oiList);
 						oos.writeObject(reply);
