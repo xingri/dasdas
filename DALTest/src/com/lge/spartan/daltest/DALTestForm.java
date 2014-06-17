@@ -742,18 +742,29 @@ public class DALTestForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jbtnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddOrderActionPerformed
-        // TODO add your handling code here:
-        ArrayList<OrderDetails> list = new ArrayList<OrderDetails>();
-        list.add(new OrderDetails(2, 100));
-        list.add(new OrderDetails(3, 200));
-        Customer cust = new Customer("vijay", "rachabattuni", "912312879812", "Outer ring road , Bangalore India 55439945");
-        Customer cust1 = new Customer("vijay", "rachabattuni", "912312879812", "Bangalore India 55439945");
-
-        //dal.AddOrder(null, null);
-        //dal.AddOrder(list, cust);
-        dal.AddOrder(list, cust1);
+        AddOrders(10000);
     }//GEN-LAST:event_jbtnAddOrderActionPerformed
 
+    private void AddOrders(int n) {
+        // TODO add your handling code here:
+        ArrayList<OrderDetails> list = new ArrayList<OrderDetails>();
+        Customer cust = new Customer("ankit", "rachabattuni", "1234", "Outer ring road , Bangalore India 55439945");
+        Customer cust1 = new Customer("amar", "rachabattuni", "4321", "Bangalore India 55439945");
+        
+        for(int i = 0; i < n; i++)
+        {
+            list.clear();
+            list.add(new OrderDetails(1, i+1));
+            list.add(new OrderDetails(2, i+1));
+        
+            if(i%2 == 0)
+                dal.AddOrder(list, cust1);
+            else
+                dal.AddOrder(list, cust);
+        }
+    }
+    
+   
     private void jbtnAddWidgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddWidgetActionPerformed
         // TODO add your handling code here:ex
         String strWName = jtfWName.getText();
