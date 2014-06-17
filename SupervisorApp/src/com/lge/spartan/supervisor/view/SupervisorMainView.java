@@ -516,9 +516,36 @@ public class SupervisorMainView extends SupervisorView {
     }//GEN-LAST:event_jbtnCustRefreshActionPerformed
 */
     
+    private void updateBackorderStatus() {
+    	ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getCurProgressOrder();
+        /*
+         *  TODO : 3rd station visited 이후에 robot status를 바꿀 수가 없음.
+         *  		CurOrder가 "0" 이라서...
+         */
+        
+        if (orderList == null) {
+        	return;
+        }
+        
+        if (orderList.size() == 0) {            
+        
+     	   return;
+        }    	
+    }
+    
     private void updateCurOrderStatus() {
        ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getCurProgressOrder();
-       if (orderList == null || orderList.size() == 0) {            
+       
+       if (orderList == null) {
+    	   return;
+       }
+       
+       if (orderList.size() == 0) {
+    	   /*
+            *  TODO : 3rd station visited 이후에 robot status를 바꿀 수가 없음.
+            *  		CurOrder가 "0" 이라서...
+            */
+           
     	   return;
        }
        
@@ -537,7 +564,7 @@ public class SupervisorMainView extends SupervisorView {
     }
     
     private void updateOrderLists() {
-        final ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getPendingOrders();                
+        final ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getAllOrders();                
         if (orderList == null) {            
         	return;
         }
@@ -554,12 +581,15 @@ public class SupervisorMainView extends SupervisorView {
                 oi.getShippingTime() != null ? oi.getShippingTime() : ' ',
                 oi.getCust() != null ? oi.getCust().getFname() : ' ',
                 oi.getCust() != null ? oi.getCust().getPhone() : ' '});
+            
         }
+        
         jTable3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (orderList == null) {
                     return;
                 }
+                
                 ClearTable(jTable4);
                 String sorderNo = jTable3.getValueAt(jTable3.getSelectedRow(), 1).toString();
                 int orderNo = Integer.parseInt(sorderNo);

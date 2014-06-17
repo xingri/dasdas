@@ -57,7 +57,7 @@ public class UpdateWidgetView extends SupervisorView {
         closeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Update Widget");
+        setTitle("Add Widget Quantity");
 
         jLabel1.setText("Widget Name");
 
@@ -90,7 +90,7 @@ public class UpdateWidgetView extends SupervisorView {
             }
         });
 
-        btnUpdateWidget.setText("Add Widget Quantity");
+        btnUpdateWidget.setText("Update");
         btnUpdateWidget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateWidgetActionPerformed(evt);

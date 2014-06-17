@@ -40,9 +40,9 @@ public class SupervisorController extends Thread/*implements IController*/ {
     }
     
     public boolean connectDB() {
-        // TODO
-        //setConnectDBState(dal.Initialize("10.254.18.128", "root", "seo10jin"));        
-        setConnectDBState(db.Initialize("localhost", "root", "1234"));        
+        // TODO                
+        //setConnectDBState(db.Initialize("localhost", "root", "1234"));
+    	setConnectDBState(db.Initialize("128.237.247.93", "spartan", "spartan"));
         return bDBConnectState;
     }
     
@@ -92,6 +92,11 @@ public class SupervisorController extends Thread/*implements IController*/ {
     public ArrayList<OrderInfo> getPendingOrders() {
         // TODO
         return db.GetOrders(OrderStatus.Pending);       
+    }
+    
+    public ArrayList<OrderInfo> getAllOrders() {
+        // TODO
+        return db.GetOrders(OrderStatus.All);       
     }
     
     public ArrayList<OrderInfo> getCurProgressOrder() {

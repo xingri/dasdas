@@ -49,7 +49,7 @@ public class AddWidgetView extends SupervisorView {
         closebtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add Widget");
+        setTitle("Create New Widget");
 
         jLabel1.setText("Widget Name");
 
@@ -61,7 +61,7 @@ public class AddWidgetView extends SupervisorView {
 
         stationId.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
 
-        createWidget.setText("Create New Widget");
+        createWidget.setText("Create");
         createWidget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createWidgetActionPerformed(evt);
@@ -165,7 +165,7 @@ public class AddWidgetView extends SupervisorView {
         addInventory.setName(name.getText());
         addInventory.setDesc(desc.getText());
         addInventory.setQuantity(Integer.parseInt(quantity.getText()));
-        addInventory.setStationId(stationId.getSelectedIndex());
+        addInventory.setStationId(stationId.getSelectedIndex() + 1);
                 
         int res = SupervisorController.getInstance().createNewInventory(addInventory);
         
