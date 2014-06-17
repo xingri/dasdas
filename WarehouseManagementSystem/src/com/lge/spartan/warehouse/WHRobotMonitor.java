@@ -1,20 +1,31 @@
 import java.io.*;
 
 public class WHRobotMonitor implements Runnable {
-
+	public static final boolean NORMAL_CMD = true;
+	public static final boolean MANUAL_CMD = false;
+	
 	private boolean done = false;
+	private String robotIP;
+	private int	portNum;				
 	private boolean arrivalStation = false;
 	private boolean robotHealth = true;
 	private boolean robotWatchdog = false;
 	private WHRobotInf robotInf = null;
+	private WHRobotManualCommander manualCommander = null;
 	private boolean goCmd = false;
+	private boolean commandMode = NORMAL_CMD;
 	private boolean cmdReturn = false;
 	private int pollingInterval = 1000; //default 1000ms
 	
-	public WHRobotMonitor(WHRobotInf robotInf) {
-		this.robotInf = robotInf;
+	public WHRobotMonitor(String robotIP, int portNum) {
+		this.robotIP = robotIP;
+		this.portNum = portNum;
+		robotInf = new WHRobotInf(robotIP, portNum);
+		manualCommander = new WHRobotManualCommander(this);
+		Thread manualThread = new Thread(manualCommander);
+		manualThread.start();
 	}
-
+	
 	public boolean isArrivalStation() {
 		return arrivalStation;
 	}
@@ -54,6 +65,12 @@ public class WHRobotMonitor implements Runnable {
 			System.out.println("Can't processe command due to abnormal robot state");
 			return false;
 		}
+		
+		if (commandMode == MANUAL_CMD) {
+			System.out.println("Can't processe command while MANUAL COMMAND mode");
+			return false;
+		}
+		
 		goCmd = true;
 		arrivalStation = false;
 		
@@ -65,6 +82,11 @@ public class WHRobotMonitor implements Runnable {
 			return false;
 		
 		while (!arrivalStation) {
+			if (commandMode == MANUAL_CMD) {
+				System.out.println("Exit waiting arrival event because of changing to MANUAL Command mode");
+				return false;
+			}
+			
 			System.out.println("wait for arrival event");
 			try {
 				Thread.sleep(pollingInterval);
@@ -75,6 +97,38 @@ public class WHRobotMonitor implements Runnable {
 		return true;
 	}
 	
+	public boolean goFoward(int step) {
+		if (step == 0)
+			return true;
+		return robotInf.goFoward(step);
+	}
+	
+	public boolean goBackward(int step) {
+		if (step == 0)
+			return true;
+		return robotInf.goBackward(step);
+	}
+	
+	public boolean turnLeft(int step) {
+		if (step == 0)
+			return true;
+		return robotInf.turnLeft(step);
+	}
+
+	public boolean turnRight(int step) {
+		if (step == 0)
+			return true;
+		return robotInf.turnRight(step);
+	}
+	
+	public boolean stop() {
+		commandMode = MANUAL_CMD;
+		return robotInf.stop();
+	}
+	
+	public void convertNormalMode() {
+		commandMode = NORMAL_CMD;
+	}
 	
 	public int getPollingInterval() {
 		return pollingInterval;
@@ -93,6 +147,10 @@ public class WHRobotMonitor implements Runnable {
 		if (robotInf != null) 
 			ret = robotInf.isRobotServerStatus();
 		return ret;
+	}
+
+	public WHRobotInf getRobotInf() {
+		return robotInf;
 	}
 
 	@Override
