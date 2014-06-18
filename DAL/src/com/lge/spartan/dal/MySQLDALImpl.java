@@ -886,22 +886,22 @@ public class MySQLDALImpl implements DAL {
     public synchronized RobotState GetRobotState(int robotId)
     {
          logger.entry();
-        System.out.println("DAL:GetRobotStatus(): RobotId:" + robotId);
+        System.out.println("DAL:GetRobotState(): RobotId:" + robotId);
         ResultSet rs = null;
         RobotState r = null;
         try {
             CreateStmnt();
-            SQLStatement = "select * from robot where robotId = " + robotId + ";";
+            SQLStatement = "select status from robot where robotId = " + robotId + ";";
             rs = s.executeQuery(SQLStatement);
             if(rs.next()) {
                 r = RobotState.values[rs.getInt(1)];
-                 System.out.println("DAL:GetRobotStatus():Succe: RobotId:" + robotId + ", Satus: " + r.toString());
+                 System.out.println("DAL:GetRobotState():Succe: RobotId:" + robotId + ", Satus: " + r.toString());
             } // for each ele
             else
-                 System.out.println("DAL:GetRobotStatus(): Failed");
+                 System.out.println("DAL:GetRobotState(): Failed");
         } catch (Exception e) {
             logger.error("Exception " + e);
-            System.out.println("DAL:GetRobotStatus:Exception:" + e);
+            System.out.println("DAL:GetRobotState:Exception:" + e);
         } // end try-catch
         finally {
             CleanUp(rs, s);
@@ -909,6 +909,29 @@ public class MySQLDALImpl implements DAL {
         return r;
     }
     
+    public boolean SetRobotState(int robotId, RobotState r)
+    {
+        logger.entry();
+        System.out.println("DAL:SetRobotState(): RobotId:" + robotId);
+        try {
+            CreateStmnt();
+            SQLStatement = "update robot set status = " + r.ordinal() + " where robotId = " + robotId + ";";
+            System.out.println("DAL:SetRobotState(): Stmnt: " + SQLStatement);
+            int i = s.executeUpdate(SQLStatement);
+            if(i > 0) {
+                 System.out.println("DAL:SetRobotState():Succe: RobotId:" + robotId + ", Satus: " + r.toString());
+            } // for each ele
+            else
+                 System.out.println("DAL:SetRobotState(): Failed");
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:SetRobotState:Exception:" + e);
+        } // end try-catch
+        finally {
+            CleanUp(null, s);
+        }
+        return true;
+    }
     public synchronized ArrayList<Station> GetStations()
     {
          logger.entry();

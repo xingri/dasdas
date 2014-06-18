@@ -76,6 +76,8 @@ public interface DAL {
     
     public RobotState GetRobotState(int robotId);
     
+    public boolean SetRobotState(int robotId, RobotState rs);
+    
     public RobotStatus GetRobotMoves(int robotId, int orderId);
     
     //Robot - End
