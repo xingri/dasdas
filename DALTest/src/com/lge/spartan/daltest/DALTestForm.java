@@ -742,7 +742,7 @@ public class DALTestForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jbtnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddOrderActionPerformed
-        AddOrders(10000);
+        AddOrders(1);
     }//GEN-LAST:event_jbtnAddOrderActionPerformed
 
     private void AddOrders(int n) {
