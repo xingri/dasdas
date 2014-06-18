@@ -20,6 +20,11 @@ public class Warehouse {
     private String ipaddress;
     private int status;
 
+     @Override
+    public String toString()
+    {
+        return "ID: " + getWarehouseId() + ", Name:"+getName() + ", Desc:" + getDesc() +", NoOfInvStns: " +getNoOfInvStations() + ", NoOfShipStation:" + getNoOfShippingStations() +", Robots:" + getNoOfRobots() + ", IPAdd:" + getIpaddress();
+    }
     /**
      * @return the warehouseId
      */

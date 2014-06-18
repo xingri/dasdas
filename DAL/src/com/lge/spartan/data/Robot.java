@@ -18,6 +18,11 @@ public class Robot {
     private RobotState status;
     private String ipaddress;
 
+     @Override
+    public String toString()
+    {
+        return "ID: " + getRobotId()+ ", Name:"+getName() + ", Desc:" + getDesc() +", State: " +getStatus().toString()+ ", IPAdd:" + getIpaddress();
+    }
     /**
      * @return the robotId
      */

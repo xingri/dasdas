@@ -17,6 +17,11 @@ public class Station {
     private int warehouseId;
     private StationType type;
 
+       @Override
+    public String toString()
+    {
+        return "Id:" + getStationId() + ", Name:" + getName() + ", Desc: " + getDesc() + ", WHID:" + getWarehouseId() + ", Type:"+ type.toString();
+    }
     /**
      * @return the robotId
      */
