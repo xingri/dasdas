@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author sun.shin
  */
 public class RobotStatus implements Serializable {
-    private int stn1Visited = 0;
+   /* private int stn1Visited = 0;
     private int stn2Visited = 0;
     private int stn3Visited = 0;
     private int stn4Visited = 0;
@@ -25,7 +25,7 @@ public class RobotStatus implements Serializable {
     private int nextStn = -1;
     
     private int state = 0;
-    
+    */
     
    //NEW DATA
     private int robotId =0;
@@ -50,13 +50,11 @@ public class RobotStatus implements Serializable {
         return str;
     }*/
     
-    public RobotState getState()   {
+    /*public RobotState getState()   {
         return RobotState.values[state];
     }
 
-    public String toString() {
-        return orderNo + " " + orderNo;
-    }
+  
 
     public void setNextStn(int nextStn) {
         this.nextStn = nextStn;
@@ -65,7 +63,17 @@ public class RobotStatus implements Serializable {
     public int getNextStn() {
         return this.nextStn;
     }
-
+*/
+    @Override
+    public String toString() {
+        return "RobotId:" + getRobotId() 
+                + " OrderNo:" + getOrderNo()
+                + " StationsToVisit:" + getStationsToVisit().toString()
+                + " StationsVisited:" + getStationsVisited().toString()
+                + " CurrentStation:" +getCurrentStation()
+                + " NexStation:" + getNextStation();
+    }
+      
     public void setOrderNo(int orderNo) {
         this.orderNo = orderNo;
     }
@@ -73,8 +81,8 @@ public class RobotStatus implements Serializable {
     public int getOrderNo() {
         return this.orderNo;
     }
-
-    public void setStn1Visited(int stn1Visited) {
+    
+   /* public void setStn1Visited(int stn1Visited) {
         this.stn1Visited = stn1Visited;
     }
 
@@ -141,7 +149,7 @@ public class RobotStatus implements Serializable {
     public void setState(int state) {
         this.state = state;
     }
-
+*/
     /**
      * @return the robotId
      */
