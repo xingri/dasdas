@@ -68,13 +68,16 @@ public interface DAL {
     //Robot - Start
     public int AddRobotStatus(RobotStatus robotStatus);
 
-    public RobotStatus GetRobotStatus(int orderNo);
+  //  public RobotStatus GetRobotStatus(int orderNo);
 
     public int UpdateRobotStatus(RobotStatus robotStatus);
     
     public ArrayList<Robot> GetRobots();
     
     public RobotState GetRobotState(int robotId);
+    
+    public RobotStatus GetRobotMoves(int robotId, int orderId);
+    
     //Robot - End
     
     public ArrayList<Station> GetStations();

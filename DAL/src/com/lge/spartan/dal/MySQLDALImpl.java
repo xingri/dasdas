@@ -947,4 +947,61 @@ public class MySQLDALImpl implements DAL {
         }
         return warehouseList;
     }
+    
+    public RobotStatus GetRobotMoves(int robotId, int orderId)
+    {
+          logger.entry();
+        System.out.println("DAL:GetRobotMoves(): RobotId:" + robotId + ", OrderId:" + orderId);
+        ResultSet rs = null;
+        RobotStatus r = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select * from robotmoves where robotId = " + robotId + "and order No =" + orderId;
+            rs = s.executeQuery(SQLStatement);
+            if(rs.next()) {
+                r = new RobotStatus();
+                String stnsToVisit = rs.getString(3);
+                String stnsVisited = rs.getString(4);
+                r.setCurrentStation(rs.getInt(5));
+                r.setNextStation(rs.getInt(6));
+                r.setStationsToVisit(DelimitStringWithComma(stnsToVisit));
+                r.setStationsVisited(DelimitStringWithComma(stnsVisited));
+                 System.out.println("DAL:GetRobotStatus():Succe: RobotId:" + robotId + ", StnsToVisit:" + stnsToVisit +", StnsVisited:" +stnsVisited + ", CurStn:" + r.getCurrentStation() + ", NextStn:" + r.getNextStation());
+            } // for each ele
+            else
+                 System.out.println("DAL:GetRobotMoves(): Failed");
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobotMoves:Exception:" + e);
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return r;
+    }
+    
+    private ArrayList<Integer> DelimitStringWithComma(String st)
+    {
+        String[] data = st.split(",");
+        ArrayList<Integer> list = null;
+        if(data.length > 0)
+            list = new ArrayList();
+        else
+        {
+            System.out.println("DAL:DelimitStringWithComma: No comma found in the string " + st);
+            return null;
+        }
+        for(String s: data)
+        {
+            try
+            {
+                int i = Integer.parseInt(s);
+                list.add(i);
+            }
+            catch(Exception e){
+                System.out.println("DAL:DelimitStringWithComma: Exception:" + e);
+            }
+        }
+        return list;
+    }
 }

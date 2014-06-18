@@ -31,10 +31,12 @@ public class RobotStatus implements Serializable {
     private int robotId =0;
     private int orderNo =0;
     private ArrayList<Integer> stationsToVisit = null;
-    public ArrayList<Integer> stationsVisited = null;
+    private ArrayList<Integer> stationsVisited = null;
+    private int currentStation = 0;
+    private int nextStation = 0;
     //NEW DATA
 
-    public String getStationsVisited()
+    /*public String getStationsVisited()
     {
         String str = "";
         if(stn4Visited == 1)
@@ -46,7 +48,7 @@ public class RobotStatus implements Serializable {
         if(stn1Visited == 1)
             str += "Station 1;";
         return str;
-    }
+    }*/
     
     public RobotState getState()   {
         return RobotState.values[state];
@@ -171,14 +173,42 @@ public class RobotStatus implements Serializable {
        /**
      * @return the stationsVisited
      */
-    public ArrayList<Integer> getStnsVisited() {
+    public ArrayList<Integer> getStationsVisited() {
         return stationsVisited;
     }
 
     /**
      * @param stationsVisited the stationsVisited to set
      */
-    public void setStnsVisited(ArrayList<Integer> stationsVisited) {
+    public void setStationsVisited(ArrayList<Integer> stationsVisited) {
         this.stationsVisited = stationsVisited;
+    }
+
+    /**
+     * @return the currentStation
+     */
+    public int getCurrentStation() {
+        return currentStation;
+    }
+
+    /**
+     * @param currentStation the currentStation to set
+     */
+    public void setCurrentStation(int currentStation) {
+        this.currentStation = currentStation;
+    }
+
+    /**
+     * @return the nextStation
+     */
+    public int getNextStation() {
+        return nextStation;
+    }
+
+    /**
+     * @param nextStation the nextStation to set
+     */
+    public void setNextStation(int nextStation) {
+        this.nextStation = nextStation;
     }
 }
