@@ -4,7 +4,11 @@ import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.OrderStatus;
+import com.lge.spartan.data.Robot;
+import com.lge.spartan.data.RobotState;
 import com.lge.spartan.data.RobotStatus;
+import com.lge.spartan.data.Station;
+import com.lge.spartan.data.Warehouse;
 import com.lge.spartan.data.Widget;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +71,15 @@ public interface DAL {
     public RobotStatus GetRobotStatus(int orderNo);
 
     public int UpdateRobotStatus(RobotStatus robotStatus);
+    
+    public ArrayList<Robot> GetRobots();
+    
+    public RobotState GetRobotState(int robotId);
     //Robot - End
+    
+    public ArrayList<Station> GetStations();
+    
+    public ArrayList<Warehouse> GetWarehouses();
     
     public boolean IsDBAvailable();
 }

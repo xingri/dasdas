@@ -1,7 +1,7 @@
 package com.lge.spartan.data;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,9 +12,6 @@ import java.io.Serializable;
  * @author sun.shin
  */
 public class RobotStatus implements Serializable {
-
-    private int orderNo;
-
     private int stn1Visited = 0;
     private int stn2Visited = 0;
     private int stn3Visited = 0;
@@ -28,6 +25,14 @@ public class RobotStatus implements Serializable {
     private int nextStn = -1;
     
     private int state = 0;
+    
+    
+   //NEW DATA
+    private int robotId =0;
+    private int orderNo =0;
+    private ArrayList<Integer> stationsToVisit = null;
+    public ArrayList<Integer> stationsVisited = null;
+    //NEW DATA
 
     public String getStationsVisited()
     {
@@ -133,5 +138,47 @@ public class RobotStatus implements Serializable {
     
     public void setState(int state) {
         this.state = state;
+    }
+
+    /**
+     * @return the robotId
+     */
+    public int getRobotId() {
+        return robotId;
+    }
+
+    /**
+     * @param robotId the robotId to set
+     */
+    public void setRobotId(int robotId) {
+        this.robotId = robotId;
+    }
+
+    /**
+     * @return the stationsToVisit
+     */
+    public ArrayList<Integer> getStationsToVisit() {
+        return stationsToVisit;
+    }
+
+    /**
+     * @param stationsToVisit the stationsToVisit to set
+     */
+    public void setStationsToVisit(ArrayList<Integer> stationsToVisit) {
+        this.stationsToVisit = stationsToVisit;
+    }
+    
+       /**
+     * @return the stationsVisited
+     */
+    public ArrayList<Integer> getStnsVisited() {
+        return stationsVisited;
+    }
+
+    /**
+     * @param stationsVisited the stationsVisited to set
+     */
+    public void setStnsVisited(ArrayList<Integer> stationsVisited) {
+        this.stationsVisited = stationsVisited;
     }
 }

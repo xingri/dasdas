@@ -17,8 +17,13 @@ import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.OrderStatus;
-import com.lge.spartan.data.Widget;
+import com.lge.spartan.data.Robot;
+import com.lge.spartan.data.RobotState;
 import com.lge.spartan.data.RobotStatus;
+import com.lge.spartan.data.Station;
+import com.lge.spartan.data.StationType;
+import com.lge.spartan.data.Warehouse;
+import com.lge.spartan.data.Widget;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -183,6 +188,7 @@ public class MySQLDALImpl implements DAL {
             c.setFname(rs.getString(2));
             c.setLname(rs.getString(3));
             c.setAddress(rs.getString(4));
+            c.setEmail(rs.getString(5));
             custList.add(c);
         } // for each element in the return SQL query
         return custList;
@@ -197,13 +203,13 @@ public class MySQLDALImpl implements DAL {
             System.out.println("DAL:AddOrder:Customer is null. So Order cannot be added");
             return -1;
         }
-        return AddOrder(orderList, cust.getFname(), cust.getLname(), cust.getPhone(), cust.getAddress());
+        return AddOrder(orderList, cust.getFname(), cust.getLname(), cust.getPhone(), cust.getAddress(), cust.getEmail());
     }
 
     ///Return OrderNo if success. If failure, return -1
-    private int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address) {
+    private int AddOrder(List<OrderDetails> orderList, String fname, String lname, String phone, String address, String email) {
         logger.entry();
-        System.out.println("DAL:AddOrder: FName:" + fname + ", LName:" + lname + ", Phone:" + phone + ", Address:" + address);
+        System.out.println("DAL:AddOrder: FName:" + fname + ", LName:" + lname + ", Phone:" + phone + ", Address:" + address + ", Email:" + email);
         int orderNo = 0;
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
@@ -212,7 +218,7 @@ public class MySQLDALImpl implements DAL {
             try {
                 //If the customer phone is already existing; this insert will fail. 
                 //Ok no problem.. continue with the other insertions....
-                SQLStatement = "insert into customer values ('" + phone + "','" + fname + "','" + lname + "','" + address + "');";
+                SQLStatement = "insert into customer values ('" + phone + "','" + fname + "','" + lname + "','" + address + "','" + email +"');";
                 executeUpdateVal = s.executeUpdate(SQLStatement);
             } catch (Exception e) {
                 logger.error("Exception " + e);
@@ -394,10 +400,10 @@ public class MySQLDALImpl implements DAL {
             res = s.executeQuery(SQLStatement);
             if (res.next()) {
                 status = res.getInt(1);
-                 System.out.println("DAL:GetOrderuStatus:Got the status of Order# " + orderNo + " successfully");
-            }
-            else
+                System.out.println("DAL:GetOrderuStatus:Got the status of Order# " + orderNo + " successfully");
+            } else {
                 System.out.println("DAL:GetOrderuStatus:Getting the status of Order# " + orderNo + " failed");
+            }
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:GetOrderuStatus:Exception:" + e);
@@ -413,7 +419,7 @@ public class MySQLDALImpl implements DAL {
     private ArrayList<OrderInfo> GetOrders(String sqlStmnt) {
         logger.entry();
         ArrayList<OrderInfo> orderList = null;
-         System.out.println("DAL:GetOrders:SQL Statement:"+ sqlStmnt);
+        System.out.println("DAL:GetOrders:SQL Statement:" + sqlStmnt);
         try {
             CreateStmnt();
             SQLStatement = sqlStmnt;
@@ -471,13 +477,13 @@ public class MySQLDALImpl implements DAL {
     public synchronized OrderInfo PickFirstOrder() {
         logger.entry();
         ArrayList<OrderInfo> orderList = GetOrders(
-        "SELECT * FROM orderinfo WHERE (status = 0 OR status = 2) ORDER BY status DESC, orderTime LIMIT 1");
+                "SELECT * FROM orderinfo WHERE (status = 0 OR status = 2) ORDER BY status DESC, orderTime LIMIT 1");
 
-        if(orderList.size() == 1) {
+        if (orderList.size() == 1) {
             GetOrderDetails(orderList.get(0));
             return (OrderInfo) orderList.get(0);
         }
-        
+
         return null;
     }
 
@@ -528,10 +534,11 @@ public class MySQLDALImpl implements DAL {
 
     public synchronized ArrayList<OrderInfo> GetOrders(OrderStatus orderStatus) {
         logger.entry();
-        if(orderStatus != OrderStatus.All)
-            return GetOrders("select * from orderinfo where status = " + orderStatus.ordinal() +";"); 
-        else
+        if (orderStatus != OrderStatus.All) {
+            return GetOrders("select * from orderinfo where status = " + orderStatus.ordinal() + ";");
+        } else {
             return GetOrders("select * from orderinfo");
+        }
     }
 
     public synchronized ArrayList<OrderInfo> GetOrdersByPhone(String phone /*, Enum orderStatus*/) {
@@ -648,7 +655,7 @@ public class MySQLDALImpl implements DAL {
         return stationId;
     }
 
-    public synchronized  boolean UpdateOrderStatus(int orderNo, Enum orderStatus) {
+    public synchronized boolean UpdateOrderStatus(int orderNo, Enum orderStatus) {
         logger.entry();
         System.out.println("DAL:UpdateOrderStatus:OrderNo: " + orderNo + ", Status: " + orderStatus.toString());
         try {
@@ -661,6 +668,7 @@ public class MySQLDALImpl implements DAL {
                     System.out.println("update of orderstatus is successful");
                 }
             } else {
+                System.out.println("update of orderstatus is failed");
                 return false;
             }
         } catch (Exception e) {
@@ -683,20 +691,20 @@ public class MySQLDALImpl implements DAL {
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             CreateStmnt();
-            SQLStatement = 
-            "insert into robotstatus (orderNo, stn1Visited, stn2Visited, stn3Visited, stn4Visited, stn1Need, stn2Need, stn3Need, stn4Need, nextStn, state) values ('" 
-                + robotStatus.getOrderNo() + "','" 
-                + robotStatus.getStn1Visited() + "','" 
-                + robotStatus.getStn2Visited() + "','" 
-                + robotStatus.getStn3Visited() + "','" 
-                + robotStatus.getStn4Visited() + "','" 
-                + robotStatus.getStn1Need() + "','" 
-                + robotStatus.getStn2Need() + "','" 
-                + robotStatus.getStn3Need() + "','" 
-                + robotStatus.getStn4Need() + "','" 
-                + robotStatus.getNextStn() + "','" 
-                + robotStatus.getState().ordinal() + "'" 
-                + ");";
+            SQLStatement
+                    = "insert into robotstatus (orderNo, stn1Visited, stn2Visited, stn3Visited, stn4Visited, stn1Need, stn2Need, stn3Need, stn4Need, nextStn, state) values ('"
+                    + robotStatus.getOrderNo() + "','"
+                    + robotStatus.getStn1Visited() + "','"
+                    + robotStatus.getStn2Visited() + "','"
+                    + robotStatus.getStn3Visited() + "','"
+                    + robotStatus.getStn4Visited() + "','"
+                    + robotStatus.getStn1Need() + "','"
+                    + robotStatus.getStn2Need() + "','"
+                    + robotStatus.getStn3Need() + "','"
+                    + robotStatus.getStn4Need() + "','"
+                    + robotStatus.getNextStn() + "','"
+                    + robotStatus.getState().ordinal() + "'"
+                    + ");";
 
             executeUpdateVal = s.executeUpdate(SQLStatement);
             if (executeUpdateVal > 0) {
@@ -721,10 +729,10 @@ public class MySQLDALImpl implements DAL {
         try {
             CreateStmnt();
 
-            String stmnt = "select * from robotstatus where orderNo = '" + orderNo + "';" ;
+            String stmnt = "select * from robotstatus where orderNo = '" + orderNo + "';";
             res = s.executeQuery(stmnt);
 
-            if(res.next()) {
+            if (res.next()) {
                 robotStatus = new RobotStatus();
 
                 robotStatus.setOrderNo(res.getInt(1));
@@ -738,10 +746,10 @@ public class MySQLDALImpl implements DAL {
                 robotStatus.setStn4Need(res.getInt(9));
                 robotStatus.setNextStn(res.getInt(10));
                 robotStatus.setState(res.getInt(11));
-                 System.out.println("DAL:GetRobotStatus:RobotStatus retreived successfully.");
+                System.out.println("DAL:GetRobotStatus:RobotStatus retreived successfully.");
+            } else {
+                System.out.println("DAL:GetRobotStatus:RobotStatus retreived failed.");
             }
-            else
-                 System.out.println("DAL:GetRobotStatus:RobotStatus retreived failed.");
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:GetRobotStatus:Exception:" + e);
@@ -751,7 +759,6 @@ public class MySQLDALImpl implements DAL {
             CleanUp(res, s);
         }
 
-       
         return robotStatus;
     }
 
@@ -765,19 +772,19 @@ public class MySQLDALImpl implements DAL {
             int executeUpdateVal;           // Return value from execute indicating effected rows
 
             String stmnt = "update robotstatus set stn1Visited = " + robotStatus.getStn1Visited()
-                + ", stn2Visited = " + robotStatus.getStn2Visited()
-                + ", stn3Visited = " + robotStatus.getStn3Visited()
-                + ", stn4Visited = " + robotStatus.getStn4Visited()
-                + ", stn1Need = " + robotStatus.getStn1Need()
-                + ", stn2Need = " + robotStatus.getStn2Need()
-                + ", stn3Need = " + robotStatus.getStn3Need()
-                + ", stn4Need = " + robotStatus.getStn4Need()
-                + ", nextStn = " + robotStatus.getNextStn()
-                + ", state = " + robotStatus.getState().ordinal()
-                + " where orderNo = '" + robotStatus.getOrderNo() + "';" ;
+                    + ", stn2Visited = " + robotStatus.getStn2Visited()
+                    + ", stn3Visited = " + robotStatus.getStn3Visited()
+                    + ", stn4Visited = " + robotStatus.getStn4Visited()
+                    + ", stn1Need = " + robotStatus.getStn1Need()
+                    + ", stn2Need = " + robotStatus.getStn2Need()
+                    + ", stn3Need = " + robotStatus.getStn3Need()
+                    + ", stn4Need = " + robotStatus.getStn4Need()
+                    + ", nextStn = " + robotStatus.getNextStn()
+                    + ", state = " + robotStatus.getState().ordinal()
+                    + " where orderNo = '" + robotStatus.getOrderNo() + "';";
 
             executeUpdateVal = s.executeUpdate(stmnt);
-            if(executeUpdateVal > 0) {
+            if (executeUpdateVal > 0) {
                 System.out.println("DAL:UpdateRobotStatus executed successfully");
                 ret = 0;
             } else {
@@ -797,7 +804,7 @@ public class MySQLDALImpl implements DAL {
         return ret;
     }
 
-    public boolean IsDBAvailable()    {
+    public boolean IsDBAvailable() {
         ResultSet rs = null;
         try {
             CreateStmnt();
@@ -807,9 +814,137 @@ public class MySQLDALImpl implements DAL {
             CleanUp(rs, s);
             return false;
         } // end try-catch
-        finally{
+        finally {
             CleanUp(rs, s);
         }
         return true;
+    }
+
+    public ArrayList<Robot> GetRobots() {
+        logger.entry();
+        System.out.println("DAL:GetRobots()");
+        ArrayList<Robot> robotList = null;
+        ResultSet rs = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select * from robot";
+            rs = s.executeQuery(SQLStatement);
+            robotList = new ArrayList();
+            while (rs.next()) {
+                Robot r = new Robot();
+                r.setRobotId(rs.getInt(1));
+                r.setWarehouseId(rs.getInt(2));
+                r.setName(rs.getString(3));
+                r.setDesc(rs.getString(4));
+                r.setIpaddress(rs.getString(5));
+                r.setStatus(RobotState.values[rs.getInt(6)]);
+                robotList.add(r);
+            } // for each ele
+             System.out.println("DAL:GetRobots:Success");
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobots:Exception:" + e);
+            CleanUp(rs, s);
+            return null;
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return robotList;
+    }
+    
+    public RobotState GetRobotState(int robotId)
+    {
+         logger.entry();
+        System.out.println("DAL:GetRobotStatus(): RobotId:" + robotId);
+        ResultSet rs = null;
+        RobotState r = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select * from robot where robotId = " + robotId;
+            rs = s.executeQuery(SQLStatement);
+            if(rs.next()) {
+                r = RobotState.values[rs.getInt(1)];
+                 System.out.println("DAL:GetRobotStatus():Succe: RobotId:" + robotId + ", Satus: " + r.toString());
+            } // for each ele
+            else
+                 System.out.println("DAL:GetRobotStatus(): Failed");
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobotStatus:Exception:" + e);
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return r;
+    }
+    
+    public ArrayList<Station> GetStations()
+    {
+         logger.entry();
+        System.out.println("DAL:GetStations()");
+        ArrayList<Station> stationList = null;
+        ResultSet rs = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select * from station";
+            rs = s.executeQuery(SQLStatement);
+            stationList = new ArrayList();
+            while (rs.next()) {
+                Station s = new Station();
+                s.setStationId(rs.getInt(1));
+                s.setName(rs.getString(2));
+                s.setDesc(rs.getString(3));
+                s.setWarehouseId(rs.getInt(4));
+                s.setType(StationType.values[rs.getInt(5)]);
+                stationList.add(s);
+            } // for each ele
+            System.out.println("DAL:GetStations:Success");
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetStations:Exception:" + e);
+            CleanUp(rs, s);
+            return null;
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return stationList;
+    }
+    
+    public ArrayList<Warehouse> GetWarehouses()
+    {
+          logger.entry();
+        System.out.println("DAL:GetWarehouses()");
+        ArrayList<Warehouse> warehouseList = null;
+        ResultSet rs = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select * from warehouse";
+            rs = s.executeQuery(SQLStatement);
+               warehouseList = new ArrayList();
+            while (rs.next()) {
+                Warehouse s = new Warehouse();
+                s.setWarehouseId(rs.getInt(1));
+                s.setName(rs.getString(2));
+                s.setDesc(rs.getString(3));
+                s.setNoOfInvStations(rs.getInt(4));
+                s.setNoOfShippingStations(rs.getInt(5));
+                s.setNoOfRobots(rs.getInt(6));
+                s.setIpaddress(rs.getString(7));
+                s.setStatus(rs.getInt(8));
+                warehouseList.add(s);
+            } // for each ele
+            System.out.println("DAL:GetWarehouses:Success");
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetWarehouses:Exception:" + e);
+            CleanUp(rs, s);
+            return null;
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return warehouseList;
     }
 }

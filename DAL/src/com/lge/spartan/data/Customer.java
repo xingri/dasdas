@@ -17,6 +17,7 @@ public class Customer implements Serializable {
     private String fname;
     private String lname;
     private String address;
+    private String email;
 
     public Customer(String fn, String ln, String ph, String add) {
         setFname(fn);
@@ -88,5 +89,19 @@ public class Customer implements Serializable {
      */
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

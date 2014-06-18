@@ -6,18 +6,15 @@
 
 package com.lge.spartan.data;
 
-import static com.lge.spartan.data.OrderStatus.values;
-
 /**
  *
  * @author vijay.rachabattuni
  */
-public enum  RobotState {
-    Idle, //obj.ordinal() returns 0
-    Busy,//obj.ordinal() returns 1
-    Error;//obj.ordinal() returns 2
+public enum StationType {
+    Inventory, //obj.ordinal() returns 0
+    Shipping;//obj.ordinal() returns 1
     
-   public static final RobotState values[] = values();
+   public static final StationType values[] = values();
    
     @Override
    public String toString()
@@ -25,11 +22,9 @@ public enum  RobotState {
        switch(this.ordinal())
        {
            case 0:
-           return "Idle";
+           return "Inventory";
            case 1:
-               return "Busy";
-           case 2:
-               return "Error";
+               return "Shipping";
        }
        return "";
    }
