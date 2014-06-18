@@ -71,8 +71,8 @@ public class WHStartWorker implements WHWorker {
             for(int idx=0; idx < widgetList.size() ; idx++) {
                 // Check availability of widget....
                 widgetCnt = dal.GetWidgetQuantity(widgetList.get(idx).getWidgetId());
-                if(widgetCnt < widgetList.get(idx).getWidgetId()) {
-                    System.out.println("Widget of Id[" + widgetList.get(0).getWidgetId() 
+                if(widgetCnt < widgetList.get(idx).getQuantity()) {
+                    System.out.println("Widget of Id[" + widgetList.get(idx).getWidgetId() 
                         + "] is not enough Req[" + widgetList.get(idx).getQuantity() 
                         + "] : In-Stock[" + widgetCnt + "]");
                     return;

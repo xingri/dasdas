@@ -10,28 +10,27 @@ public class VSerialInput implements SerialInf {
         Thread t = new Thread() {
             public void run() {
                 while(true) {
-//                    try {Thread.sleep(1000);} catch (InterruptedException ie) {}
-//                    myMan.eventHandler("1,0,0,0,1,0,0,0,0");
-                    try {Thread.sleep(1000);} catch (InterruptedException ie) {}
-                    myMan.eventHandler("1,0,1,0,0,0,0,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
-                    myMan.eventHandler("1,0,0,0,0,0,1,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
-                    myMan.eventHandler("1,0,0,0,0,0,0,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
-                    myMan.eventHandler("1,0,0,1,0,0,0,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
-                    myMan.eventHandler("1,0,0,0,0,0,0,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
-                    myMan.eventHandler("1,0,0,1,0,0,0,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
+
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                     myMan.eventHandler("1,1,0,0,0,0,0,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                     myMan.eventHandler("1,0,0,0,0,1,0,0,0");
-                    try {Thread.sleep(4000);} catch (InterruptedException ie) {}
+
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                    myMan.eventHandler("1,0,1,0,0,0,0,0,0");
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                    myMan.eventHandler("1,0,0,0,0,0,1,0,0");
+
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                    myMan.eventHandler("1,0,0,1,0,0,0,0,0");
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                    myMan.eventHandler("1,0,0,0,0,0,0,1,0");
+
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                     myMan.eventHandler("1,0,0,0,1,0,0,0,0");
-                    try {Thread.sleep(2000);} catch (InterruptedException ie) {}
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                     myMan.eventHandler("1,0,0,0,0,0,0,0,1");
+
                     /*
                     try {Thread.sleep(1000);} catch (InterruptedException ie) {}
                     myMan.eventHandler("1,0,0,1,0,0,0,0,0");

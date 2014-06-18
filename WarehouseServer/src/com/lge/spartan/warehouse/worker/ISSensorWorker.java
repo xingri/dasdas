@@ -65,9 +65,12 @@ public class ISSensorWorker implements WHWorker {
         }
 
         if(needStop) {
-            System.out.println("Check send NearStation to Robot");
+            System.out.println("[send NearStation to Robot]\n\n\n\n");
             rb.nearStation();
             needStop = false;
+        } else {
+            rb.nearStation();
+            rb.goNextStation();
         }
 
     }
