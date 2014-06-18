@@ -113,6 +113,7 @@ public class DALTestForm extends javax.swing.JFrame {
         jTextField11 = new javax.swing.JTextField();
         jbtnGetRobots = new javax.swing.JButton();
         jbtnGetRobotState = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jbtnGetStations = new javax.swing.JButton();
         jbtnGetWarehouses = new javax.swing.JButton();
@@ -541,6 +542,13 @@ public class DALTestForm extends javax.swing.JFrame {
         });
 
         jbtnGetRobotState.setText("GetRobotState");
+        jbtnGetRobotState.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGetRobotStateActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -549,8 +557,9 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jbtnGetRobotState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jbtnGetRobotState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtnGetRobots, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtnAddRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtnUpdateRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -628,7 +637,9 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addComponent(jbtnGetRobots)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbtnGetRobotState)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Robot", jPanel6);
@@ -897,12 +908,20 @@ public class DALTestForm extends javax.swing.JFrame {
     private void jbtnAddRobotStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddRobotStatusActionPerformed
         // TODO add your handling code here:
         RobotStatus rs = new RobotStatus();
-        rs.setOrderNo(2);
-        rs.setState(RobotState.Idle.ordinal());
-        rs.setStn1Need(1);
-        rs.setStn2Need(1);
-        rs.setStn3Need(0);
-        rs.setStn1Visited(1);
+        rs.setOrderNo(1);
+        
+         rs.setRobotId(1);
+        ArrayList<Integer> stv = new ArrayList();
+        stv.add(1);
+        stv.add(3);
+        stv.add(2);
+        rs.setStationsToVisit(stv);
+        ArrayList<Integer> sv = new ArrayList();
+        sv.add(1);
+        sv.add(3);
+        rs.setStationsVisited(stv);
+        rs.setCurrentStation(3);
+        rs.setNextStation(2);
         
         if(dal.AddRobotStatus(rs) == 0)
             System.out.println("AddRobotStatus success");
@@ -912,22 +931,39 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnGetRobotStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetRobotStatusActionPerformed
         // TODO add your handling code here:
-        RobotStatus rs = dal.GetRobotStatus(1);
-        if(rs != null)
-            System.out.println("Get Robot Status success. RobotStatus:" + rs.getState().toString());
-        else
-            System.out.println("Get Robot Status failed");
+       RobotStatus r = dal.GetRobotMoves(1, 1);
+       if(r == null)
+       {
+           System.out.println("Get Robot moves failed"); 
+           return ;
+       }
+       System.out.println("Get Robot moves success"); 
+       System.out.println(r.toString());
     }//GEN-LAST:event_jbtnGetRobotStatusActionPerformed
 
     private void jbtnUpdateRobotStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpdateRobotStatusActionPerformed
         // TODO add your handling code here:
         RobotStatus rs = new RobotStatus();
-        rs.setOrderNo(2);
-        rs.setState(RobotState.Idle.ordinal());
+        rs.setOrderNo(1);
+        
+        rs.setRobotId(1);
+        ArrayList<Integer> stv = new ArrayList();
+        stv.add(1);
+        stv.add(3);
+        stv.add(2);
+        rs.setStationsToVisit(stv);
+        ArrayList<Integer> sv = new ArrayList();
+        sv.add(1);
+        sv.add(3);
+        sv.add(2);
+        rs.setStationsVisited(stv);
+        rs.setCurrentStation(2);
+        rs.setNextStation(0);
+        /*rs.setState(RobotState.Idle.ordinal());
         rs.setStn1Need(1);
         rs.setStn2Need(1);
         rs.setStn3Need(0);
-        rs.setStn1Visited(1);
+        rs.setStn1Visited(1);*/
         
         if(dal.UpdateRobotStatus(rs) == 0)
             System.out.println("AddRobotStatus success");
@@ -961,6 +997,15 @@ public class DALTestForm extends javax.swing.JFrame {
            System.out.println(s.toString());
         }
     }//GEN-LAST:event_jbtnGetRobotsActionPerformed
+
+    private void jbtnGetRobotStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetRobotStateActionPerformed
+        // TODO add your handling code here:
+         RobotState rs = dal.GetRobotState(1);
+        if(rs != null)
+            System.out.println("Get Robot Status success. RobotStatus:" + rs.toString());
+        else
+            System.out.println("Get Robot Status failed");
+    }//GEN-LAST:event_jbtnGetRobotStateActionPerformed
 
     private void InitDB() {
         dal = new MySQLDALImpl();
@@ -1017,6 +1062,7 @@ public class DALTestForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
