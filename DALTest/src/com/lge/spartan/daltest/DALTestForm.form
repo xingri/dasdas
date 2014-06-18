@@ -624,14 +624,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jButton1" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jbtnGetRobotState" max="32767" attributes="0"/>
-                              <Component id="jbtnGetRobots" max="32767" attributes="0"/>
-                              <Component id="jbtnAddRobotStatus" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jbtnUpdateRobotStatus" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jbtnGetRobotStatus" alignment="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jbtnSetRobotState" max="32767" attributes="0"/>
+                          <Component id="jbtnGetRobotState" max="32767" attributes="0"/>
+                          <Component id="jbtnGetRobots" max="32767" attributes="0"/>
+                          <Component id="jbtnAddRobotStatus" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jbtnUpdateRobotStatus" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jbtnGetRobotStatus" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -715,7 +713,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jbtnGetRobotState" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbtnSetRobotState" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="55" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -847,10 +845,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnGetRobotStateActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="jbtnSetRobotState">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton1"/>
+                <Property name="text" type="java.lang.String" value="Set Robot State"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnSetRobotStateActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

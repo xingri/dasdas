@@ -113,7 +113,7 @@ public class DALTestForm extends javax.swing.JFrame {
         jTextField11 = new javax.swing.JTextField();
         jbtnGetRobots = new javax.swing.JButton();
         jbtnGetRobotState = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jbtnSetRobotState = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jbtnGetStations = new javax.swing.JButton();
         jbtnGetWarehouses = new javax.swing.JButton();
@@ -548,7 +548,12 @@ public class DALTestForm extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        jbtnSetRobotState.setText("Set Robot State");
+        jbtnSetRobotState.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSetRobotStateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -557,13 +562,12 @@ public class DALTestForm extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jbtnGetRobotState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnGetRobots, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnAddRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnUpdateRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnGetRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jbtnSetRobotState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnGetRobotState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnGetRobots, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnAddRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnUpdateRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnGetRobotStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
@@ -638,7 +642,7 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbtnGetRobotState)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(jbtnSetRobotState)
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
@@ -1007,6 +1011,11 @@ public class DALTestForm extends javax.swing.JFrame {
             System.out.println("Get Robot Status failed");
     }//GEN-LAST:event_jbtnGetRobotStateActionPerformed
 
+    private void jbtnSetRobotStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSetRobotStateActionPerformed
+        // TODO add your handling code here:
+        boolean b = dal.SetRobotState(1, RobotState.Idle);
+    }//GEN-LAST:event_jbtnSetRobotStateActionPerformed
+
     private void InitDB() {
         dal = new MySQLDALImpl();
         boolean res = dal.Initialize("127.0.0.1", "root", "");//vijay
@@ -1062,7 +1071,6 @@ public class DALTestForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1123,6 +1131,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnIsAvailable;
     private javax.swing.JButton jbtnOrdersByPhone;
     private javax.swing.JButton jbtnPendingOrders;
+    private javax.swing.JButton jbtnSetRobotState;
     private javax.swing.JButton jbtnShippingOrders;
     private javax.swing.JButton jbtnUninitDB;
     private javax.swing.JButton jbtnUpdateOrderStatus;
