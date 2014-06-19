@@ -1,10 +1,10 @@
 package com.lge.spartan.customer.data;
 
-
+import com.lge.spartan.data.OrderStatus;
 
 public class OrderDisplay {
 	private int orderNo;
-	private int orderStatus;
+	private OrderStatus orderStatus;
 	private String orderTime;
 	private String shippingTime;
 	private String details;
@@ -17,10 +17,10 @@ public class OrderDisplay {
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
-	public int getOrderStatus() {
+	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
-	public void setOrderStatus(int orderStatus) {
+	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 	public String getOrderTime() {
@@ -43,11 +43,11 @@ public class OrderDisplay {
 	}
 	@Override
 	public String toString() {
-		return orderNo + "   " + 
-				((orderStatus == 3) ? "Shipeed" : "Pending") + 
-				"   " + orderTime + 
-				"   " + shippingTime + 
-				"   " + details;
+		return "   " + orderNo + "          " + 
+				((orderStatus == OrderStatus.Complete) ? "Shiped" : "Ordered") + 
+				"          " + orderTime + 
+				"          " + shippingTime + 
+				"          " + details;
 	} 
 	
 	

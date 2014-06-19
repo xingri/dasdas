@@ -25,8 +25,8 @@ public class OrderReceiver extends Thread{
 	public void run(){
 		System.out.println("OrderServer is now running....");
 	
-		//boolean dbCheck = db.Initialize("localhost", "root", "seo10jin");
-		boolean dbCheck = db.Initialize("128.237.247.93", "spartan", "spartan");
+		boolean dbCheck = db.Initialize("localhost", "root", "seo10jin");
+		//boolean dbCheck = db.Initialize("128.237.247.93", "spartan", "spartan");
 		if(dbCheck == false){
 			System.out.println("DB initailization Error");
 		}
@@ -61,7 +61,7 @@ public class OrderReceiver extends Thread{
 		}
 		public void run(){
 			try{
-				while(true){
+//				while(true){
 					Message msg=(Message)ois.readObject();
 					
 					if(msg.getMsgType() == Message.SUBMIT_ORDER){
@@ -107,6 +107,7 @@ public class OrderReceiver extends Thread{
 						System.out.println("PhoneNumber:" + phoneNumber);
 						ArrayList<OrderInfo> oiList = new ArrayList<OrderInfo>();
 						oiList = db.GetOrdersByPhone(phoneNumber);
+/* Test Input						
 						OrderInfo order = new OrderInfo();
 						ArrayList<OrderDetails> od = new ArrayList<OrderDetails>();
 						OrderDetails od1 = new OrderDetails();
@@ -119,8 +120,8 @@ public class OrderReceiver extends Thread{
 						order.setShippingTime("2014-06-11");
 						order.setStatus(1);
 						order.setListOrderDetails(od);
-					//	oiList.add(order);
-						
+						oiList.add(order);
+*/ 						
 						Message reply = new Message(104, oiList);
 						oos.writeObject(reply);
 						oos.flush();
@@ -130,7 +131,7 @@ public class OrderReceiver extends Thread{
 						System.out.println("Unknown Message Type Error: " + msg.getMsgType());
 					}
 				
-				}
+//				}
 			}catch(Exception e) {
 				e.printStackTrace();
 				System.out.println("Read Message Error. ");

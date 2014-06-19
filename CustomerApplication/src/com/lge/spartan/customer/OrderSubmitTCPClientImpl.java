@@ -41,6 +41,9 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 		
 			Message request = new Message(Message.GET_WIDGET_TYPE, new Integer(1));
 			oos.writeObject(request);
+			oos.flush();
+			// oos.close(); 
+			
 			System.out.println("Reqeust Widget Type: ");
 			Message reply = (Message)ois.readObject();
 			System.out.println(reply.getMsgType());
@@ -52,23 +55,21 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 				 System.out.println(s);
 			}*/
 			
-/*			ois.close();
+			ois.close();
 			oos.close();
-			s.close();*/
-			//new OrderSendThread(oos, ois).start();
-			//System.out.println("Creating OrderSendThread...");
+			s.close();
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Check Server IP or PORT number...");
 		}
-		
+/*		
 		List<String> widgetList2 = new ArrayList<String>();
 		widgetList2.add("BasketBall");
 		widgetList2.add("BaseBall");
 		widgetList2.add("TennisBall");
 		widgetList2.add("CrickeetBall");
 		System.out.println("Got WidgetNames...");
-		
+*/		
 		return widgetList;
 	}
 
@@ -85,11 +86,9 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 			System.out.println("Submitted: " + order.toString());
 			Message reply = (Message)ois.readObject();
 			System.out.println(reply.getMsgType());
-		/*	ois.close();
+			ois.close();
 			oos.close();
-			s.close();*/
-			//new OrderSendThread(oos, ois).start();
-			//System.out.println("Creating OrderSendThread...");
+			s.close();
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Check Server IP or PORT number...");
@@ -114,17 +113,15 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 			orderList = (ArrayList<OrderInfo>)reply.getPayload();
 			System.out.println(orderList);
 			
-			
-		/*	ois.close();
+			ois.close();
 			oos.close();
-			s.close();*/
-			//new OrderSendThread(oos, ois).start();
-			//System.out.println("Creating OrderSendThread...");
+			s.close();
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Check Server IP or PORT number...");
 		}
 		
+/*
 		OrderInfo order = new OrderInfo();
 		ArrayList<OrderDetails> od = new ArrayList<OrderDetails>();
 		OrderDetails od1 = new OrderDetails();
@@ -137,34 +134,8 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 		order.setShippingTime("444");
 		order.setStatus(1);
 		order.setListOrderDetails(od);
-		//orderList.add(order);
-		
+		orderList.add(order);
+*/		
 		return orderList;
 	}
-	
-	
-	
-	class OrderSendThread extends Thread{
-		ObjectInputStream ois; 
-		ObjectOutputStream oos;
-		public OrderSendThread(ObjectOutputStream oos, ObjectInputStream ois){
-			this.oos = oos; 
-			this.ois = ois; 
-		}
-		public void run(){
-			try{
-				Message request = new Message(Message.SUBMIT_ORDER, order);
-				oos.writeObject(request);
-				System.out.println("Submitted: " + order.toString());
-				Message reply = (Message)ois.readObject();
-				System.out.println(reply.getMsgType());
-			}catch(Exception e) {
-				System.out.println("Error in Sending the order...");
-			}
-		}
-		
-	}
-
-	
-
 }

@@ -26,6 +26,7 @@ import com.lge.spartan.customer.data.OrderDisplay;
 import com.lge.spartan.data.Customer;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
+import com.lge.spartan.data.OrderStatus;
 import com.lge.spartan.data.Widget;
 
 public class CustomerApplicationGUI {
@@ -85,7 +86,7 @@ public class CustomerApplicationGUI {
 		
 		lPhoneNumber = new JLabel("Phone Number: ", JLabel.LEFT);
 		lAddress = new JLabel("Address: ", JLabel.LEFT);	
-		lOrderStatus = new JLabel("OrderNo.    Status    OrderTime    ShipTime   Desc.");
+		lOrderStatus = new JLabel("OrderNo.    Status       OrderTime                       ShipTime                    Desc.");
 		
 		taPhoneNumber = new JTextField();
 		taAddress = new JTextArea(30, 5);
@@ -129,7 +130,15 @@ public class CustomerApplicationGUI {
 		oiList = controller.getOrderStatus(taPhoneNumber.getText());
 		for(OrderInfo oi : oiList){
 			OrderDisplay od = new OrderDisplay();
-			od.setDetails("???");
+			ArrayList<OrderDetails> details = oi.getListOrderDetails();
+			StringBuilder sb = new StringBuilder(); 
+			for(OrderDetails d : details){
+				sb.append("[" +d.getWidgetName())
+					.append(",")
+					.append(d.getQuantity())
+					.append("]");
+			}
+			od.setDetails(sb.toString());
 			od.setOrderNo(oi.getOrderNo());
 			od.setOrderStatus(oi.getStatus());
 			od.setOrderTime(oi.getOrderTime());
@@ -225,6 +234,7 @@ public class CustomerApplicationGUI {
 				customer.setPhone(taPhoneNumber.getText());
 				customer.setFname("Tommy");
 				customer.setLname("Park");
+				customer.setEmail("AAA");
 				order.setCust(customer);
 				ArrayList<OrderDetails> listWidget = controller.getWidgetTuple();
 				order.setListOrderDetails(listWidget);
