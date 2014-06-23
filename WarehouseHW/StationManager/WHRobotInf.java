@@ -34,7 +34,7 @@ public class WHRobotInf {
 	private boolean robotServerStatus = true;
 
 	private boolean isEmulation = false;
-	private boolean isHandshaking = false;
+	private boolean isHandshaking = true;
 
 	public WHRobotInf() {
 	}
@@ -184,9 +184,9 @@ public class WHRobotInf {
                 in = clientSocket.getInputStream();
                 DataInputStream dis = new DataInputStream(in);
                 ack = dis.readByte();
-                //System.out.println("Ack from robot: " + ack);
+                System.out.println("\n\n\n ***** Ack from robot: " + ack);
                 if (ack != cmd) {
-                    //System.out.println("Ack should be same with cmd sent");
+                    System.out.println("\n\n\n ***** Ack should be same with cmd sent");
                     ret = false;
                 }
             } catch (Exception e) {
