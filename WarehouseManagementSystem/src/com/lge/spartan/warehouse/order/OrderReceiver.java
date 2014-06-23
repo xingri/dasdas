@@ -25,8 +25,7 @@ public class OrderReceiver extends Thread{
 	public void run(){
 		System.out.println("OrderServer is now running....");
 	
-		boolean dbCheck = db.Initialize("localhost", "root", "seo10jin");
-		//boolean dbCheck = db.Initialize("128.237.247.93", "spartan", "spartan");
+		boolean dbCheck = db.Initialize("localhost", "spartan", "spartan");
 		if(dbCheck == false){
 			System.out.println("DB initailization Error");
 		}
