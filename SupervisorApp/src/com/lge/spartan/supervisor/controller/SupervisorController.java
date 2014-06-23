@@ -89,22 +89,51 @@ public class SupervisorController extends Thread/*implements IController*/ {
         return db.GetCustomers();       
     }
     
-    public ArrayList<OrderInfo> getPendingOrders() {
-        // TODO
-        return db.GetOrders(OrderStatus.Pending);       
-    }
-    
     public ArrayList<OrderInfo> getAllOrders() {
         // TODO
         return db.GetOrders(OrderStatus.All);       
     }
     
+    public ArrayList<OrderInfo> getPendingOrders() {
+        // TODO
+        return db.GetOrders(OrderStatus.Pending);       
+    }
+        
     public ArrayList<OrderInfo> getCurProgressOrder() {
     	return db.GetOrders(OrderStatus.Inprogress);
     }
     
+    public ArrayList<OrderInfo> getBackorderedOrder() {
+    	return db.GetOrders(OrderStatus.Backordered);
+    }
+    
     public RobotStatus getRobotStatus(int orderNo){
-    	return db.GetRobotStatus(orderNo);
+    	ArrayList <Robot> robotInfo = db.GetRobots();
+    	
+    	for (Robot rt : robotInfo) {    		
+    		RobotStatus rs =  db.GetRobotMoves(rt.getRobotId(), orderNo);
+    		if (rs != null) {
+    			return rs;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    public Robot getRobotInfo (int robotId) {
+    	ArrayList <Robot> robotInfo = db.GetRobots();
+    	
+    	for (Robot rt : robotInfo) {    		
+    		if (rt.getRobotId() == robotId) {
+    			return rt;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    public String getRobotState(int robotId){
+    	return db.GetRobotState(robotId).toString();   	    	
     }
     
     public ArrayList<Integer> getWarehouseIdList() {

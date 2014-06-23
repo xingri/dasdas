@@ -60,18 +60,8 @@ public class SupervisorMainView extends SupervisorView {
         jTable1 = new javax.swing.JTable();
         jbtnRefresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextFieldRobotState = new javax.swing.JTextField();
-        jTextFieldOrderNo = new javax.swing.JTextField();
-        jTextFieldOrderStatus = new javax.swing.JTextField();
-        jTextFieldStationInfo = new javax.swing.JTextField();
-        jTextFieldNextStation = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTblMonitor = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
@@ -167,98 +157,49 @@ public class SupervisorMainView extends SupervisorView {
 
         jTabbedPane1.addTab("Inventory", jPanel1);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Order Status:");
+        jTblMonitor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Warehouse Id", "Robot Id", "Robot Status", "Order No.", "Widget Name", "Quantity", "Stations visited", "Current Stn", "Next Stn"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, false, false, false, true, false
+            };
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setText("OverAll Status");
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("Robot Status");
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Order#");
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("Status");
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("Stations Visited");
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Next Station");
-
-        jTextFieldRobotState.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextFieldRobotState.setEnabled(false);
-
-        jTextFieldOrderNo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextFieldOrderNo.setEnabled(false);
-
-        jTextFieldOrderStatus.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextFieldOrderStatus.setEnabled(false);
-
-        jTextFieldStationInfo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextFieldStationInfo.setEnabled(false);
-
-        jTextFieldNextStation.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextFieldNextStation.setEnabled(false);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jTblMonitor);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(113, 113, 113)
-                        .addComponent(jTextFieldRobotState, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldOrderNo)
-                            .addComponent(jTextFieldOrderStatus)
-                            .addComponent(jTextFieldStationInfo)
-                            .addComponent(jTextFieldNextStation, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))))
-                .addContainerGap(248, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldOrderNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldStationInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldNextStation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addComponent(jLabel3)
-                .addGap(35, 35, 35)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextFieldRobotState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(238, 238, 238))
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Monitor", jPanel2);
@@ -606,33 +547,33 @@ public class SupervisorMainView extends SupervisorView {
     }
     
     private void updateCurOrderStatus() {
-       ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getCurProgressOrder();
-       
-       if (orderList == null) {
+       ArrayList<OrderInfo> processOrderLists = SupervisorController.getInstance().getCurProgressOrder();
+       if (processOrderLists == null) {
     	   return;
        }
        
-       if (orderList.size() == 0) {
-    	   /*
-            *  TODO : 3rd station visited 이후에 robot status를 바꿀 수가 없음.
-            *  		CurOrder가 "0" 이라서...
-            */
+       if (processOrderLists.size() == 0) {
+    	   return;
+       }
+       
+       DefaultTableModel dtm = (DefaultTableModel) jTblMonitor.getModel();
+       dtm.getDataVector().removeAllElements();
+       dtm.fireTableDataChanged();
+              
+       for (OrderInfo oi : processOrderLists) {
+           DefaultTableModel model = (DefaultTableModel) jTblMonitor.getModel();
+          
+           RobotStatus rbtStatus = SupervisorController.getInstance().getRobotStatus(oi.getOrderNo());
+           Robot robotInfo = SupervisorController.getInstance().getRobotInfo(rbtStatus.getRobotId());
            
-    	   return;
+           model.addRow(new Object[]{
+        		   robotInfo.getWarehouseId()
+        		   , robotInfo.getRobotId(), robotInfo.getStatus().toString()       		   
+        		   , rbtStatus.getOrderNo()        		   
+        		   , rbtStatus.getStationsVisited().toString(), rbtStatus.getCurrentStation()
+        		   , rbtStatus.getNextStation()
+        		   });
        }
-       
-       OrderInfo curOrder = orderList.get(0);
-       RobotStatus robotStatus = SupervisorController.getInstance().getRobotStatus(curOrder.getOrderNo());
-       
-       jTextFieldOrderNo.setText(Integer.toString(curOrder.getOrderNo()));
-       jTextFieldOrderStatus.setText(curOrder.getStatus().toString());    		   
-       
-       jTextFieldStationInfo.setText(robotStatus.getStationsVisited());
-       //jTextFieldNextStation.setText(robotStatus.ge);
-       
-       /*jTextFieldStationInfo.setText(robotStatus);
-       */
-       jTextFieldRobotState.setText(robotStatus.getState().toString());
     }
     
     private void updateOrderLists() {
@@ -722,13 +663,6 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JButton jBtnAddWidgetQnt;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -745,16 +679,13 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextFieldNextStation;
-    private javax.swing.JTextField jTextFieldOrderNo;
-    private javax.swing.JTextField jTextFieldOrderStatus;
-    private javax.swing.JTextField jTextFieldRobotState;
-    private javax.swing.JTextField jTextFieldStationInfo;
+    private javax.swing.JTable jTblMonitor;
     private javax.swing.JButton jbtnAddOrder;
     private javax.swing.JButton jbtnOrderRefresh;
     private javax.swing.JButton jbtnRefresh;
