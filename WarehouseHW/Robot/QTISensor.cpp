@@ -1,5 +1,7 @@
 #include "QTISensor.h"
 
+#define DEBUG 0
+
 void QTISensor::set(int pin, int bThreshold)
 {
 	_pin = pin;
@@ -15,9 +17,16 @@ long QTISensor::RCTime()
 	pinMode(_pin, INPUT);		// Sets pin as INPUT
 	digitalWrite(_pin, LOW);	// Pin LOW
 
-	while(digitalRead(_pin) != 0) {	// Count until the pin goes
+	while (digitalRead(_pin) != 0) {	// Count until the pin goes
 		duration++;					// LOW (cap discharges)
-	}   
+	}
+
+#if DEBUG
+	Serial.print("QTISensor: [");
+	Serial.print(_pin);
+	Serial.print("] ");
+	Serial.println(duration);
+#endif
 
 	return duration;	// Returns the duration of the pulse
 }
