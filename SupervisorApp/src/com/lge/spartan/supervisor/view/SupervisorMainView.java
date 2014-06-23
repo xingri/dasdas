@@ -67,9 +67,6 @@ public class SupervisorMainView extends SupervisorView {
         jTable3 = new javax.swing.JTable();
         jbtnOrderRefresh = new javax.swing.JButton();
         jbtnAddOrder = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         jlblOrderNo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jBtnAddWidgetQnt = new javax.swing.JButton();
@@ -157,7 +154,6 @@ public class SupervisorMainView extends SupervisorView {
 
         jTabbedPane1.addTab("Inventory", jPanel1);
 
-        jTblMonitor.setFont(new java.awt.Font("êµ´ë¦¼", 0, 12)); // NOI18N
         jTblMonitor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -207,14 +203,14 @@ public class SupervisorMainView extends SupervisorView {
 
             },
             new String [] {
-                "S No", "Order No", "Submit Date", "Status", "Shipped Date", "Widget Name", "Widget Quantity", "Customer Name", "Customer Phone"
+                "S No", "Order No", "Submit Date", "Status", "Shipped Date", "Widget Name", "Widget Quantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -247,37 +243,6 @@ public class SupervisorMainView extends SupervisorView {
             }
         });
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "S No", "Widget Id", "Widget Name", "Quantity"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(jTable4);
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Order# ");
-
         jlblOrderNo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jlblOrderNo.setText("        ");
 
@@ -289,14 +254,12 @@ public class SupervisorMainView extends SupervisorView {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jbtnOrderRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbtnAddOrder))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(80, 80, 80)
                         .addComponent(jlblOrderNo)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -311,12 +274,8 @@ public class SupervisorMainView extends SupervisorView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jlblOrderNo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addComponent(jlblOrderNo)
+                .addGap(258, 258, 258))
         );
 
         jTabbedPane1.addTab("Orders", jPanel4);
@@ -509,8 +468,8 @@ public class SupervisorMainView extends SupervisorView {
     private void updateBackorderStatus() {
     	ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getBackorderedOrder();    			
         /*
-         *  TODO : 3rd station visited ï¿½ï¿½ï¿½Ä¿ï¿½ robot statusï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
-         *  		CurOrderï¿½ï¿½ "0" ï¿½Ì¶ï¿½...
+         *  TODO : 3rd station visited ÀÌÈÄ¿¡ robot status¸¦ ¹Ù²Ü ¼ö°¡ ¾øÀ½.
+         *  		CurOrder°¡ "0" ÀÌ¶ó¼­...
          */
         
         if (orderList == null) {
@@ -539,31 +498,40 @@ public class SupervisorMainView extends SupervisorView {
     }
     
     private void updateCurOrderStatus() {
-       ArrayList<OrderInfo> processOrderLists = SupervisorController.getInstance().getCurProgressOrder();
-       if (processOrderLists == null) {
+    	DefaultTableModel dtm = (DefaultTableModel) jTblMonitor.getModel();
+        dtm.getDataVector().removeAllElements();
+        dtm.fireTableDataChanged();
+        //DefaultTableModel model = (DefaultTableModel) jTblMonitor.getModel();
+        
+    	ArrayList<OrderInfo> processOrderLists = SupervisorController.getInstance().getCurProgressOrder();
+    	if (processOrderLists == null || processOrderLists.size() == 0) {
+    	
+    	   ArrayList <Robot> robotLists = SupervisorController.getInstance().getAllRobotLists();
+    	   SupervisorController.getInstance().getAllRobotLists();
+    	   
+    	   if (robotLists != null && robotLists.size() != 0) {
+    		   for (Robot rbt : robotLists) {
+    			   /*model*/dtm.addRow(new Object[]{
+	            		   	rbt.getWarehouseId()
+	            		  , rbt.getRobotId(), rbt.getStatus().toString()       		   
+	            		   });
+    		   }
+    	   }
+    	   
     	   return;
-       }
+    	}       
        
-       if (processOrderLists.size() == 0) {
-    	   return;
-       }
-       
-       DefaultTableModel dtm = (DefaultTableModel) jTblMonitor.getModel();
-       dtm.getDataVector().removeAllElements();
-       dtm.fireTableDataChanged();
               
        for (OrderInfo oi : processOrderLists) {
-           DefaultTableModel model = (DefaultTableModel) jTblMonitor.getModel();
-          
            RobotStatus rbtStatus = SupervisorController.getInstance().getRobotStatus(oi.getOrderNo());
            if (rbtStatus == null) {
-        	   ClearTable(jTblMonitor);
+        	   //ClearTable(jTblMonitor);
         	   return;
            }
            
            Robot robotInfo = SupervisorController.getInstance().getRobotInfo(rbtStatus.getRobotId());
            if (robotInfo == null) {
-        	   ClearTable(jTblMonitor);
+        	   //ClearTable(jTblMonitor);
         	   return;
            }           
            
@@ -573,12 +541,13 @@ public class SupervisorMainView extends SupervisorView {
         	   orderDetails += "\n";
            }
            
-           model.addRow(new Object[]{
+           /*model*/dtm.addRow(new Object[]{
         		   robotInfo.getWarehouseId()
         		   , robotInfo.getRobotId(), robotInfo.getStatus().toString()       		   
         		   , rbtStatus.getOrderNo()
         		   , orderDetails
-        		   , rbtStatus.getStationsVisited().toString(), rbtStatus.getCurrentStation()
+        		   , rbtStatus.getStationsVisited() == null ? "" : rbtStatus.getStationsVisited().toString()
+        		   , rbtStatus.getCurrentStation()
         		   , rbtStatus.getNextStation()
         		   });
        }
@@ -596,12 +565,12 @@ public class SupervisorMainView extends SupervisorView {
         int i = 0;
         for (OrderInfo oi : orderList) {
             i++;
-            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            //DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
 
             ArrayList <OrderDetails> ordDetails = oi.getListOrderDetails();
             
             for (OrderDetails ord : ordDetails) {
-            	model.addRow(new Object[]{i, oi.getOrderNo(), oi.getOrderTime(), oi.getStatus(),                    
+            	/*model*/dtm.addRow(new Object[]{i, oi.getOrderNo(), oi.getOrderTime(), oi.getStatus(),                    
                         oi.getShippingTime() != null ? oi.getShippingTime() : ' ',
                         ord.getWidgetName(), ord.getQuantity(),
                         oi.getCust() != null ? oi.getCust().getFname() : ' ',
@@ -609,7 +578,7 @@ public class SupervisorMainView extends SupervisorView {
             }
         }
         
-        jTable3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        /*jTable3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (orderList == null) {
                     return;
@@ -636,7 +605,7 @@ public class SupervisorMainView extends SupervisorView {
                 }
             }
         }
-        );
+        );*/
     }
     
     private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrderRefreshActionPerformed
@@ -670,7 +639,6 @@ public class SupervisorMainView extends SupervisorView {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAddWidgetQnt;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -686,13 +654,11 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTblMonitor;
     private javax.swing.JButton jbtnAddOrder;
     private javax.swing.JButton jbtnOrderRefresh;
