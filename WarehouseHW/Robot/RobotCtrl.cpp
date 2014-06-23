@@ -1,6 +1,8 @@
 #include "RobotCtrl.h"
 
-#define QTI_BLACK_THRESHOLD 60
+#define DEBUG 1
+
+#define QTI_BLACK_THRESHOLD 70
 
 void RobotCtrl::init(int leftServoPin, int rightServoPin)
 {
@@ -62,6 +64,10 @@ void RobotCtrl::goNextStation()
 				turnLeft();
 			else if (!isRightSensorBlack)
 				turnRight();
+		} else if (!isCenterSensorBlack && !isRightSensorBlack) {
+			// We prefer to turn right at the station
+			turnRight();
+			delay(5);
 		} else {
 			goForward();
 		}
@@ -75,26 +81,37 @@ void RobotCtrl::nearStation()
 	for (int i = 0; i < count; i++) {
 		goForward();
 
-		delay(5);
+		// dealy(5); // XXX:
 		updateSensors();
 
 		if (isLeftSensorBlack &&
-			isCenterSensorBlack && isRightSensorBlack)
+			isCenterSensorBlack && isRightSensorBlack) {
+#if DEBUG
+			Serial.print("nearStation: start count -> ");
+			Serial.println(i);
+#endif
 			break;
+		}
 	}
 
-	delay(300);
+	delay(150);
 
+	count = 0;
 	while (1) {
 		turnRight();
-		delay(5);
+		//delay(5); // XXX:
 
 		updateSensors();
 		if (!isCenterSensorBlack)
 			break;
+		count++;
 	}
 
 	stop();
+#if DEBUG
+	Serial.print("nearStation: end count -> ");
+	Serial.println(count);
+#endif
 }
 
 boolean RobotCtrl::isOnNavLine()
@@ -108,11 +125,18 @@ boolean RobotCtrl::isOnNavLine()
 	if (isRightSensorBlack)
 		black_count++;
 
+#if DEBUG
+	// Serial.print("isOnNavLine: ");
+	// Serial.println(black_count < 2 ? true : false);
+#endif
 	return black_count < 2 ? true : false;
 }
 
 void RobotCtrl::updateSensors()
 {
+#if DEBUG
+	// Serial.println("updateSensors..........");
+#endif
 	isCenterSensorBlack  = centerSensor.isBlack();
 	isLeftSensorBlack = leftSensor.isBlack();
 	isRightSensorBlack = rightSensor.isBlack();

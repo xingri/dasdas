@@ -26,7 +26,6 @@ private:
 	void updateSensors();
 
 public:
-
 	void init(int leftServoPin, int rightServoPin);
 	void goForward();
 	void goBackward();

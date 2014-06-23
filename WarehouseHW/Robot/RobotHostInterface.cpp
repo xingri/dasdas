@@ -1,16 +1,10 @@
 #include "RobotHostInterface.h"
 
-RobotHostInterface::RobotHostInterface(int clientPort, int serverPort)
-{
-	robotServerPort = serverPort;
-	hostServerPort = clientPort;
-}
-
-void RobotHostInterface::connect()
+void RobotHostInterface::connect(WiFiServer *_robotServer)
 {
 	char ssid[] = SSID;
 	int status = WL_IDLE_STATUS;
-	robotServer = new WiFiServer(robotServerPort);
+	robotServer = _robotServer;
 
 	Serial.println("Attempting to connect to network...");
 	Serial.print("SSID: ");
@@ -33,9 +27,9 @@ void RobotHostInterface::connect()
 	Serial.println( "----------------------------------------\n" );
 }
 
-byte RobotHostInterface::rcvCommand()
+void RobotHostInterface::rcvCommand(struct HostCommand *command)
 {
-	byte command = 0xFF;
+	byte rawCmd = 0xFF;
 	WiFiClient client = robotServer->available();
 
 	if (client) {
@@ -43,49 +37,39 @@ byte RobotHostInterface::rcvCommand()
 		Serial.println("Waiting for a command......" );
 
 		while (client.available() == 0 ) {
-			delay( 500 );
+			delay( 100 );
 		}
 
-		command = (byte)client.read();
-		Serial.print("Command:: ");
-		Serial.println(command);
+		rawCmd = (byte)client.read();
+		Serial.print("Raw Command: ");
+		Serial.print(rawCmd);
 
-		/* send acknowledgement */
-		robotServer->write(command);
+		command->cmd = rawCmd >> 3;
+		command->arg = rawCmd & 0x07;
 
-		client.stop();
-		Serial.println("Client Disconnected.\n");
-	}
+		Serial.print(", Cmd: ");
+		Serial.print(command->cmd);
+		Serial.print(", arg: ");
+		Serial.println(command->arg);
 
-	return command;
-}
-
-void RobotHostInterface::sendArrival()
-{
-	Serial.print("\nAttempting to connect to server...");
-
-	IPAddress hostServerIP(128, 237, 114, 45); // XXX: TODO: shoud be dynamic
-
-	if (hostClient.connect(hostServerIP, hostServerPort)) {
-		Serial.println("connected");
-
-		hostClient.println("Howdy there big PC...");
-
-		Serial.print("Server Message: ");
-
-		char c = ' ';
-		while ( c!= '\n' )
-		{
-			if (hostClient.available())
-			{
-				c = hostClient.read();
-				Serial.write(c);
+		if (command->cmd == CMD_ARRIVAL || command->cmd == CMD_WATCHDOG) {
+			if (command->cmd == CMD_ARRIVAL && getArrival()) {
+				rawCmd = CMD_ARRIVAL << 3;
+				setArrival(false);
+			} else if (command->cmd == CMD_WATCHDOG) {
+				rawCmd = 0xFF;
+			} else {
+				rawCmd = 0xFF;
 			}
 		}
 
-		// That's it. We wait a second, then do it all again.
-		Serial.println( "Done...");
-		delay(1000);
+		/* send acknowledgement */
+		robotServer->write(rawCmd);
+
+		delay(100);
+
+		client.stop();
+		Serial.println("Client Disconnected.\n");
 	}
 }
 
@@ -121,4 +105,14 @@ void RobotHostInterface::printConnectionStatus()
 	Serial.print("Signal strength (RSSI): ");
 	Serial.print(rssi);
 	Serial.println(" dBm");
+}
+
+void RobotHostInterface::setArrival(boolean newStatus)
+{
+	isArrived = newStatus;
+}
+
+boolean RobotHostInterface::getArrival()
+{
+	return isArrived;
 }

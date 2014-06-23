@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include <WiFi.h>
+#include "RobotCtrl.h"
 
 #ifndef RobotHostInterface_h
 #define RobotHostInterface_h
@@ -18,27 +19,30 @@
 
 #define SSID "CMU"
 
+struct HostCommand {
+	byte cmd;
+	byte arg;
+};
+
 class RobotHostInterface {
 	private:
 		int robotServerPort;
 		WiFiServer *robotServer;
-
-		int hostServerPort;
-		WiFiClient hostClient;
 
 		IPAddress ip;
 		IPAddress subnet;
 		long rssi;
 		byte mac[6];
 
-		void printConnectionStatus();
-	public:
-		RobotHostInterface(int clientPort, int serverPort);
-		void connect();
+		boolean isArrived;
 
-		byte rcvCommand();
-		void sendArrival();
+	public:
+		void connect(WiFiServer *_robotServer);
+		void printConnectionStatus();
+
+		void rcvCommand(struct HostCommand *command);
+		void setArrival(boolean newStatus);
+		boolean getArrival();
 };
 
 #endif
-
