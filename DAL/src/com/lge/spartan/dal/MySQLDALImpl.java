@@ -501,7 +501,7 @@ public class MySQLDALImpl implements DAL {
             while (rs2.next()) {
                 OrderDetails od = new OrderDetails();
                 od.setWidgetId(rs2.getInt(2));
-                //GetWidgetName(od);
+                GetWidgetName(od);
                 od.setQuantity(rs2.getInt(3));
                 oi.getListOrderDetails().add(od);
             }
