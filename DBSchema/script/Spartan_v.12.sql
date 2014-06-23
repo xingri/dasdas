@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `robotmoves` (
   `robotId` int(11) DEFAULT NULL,
   `orderNo` int(11) DEFAULT NULL,
   `stationsToVisit` varchar(50) DEFAULT NULL COMMENT 'Example: 1, 3, 2 the stations to be visited in the order',
-  `stationsVisited` varchar(50) DEFAULT '0' COMMENT 'Example: 1,2 if 1 and 2 stations are visited in that order',
+  `stationsVisited` varchar(50) DEFAULT NULL COMMENT 'Example: 1,2 if 1 and 2 stations are visited in that order',
   `currentStation` int(11) DEFAULT NULL COMMENT 'stationId of the current Station',
   `nextStation` int(11) DEFAULT NULL COMMENT 'stationId of the next Station to be visited',
   UNIQUE KEY `orderNo` (`orderNo`),

@@ -713,11 +713,10 @@ public class MySQLDALImpl implements DAL {
                      + robotStatus.getNextStn() + "','"
                      + robotStatus.getState().ordinal() + "'"
                      + ");";*/
-                    = "insert into robotmoves (robotId, orderNo, stationsToVisit, stationsVisited, currentStation, nextStation) values ('"
+                    = "insert into robotmoves (robotId, orderNo, stationsToVisit, currentStation, nextStation) values ('"
                     + robotStatus.getRobotId() + "','"
                     + robotStatus.getOrderNo() + "','"
                     + GetStringFromArrayWithComma(robotStatus.getStationsToVisit()) + "','"
-                    + GetStringFromArrayWithComma(robotStatus.getStationsVisited()) + "','"
                     + robotStatus.getCurrentStation() + "','"
                     + robotStatus.getNextStation() + "'"
                     + ");";
