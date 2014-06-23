@@ -253,16 +253,19 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="jTblMonitor">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="&#xad74;&#xb9bc;" size="12" style="0"/>
+                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="9" rowCount="4">
+                      <Table columnCount="9" rowCount="0">
                         <Column editable="false" title="Warehouse Id" type="java.lang.Integer"/>
-                        <Column editable="true" title="Robot Id" type="java.lang.Integer"/>
+                        <Column editable="false" title="Robot Id" type="java.lang.Integer"/>
                         <Column editable="false" title="Robot Status" type="java.lang.Object"/>
                         <Column editable="false" title="Order No." type="java.lang.Integer"/>
                         <Column editable="false" title="Widget Name" type="java.lang.String"/>
                         <Column editable="false" title="Quantity" type="java.lang.Object"/>
-                        <Column editable="false" title="Stations visited" type="java.lang.String"/>
-                        <Column editable="true" title="Current Stn" type="java.lang.Integer"/>
+                        <Column editable="false" title="Stn visited" type="java.lang.String"/>
+                        <Column editable="false" title="Cur Stn" type="java.lang.Integer"/>
                         <Column editable="false" title="Next Stn" type="java.lang.Integer"/>
                       </Table>
                     </Property>
@@ -390,7 +393,7 @@
                 <Component class="javax.swing.JTable" name="jTable3">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="9" rowCount="4">
+                      <Table columnCount="9" rowCount="0">
                         <Column editable="false" title="S No" type="java.lang.Integer"/>
                         <Column editable="false" title="Order No" type="java.lang.Integer"/>
                         <Column editable="false" title="Submit Date" type="java.lang.String"/>
@@ -599,7 +602,7 @@
                 <Component class="javax.swing.JTable" name="jTable2">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
+                      <Table columnCount="4" rowCount="0">
                         <Column editable="false" title="S No" type="java.lang.Integer"/>
                         <Column editable="false" title="Order No" type="java.lang.Integer"/>
                         <Column editable="false" title="Widget Name" type="java.lang.String"/>

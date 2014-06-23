@@ -110,6 +110,10 @@ public class SupervisorController extends Thread/*implements IController*/ {
     public RobotStatus getRobotStatus(int orderNo){
     	ArrayList <Robot> robotInfo = db.GetRobots();
     	
+    	if (robotInfo == null || robotInfo.size() == 0) {
+    		return null;
+    	}
+    	
     	for (Robot rt : robotInfo) {    		
     		RobotStatus rs =  db.GetRobotMoves(rt.getRobotId(), orderNo);
     		if (rs != null) {
@@ -122,6 +126,10 @@ public class SupervisorController extends Thread/*implements IController*/ {
     
     public Robot getRobotInfo (int robotId) {
     	ArrayList <Robot> robotInfo = db.GetRobots();
+    	
+    	if (robotInfo == null || robotInfo.size() == 0) {
+    		return null;
+    	}
     	
     	for (Robot rt : robotInfo) {    		
     		if (rt.getRobotId() == robotId) {

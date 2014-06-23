@@ -165,14 +165,14 @@ public class SupervisorMainView extends SupervisorView {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Warehouse Id", "Robot Id", "Robot Status", "Order No.", "Widget Name", "Quantity", "Stations visited", "Current Stn", "Next Stn"
+                "Warehouse Id", "Robot Id", "Robot Status", "Order No.", "Widget Name", "Quantity", "Stn visited", "Cur Stn", "Next Stn"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false, false, false, true, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -206,10 +206,7 @@ public class SupervisorMainView extends SupervisorView {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "S No", "Order No", "Submit Date", "Status", "Shipped Date", "Widget Name", "Widget Quantity", "Customer Name", "Customer Phone"
@@ -335,10 +332,7 @@ public class SupervisorMainView extends SupervisorView {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "S No", "Order No", "Widget Name", "Quantity"
@@ -517,8 +511,8 @@ public class SupervisorMainView extends SupervisorView {
     private void updateBackorderStatus() {
     	ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getBackorderedOrder();    			
         /*
-         *  TODO : 3rd station visited ÀÌÈÄ¿¡ robot status¸¦ ¹Ù²Ü ¼ö°¡ ¾øÀ½.
-         *  		CurOrder°¡ "0" ÀÌ¶ó¼­...
+         *  TODO : 3rd station visited ï¿½ï¿½ï¿½Ä¿ï¿½ robot statusï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+         *  		CurOrderï¿½ï¿½ "0" ï¿½Ì¶ï¿½...
          */
         
         if (orderList == null) {
@@ -564,7 +558,16 @@ public class SupervisorMainView extends SupervisorView {
            DefaultTableModel model = (DefaultTableModel) jTblMonitor.getModel();
           
            RobotStatus rbtStatus = SupervisorController.getInstance().getRobotStatus(oi.getOrderNo());
+           if (rbtStatus == null) {
+        	   ClearTable(jTblMonitor);
+        	   return;
+           }
+           
            Robot robotInfo = SupervisorController.getInstance().getRobotInfo(rbtStatus.getRobotId());
+           if (robotInfo == null) {
+        	   ClearTable(jTblMonitor);
+        	   return;
+           }           
            
            model.addRow(new Object[]{
         		   robotInfo.getWarehouseId()
