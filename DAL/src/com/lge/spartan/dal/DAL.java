@@ -22,6 +22,7 @@ import java.util.List;
  *
  * @author vijay.rachabattuni
  */
+
 public interface DAL {
     //Init and Uninit DB
     public boolean Initialize(String serverIPAddress, String userName, String pwd);
@@ -65,4 +66,11 @@ public interface DAL {
     public ArrayList<Station> GetStations();
     public ArrayList<Warehouse> GetWarehouses();
     public boolean IsDBAvailable();
+    
+    //This API should be invoked by Supervisor app every 1.5 seconds 
+    public boolean IsWarehouseServerAvailable(int warehouseId);
+    
+    //This API should be invoked by Warehouse server every 1 second
+    //DAL will store the date in milliseconds in BITINT in the Database.
+    public boolean SetWarehouseServerTS(int warehouseId);
 }

@@ -117,6 +117,8 @@ public class DALTestForm extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jbtnGetStations = new javax.swing.JButton();
         jbtnGetWarehouses = new javax.swing.JButton();
+        jbtnSetWHServerHeartbeatTS = new javax.swing.JButton();
+        jbtnIsWHServerAvailable = new javax.swing.JButton();
         jbtnUninitDB = new javax.swing.JButton();
         jbtnIsAvailable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -662,6 +664,20 @@ public class DALTestForm extends javax.swing.JFrame {
             }
         });
 
+        jbtnSetWHServerHeartbeatTS.setText("SetWHServerTimestamp");
+        jbtnSetWHServerHeartbeatTS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSetWHServerHeartbeatTSActionPerformed(evt);
+            }
+        });
+
+        jbtnIsWHServerAvailable.setText("Is WH Server Available?");
+        jbtnIsWHServerAvailable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnIsWHServerAvailableActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -670,8 +686,10 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbtnGetWarehouses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbtnGetStations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(601, Short.MAX_VALUE))
+                    .addComponent(jbtnGetStations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnSetWHServerHeartbeatTS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnIsWHServerAvailable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(565, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -680,7 +698,11 @@ public class DALTestForm extends javax.swing.JFrame {
                 .addComponent(jbtnGetStations)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbtnGetWarehouses)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jbtnSetWHServerHeartbeatTS)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbtnIsWHServerAvailable)
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Stations_WH", jPanel7);
@@ -1016,6 +1038,22 @@ public class DALTestForm extends javax.swing.JFrame {
         boolean b = dal.SetRobotState(1, RobotState.Idle);
     }//GEN-LAST:event_jbtnSetRobotStateActionPerformed
 
+    private void jbtnSetWHServerHeartbeatTSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSetWHServerHeartbeatTSActionPerformed
+        // TODO add your handling code here:
+        if(dal.SetWarehouseServerTS(1))
+            System.out.println("SetWHServerHeartbeatTS success");
+        else
+            System.out.println("SetWHServerHeartbeatTS failed");
+    }//GEN-LAST:event_jbtnSetWHServerHeartbeatTSActionPerformed
+
+    private void jbtnIsWHServerAvailableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIsWHServerAvailableActionPerformed
+        // TODO add your handling code here:
+        if(dal.IsWarehouseServerAvailable(1))
+            System.out.println("IsWarehouseServerAvailable Available");
+        else
+            System.out.println("IsWarehouseServerAvailable NotAvailable");
+    }//GEN-LAST:event_jbtnIsWHServerAvailableActionPerformed
+
     private void InitDB() {
         dal = new MySQLDALImpl();
         boolean res = dal.Initialize("127.0.0.1", "root", "");//vijay
@@ -1129,9 +1167,11 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JButton jbtnIncWidget;
     private javax.swing.JButton jbtnInitDB;
     private javax.swing.JButton jbtnIsAvailable;
+    private javax.swing.JButton jbtnIsWHServerAvailable;
     private javax.swing.JButton jbtnOrdersByPhone;
     private javax.swing.JButton jbtnPendingOrders;
     private javax.swing.JButton jbtnSetRobotState;
+    private javax.swing.JButton jbtnSetWHServerHeartbeatTS;
     private javax.swing.JButton jbtnShippingOrders;
     private javax.swing.JButton jbtnUninitDB;
     private javax.swing.JButton jbtnUpdateOrderStatus;
