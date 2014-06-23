@@ -27,11 +27,13 @@ public class Main {
         // TODO code application logic here        
         
         SupervisorMainView sprView = new SupervisorMainView ();
+        MessageView errorView = new MessageView();
         
         final DBNotifier dbNotifier = new DBNotifier();
-        dbNotifier.registerObserver(sprView);        
-        sprView.setVisible(true); 
-        
+        dbNotifier.registerObserver(sprView);
+        dbNotifier.registerObserver(errorView);
+        sprView.setVisible(true);
+                
         Thread notifierThread = new Thread () {
             public void run () {
                 while (true) {

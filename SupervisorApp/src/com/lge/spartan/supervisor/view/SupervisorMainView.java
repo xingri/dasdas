@@ -157,22 +157,20 @@ public class SupervisorMainView extends SupervisorView {
 
         jTabbedPane1.addTab("Inventory", jPanel1);
 
+        jTblMonitor.setFont(new java.awt.Font("굴림", 0, 12)); // NOI18N
         jTblMonitor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Warehouse Id", "Robot Id", "Robot Status", "Order No.", "Widget Name", "Quantity", "Stn visited", "Cur Stn", "Next Stn"
+                "Warehouse\nId", "Robot Id", "Robot Status", "Order No.", "Widget\nInfo", "Stn visited", "Cur Stn", "Next Stn"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -569,10 +567,17 @@ public class SupervisorMainView extends SupervisorView {
         	   return;
            }           
            
+           String orderDetails = "";
+           for (OrderDetails orDetail : oi.getListOrderDetails()) {
+        	   orderDetails += orDetail.toString();
+        	   orderDetails += "\n";
+           }
+           
            model.addRow(new Object[]{
         		   robotInfo.getWarehouseId()
         		   , robotInfo.getRobotId(), robotInfo.getStatus().toString()       		   
-        		   , rbtStatus.getOrderNo()        		   
+        		   , rbtStatus.getOrderNo()
+        		   , orderDetails
         		   , rbtStatus.getStationsVisited().toString(), rbtStatus.getCurrentStation()
         		   , rbtStatus.getNextStation()
         		   });
