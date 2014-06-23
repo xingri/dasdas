@@ -23,6 +23,15 @@ public class ISSensorWorker implements WHWorker {
         t.start();
     }
 
+    public boolean isNumExistsInArrayList(int num, ArrayList<Integer> list) {
+        for(int idx=0; idx< list.size(); idx++) {
+            if(list.get(idx).intValue() == num) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void handleRequest() {
         int idx = currIndex;
 
@@ -51,10 +60,11 @@ public class ISSensorWorker implements WHWorker {
         
         OrderInfo orderInfo = (OrderInfo) progressList.get(0);
 
-        RobotStatus robotStatus = dal.GetRobotStatus(orderInfo.getOrderNo());
+        RobotStatus robotStatus = dal.GetRobotMoves(1, orderInfo.getOrderNo());
+
         switch(idx) {
             case 1:
-                if(robotStatus.getStn1Need() == 1) {
+                if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {
                     // Let the Robot Stop
                     needStop = true;
                     System.out.println("Robot Stop Requested on Station 1");
@@ -62,7 +72,7 @@ public class ISSensorWorker implements WHWorker {
                 break;
 
             case 2:
-                if(robotStatus.getStn2Need() == 1) {
+                if(isNumExistsInArrayList(2, robotStatus.getStationsToVisit())) {
                     // Let the Robot Stop
                     needStop = true;
                     System.out.println("Robot Stop Requested on Station 2");
@@ -70,7 +80,7 @@ public class ISSensorWorker implements WHWorker {
                 break;
 
             case 3:
-                if(robotStatus.getStn3Need() == 1) {
+                if(isNumExistsInArrayList(3, robotStatus.getStationsToVisit())) {
                     // Let the Robot Stop
                     needStop = true;
                     System.out.println("Robot Stop Requested on Station 3");

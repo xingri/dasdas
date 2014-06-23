@@ -23,9 +23,37 @@ public class ISSwitchWorker implements WHWorker {
         t.start();
     }
 
+    public boolean isNumExistsInArrayList(int num, ArrayList<Integer> list) {
+        for(int idx=0; idx< list.size(); idx++) {
+            if(list.get(idx).intValue() == num) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isSameList(ArrayList<Integer> toVisit, ArrayList<Integer> visited) {
+        if(toVisit.size() != visited.size()) {
+            return false;
+        }
+
+        for(int idx=0; idx< toVisit.size(); idx++) {
+            if(toVisit.get(idx).intValue() != visited.get(idx).intValue()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void handleRequest() {
         int idx = currIndex;
         boolean needProc = false;
+
+        boolean stn1Visited = false;
+        boolean stn2Visited = false;
+        boolean stn3Visited = false;
+
         System.out.println("proc Request@ISSwitchWorker[" + idx + "]");
 
         dal = new MySQLDALImpl();
@@ -50,26 +78,32 @@ public class ISSwitchWorker implements WHWorker {
         
         OrderInfo orderInfo = (OrderInfo) progressList.get(0);
 
-        RobotStatus robotStatus = dal.GetRobotStatus(orderInfo.getOrderNo());
+        RobotStatus robotStatus = dal.GetRobotMoves(1, orderInfo.getOrderNo());
+
+        ArrayList<Integer> visitedList = robotStatus.getStationsVisited();
+
         switch(idx) {
             case 1:
-                if(robotStatus.getStn1Need() == 1) {
+                if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {
                     needProc = true;
-                    robotStatus.setStn1Visited(1);
+                    stn1Visited = true;
+                    visitedList.add(new Integer(1));
                 }
                 break;
 
             case 2:
-                if(robotStatus.getStn2Need() == 1) {
+                if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {
                     needProc = true;
-                    robotStatus.setStn2Visited(1);
+                    stn2Visited = true;
+                    visitedList.add(new Integer(2));
                 }
                 break;
 
             case 3:
-                if(robotStatus.getStn3Need() == 1) {
+                if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {
                     needProc = true;
-                    robotStatus.setStn3Visited(1);
+                    stn3Visited = true;
+                    visitedList.add(new Integer(3));
                 }
                 break;
         }
@@ -79,24 +113,27 @@ public class ISSwitchWorker implements WHWorker {
             return;
         }
 
-        if(robotStatus.getStn1Need() == 1 && robotStatus.getStn1Visited() != 1) {
-            robotStatus.setNextStn(1);
+        if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit()) 
+            && !stn1Visited ) {
+            robotStatus.setNextStation(1);
         }
 
-        if(robotStatus.getStn2Need() == 1 && robotStatus.getStn2Visited() != 1) {
-            robotStatus.setNextStn(2);
+        if(isNumExistsInArrayList(2, robotStatus.getStationsToVisit()) 
+            && !stn2Visited ) {
+            robotStatus.setNextStation(2);
         }
 
-        if(robotStatus.getStn3Need() == 1 && robotStatus.getStn3Visited() != 1) {
-            robotStatus.setNextStn(3);
+        if(isNumExistsInArrayList(3, robotStatus.getStationsToVisit()) 
+            && !stn3Visited ) {
+            robotStatus.setNextStation(3);
         }
 
-        if( (robotStatus.getStn1Need() == robotStatus.getStn1Visited())
-            && (robotStatus.getStn2Need() == robotStatus.getStn2Visited())
-            && (robotStatus.getStn3Need() == robotStatus.getStn3Visited())
-            ) {
-            robotStatus.setNextStn(4);
+
+        if(isSameList(robotStatus.getStationsToVisit(), visitedList) ) {
+            robotStatus.setNextStation(4);
         }
+
+        robotStatus.setStationsVisited(visitedList);
 
         // Update Next Visit Stn
         dal.UpdateRobotStatus(robotStatus);

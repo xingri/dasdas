@@ -35,14 +35,14 @@ public class SSSwitchWorker implements WHWorker {
         
         OrderInfo orderInfo = (OrderInfo) progressList.get(0);
 
-        RobotStatus robotStatus = dal.GetRobotStatus(orderInfo.getOrderNo());
-        if(robotStatus.getNextStn() != 4) {
+        RobotStatus robotStatus = dal.GetRobotMoves(1, orderInfo.getOrderNo());
+        if(robotStatus.getNextStation() != 4) {
             System.out.println("Not a End Conditon... ");
             return;
         }
 
-        robotStatus.setState(RobotState.Complete.ordinal());
-        robotStatus.setNextStn(-1);
+        dal.SetRobotState(1, RobotState.Idle);
+        robotStatus.setNextStation(-1);
 
         dal.UpdateOrderStatus(orderInfo.getOrderNo(), OrderStatus.Complete);
         dal.UpdateRobotStatus(robotStatus);

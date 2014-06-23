@@ -37,9 +37,9 @@ public class SSSensorWorker implements WHWorker {
         }
 
         OrderInfo orderInfo = (OrderInfo) progressList.get(0);
-        RobotStatus robotStatus = dal.GetRobotStatus(orderInfo.getOrderNo());
+        RobotStatus robotStatus = dal.GetRobotMoves(1, orderInfo.getOrderNo());
 
-        if(robotStatus.getNextStn() == 4) {
+        if(robotStatus.getNextStation() == 4) {
             System.out.println("Check send NearStation(SS) to Robot");
             rb.nearStation();
         }

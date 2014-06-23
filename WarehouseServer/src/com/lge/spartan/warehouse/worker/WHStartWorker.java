@@ -65,7 +65,15 @@ public class WHStartWorker implements WHWorker {
             int widgetCnt = 0;
             int nextStn = 9999;
 
+            int numStaToVisit = 0;
+
+            boolean needVisit1 = false;
+            boolean needVisit2 = false;
+            boolean needVisit3 = false;
+
             RobotStatus robotStatus = new RobotStatus();
+
+            robotStatus.setRobotId(1);
             robotStatus.setOrderNo(orderInfo.getOrderNo());
 
             for(int idx=0; idx < widgetList.size() ; idx++) {
@@ -85,13 +93,22 @@ public class WHStartWorker implements WHWorker {
                     } else {
                         if(staId == 1) {
                             nextStn = 1;
-                            robotStatus.setStn1Need(1);
+                            if(!needVisit1) {
+                                numStaToVisit++;
+                                needVisit1 = true;
+                            }
                         } else if(staId == 2) {
                             if(nextStn > staId) nextStn = staId;
-                            robotStatus.setStn2Need(1);
+                            if(!needVisit2) {
+                                numStaToVisit++;
+                                needVisit2 = true;
+                            }
                         } else if(staId == 3) {
                             if(nextStn > staId) nextStn = staId;
-                            robotStatus.setStn3Need(1);
+                            if(!needVisit3) {
+                                numStaToVisit++;
+                                needVisit3 = true;
+                            }
                         } else {
                             System.out.println("Invalid Station Number: " + staId 
                              + "of Widget: " + widgetList.get(idx).getWidgetId());
@@ -101,8 +118,25 @@ public class WHStartWorker implements WHWorker {
                 }
             }
 
-            robotStatus.setNextStn(nextStn);
-            robotStatus.setState(RobotState.Busy.ordinal());
+            ArrayList<Integer> stationsToVisit = new ArrayList<Integer> ();
+
+            if(needVisit1) {
+                stationsToVisit.add(new Integer(1));
+            }
+
+            if(needVisit2) {
+                stationsToVisit.add(new Integer(2));
+            }
+
+            if(needVisit3) {
+                stationsToVisit.add(new Integer(3));
+            }
+
+            robotStatus.setStationsToVisit(stationsToVisit);
+
+            robotStatus.setNextStation(nextStn);
+
+            dal.SetRobotState(1, RobotState.Busy);
 
             // Update Order into Robot Status
             dal.UpdateOrderStatus(orderInfo.getOrderNo(), OrderStatus.Inprogress);
