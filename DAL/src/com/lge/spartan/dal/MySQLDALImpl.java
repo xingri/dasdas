@@ -662,7 +662,11 @@ public class MySQLDALImpl implements DAL {
             if (orderStatus != OrderStatus.All) {
                 int ret;
                 CreateStmnt();
-                SQLStatement = "update orderinfo set status = " + orderStatus.ordinal() + " where orderNo = " + orderNo + ";";
+                if(orderStatus == OrderStatus.Complete) 
+                    SQLStatement = "update orderinfo set status = " + orderStatus.ordinal() + ", shippingTime = now() where orderNo = " + orderNo + ";";
+                else 
+                    SQLStatement = "update orderinfo set status = " + orderStatus.ordinal() + " where orderNo = " + orderNo + ";";
+
                 ret = s.executeUpdate(SQLStatement);
                 if (ret > 0) {
                     System.out.println("update of orderstatus is successful");
