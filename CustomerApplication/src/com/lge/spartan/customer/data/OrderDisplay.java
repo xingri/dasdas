@@ -44,7 +44,7 @@ public class OrderDisplay {
 	@Override
 	public String toString() {
 		return "   " + orderNo + "          " + 
-				((orderStatus == OrderStatus.Complete) ? "Shiped" : "Ordered") + 
+				((orderStatus == OrderStatus.Complete) ? "Shipped" : "Ordered") + 
 				"          " + orderTime + 
 				"          " + shippingTime + 
 				"          " + details;
