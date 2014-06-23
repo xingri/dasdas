@@ -8,9 +8,23 @@ public class ISSwitchWorker implements WHWorker {
 
     String dbURL = WHConfig.GetDBIP();
     WHRobotInf rb;
+    int currIndex = -1;
     DAL dal;
 
     public void procRequest(int idx) {
+        currIndex = idx;
+
+        Thread t=new Thread() {
+            public void run() {
+                handleRequest();
+            }
+        };
+
+        t.start();
+    }
+
+    public void handleRequest() {
+        int idx = currIndex;
         boolean needProc = false;
         System.out.println("proc Request@ISSwitchWorker[" + idx + "]");
 

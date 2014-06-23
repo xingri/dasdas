@@ -2,6 +2,7 @@
 
 public class WarehouseMain implements StationManager {
 
+    static int currIndex = -1;
     WHEvent cachedSwEvent = null;
 
     public void eventHandler(String inputLine) {
@@ -13,16 +14,31 @@ public class WarehouseMain implements StationManager {
                 WHEvent currEvent = new WHEvent(inputLine);
                 if (currEvent.isSwitch()) {
                     System.out.println("Switch IDX: " + currEvent.getSwitchIdx());
+
+                    if(currIndex != currEvent.getSwitchIdx()) {
+                        System.out.println("Invalid Event Sequence CurrIdex [" + currEvent.getSwitchIdx() 
+                            + "] expected Index [!" + currIndex + "]!!!");
+                        return;
+                    }
+
                     whWorker.procRequest(currEvent.getSwitchIdx());
+                    //currIndex = currEvent.getSwitchIdx();
                 } else {
                     if (currEvent.isValid() && ( cachedSwEvent == null 
                             || !currEvent.isSameSensor(cachedSwEvent.getEventList())) ) {
                         System.out.println("Sensor IDX: " + currEvent.getSensorIdx());
 
+                        if(currIndex == currEvent.getSensorIdx() || getNextIndex() != currEvent.getSensorIdx()) {
+                            System.out.println("Invalid Event Sequence CurrIdex [" + currEvent.getSensorIdx() 
+                                + "] expected Index [!" + currIndex + " || " + getNextIndex() + "]!!!");
+                            return;
+                        }
+
                         //try {Thread.sleep(300);} catch (InterruptedException ie) {}
                         try {Thread.sleep(200);} catch (InterruptedException ie) {}
                         whWorker.procRequest(currEvent.getSensorIdx());
                         cachedSwEvent = new WHEvent(inputLine);
+                        currIndex = currEvent.getSensorIdx();
                     }
                 }
             } else {
@@ -33,6 +49,19 @@ public class WarehouseMain implements StationManager {
             System.out.println("invalid data comming from warehouse hardware [" + inputLine + "]!!!");
         }
     }
+
+    public static void setIndex(int index) {
+        currIndex = index;
+    }
+
+    public static int getNextIndex() {
+        if(currIndex == 4) {
+            return 1;
+        }
+
+        return (currIndex+1);
+    }
+ 
 
     public static void main(String[] argv) {
 
@@ -58,6 +87,7 @@ public class WarehouseMain implements StationManager {
         serialInput.setStationManager(whMain);
         serialInput.initialize();
 
+        whMain.setIndex(4);
         WHStartWorker startWorker = new WHStartWorker();
         startWorker.procRequest(0); // arg 0 has no meaning in case of startWorker
 

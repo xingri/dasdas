@@ -9,8 +9,22 @@ public class ISSensorWorker implements WHWorker {
     String dbURL = WHConfig.GetDBIP();
     WHRobotInf rb;
     DAL dal;
+    int currIndex = -1;
 
     public void procRequest(int idx) {
+        currIndex = idx;
+
+        Thread t=new Thread() {                                                             
+            public void run() {                                                         
+                handleRequest();
+            }
+        };
+
+        t.start();
+    }
+
+    public void handleRequest() {
+        int idx = currIndex;
 
         boolean needStop = false;
         System.out.println("In proc Request@ISSensorWorker["+ idx + "]");
@@ -65,8 +79,21 @@ public class ISSensorWorker implements WHWorker {
         }
 
         if(needStop) {
+            boolean res = false;
             System.out.println("[send NearStation to Robot]\n\n\n\n");
-            rb.nearStation();
+            res = rb.nearStation();
+            if(!res) {
+                System.out.println("[send NearStation to Robot failed!!!]\n\n\n\n");
+            }
+
+/*
+            try {Thread.sleep(1000);} catch (InterruptedException ie) {}
+            res = rb.getArrival();
+            if(!res) {
+                System.out.println("[getArrival from Robot failed!!!]\n\n\n\n");
+            }
+
+*/
             needStop = false;
         } else {
             rb.nearStation();

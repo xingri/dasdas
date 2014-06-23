@@ -122,6 +122,7 @@ public class WHStartWorker implements WHWorker {
             // Order Robot to Move Next Station..
             System.out.println("Check send Go NextStation to Robot");
             rb.goNextStation();
+            WarehouseMain.setIndex(4);
 
         } else {
             System.out.println("Order is Deficient");
