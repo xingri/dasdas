@@ -73,7 +73,7 @@ public class SupervisorController extends Thread/*implements IController*/ {
             return -2;
         }
                
-        return db.AddWidget(newWidget.getName(), newWidget.getDesc(), newWidget.getQuantity(), newWidget.getStationId());       
+        return db.AddWidget(newWidget.getName(), newWidget.getDesc(), newWidget.getQuantity(), newWidget.getStationId(), newWidget.getCost());       
     }
     
     public int updateWidgetQuantity(Widget widgetQuant) {
@@ -177,5 +177,9 @@ public class SupervisorController extends Thread/*implements IController*/ {
     	}
     	
     	return errRbts;
+    }
+    
+    public boolean recoveryRobotError (int robotId) {
+    	return db.SetRobotState(robotId, RobotState.Idle);
     }
 }
