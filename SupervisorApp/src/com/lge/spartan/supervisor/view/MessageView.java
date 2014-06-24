@@ -9,29 +9,148 @@ import com.lge.spartan.supervisor.controller.SupervisorController;
 
 public class MessageView extends SupervisorView {
 	String errorMessage = "";
+	ArrayList <DisplayErrorData> errorData;
+	
+	public enum  eErrorType {
+		eDBConnection,
+		eWareHouse,
+		eRobot,
+		eMaxErrorType,
+	}
+	
+	public class DisplayErrorData {
+		boolean bErrorOccured;
+		int		nErrorWaitCnt;
+		
+		public DisplayErrorData() {
+			reset();
+		}
+		
+		public void reset() {
+			bErrorOccured = false;
+			nErrorWaitCnt = 0;
+		}
+	};
+	
+	public MessageView() {
+		errorData = new ArrayList<> ();
+		DisplayErrorData dbData = new DisplayErrorData();
+		DisplayErrorData whData = new DisplayErrorData();
+		DisplayErrorData rbtData = new DisplayErrorData();		
+		
+		errorData.add(dbData);
+		errorData.add(whData);
+		errorData.add(rbtData);
+	}	
+	
+	final	int	nMaxErrorWaitCnt = 60;
 	
 	@Override
 	public void refreshData() {
 		errorMessage = "";
 		
-		checkError();
-		
-		if (!errorMessage.isEmpty()) {
+		if (isDisplayErrorMessage()) {
 			JOptionPane.showMessageDialog(this, errorMessage, "Error", -1);
 		}
 	}
 	
-	private void checkError() {
-		if (isDBConnectionError() || isWarehouseSystemError()) {
-			return;
+	private boolean isDisplayErrorMessage() {
+		if (isDisplayDBError()) {			 
+			return true;
 		}
 		
-		isRobotError();
+		if (!isDBConnectionError() && isDisplayWHError()) {
+			return true;
+		} 
+		
+		if (!isDBConnectionError() && !isWarehouseSystemError() && isDisplayRobotError()) {
+			return true;
+		}
+		
+		return false;		
+	}
+	
+	public boolean isDisplayDBError() {		
+		DisplayErrorData dbError = errorData.get(eErrorType.eDBConnection.ordinal());
+		if (isDBConnectionError()) {					
+			dbError.bErrorOccured = true;
+			
+			if (dbError.bErrorOccured && dbError.nErrorWaitCnt == 0) {
+				//< "0"인 경우에만 popup이 표시가 되도록
+				dbError.nErrorWaitCnt++;				
+				errorData.set(eErrorType.eDBConnection.ordinal(), dbError);
+				return true;
+			}
+			
+			dbError.nErrorWaitCnt++;			
+			if (dbError.nErrorWaitCnt > nMaxErrorWaitCnt) {
+				dbError.nErrorWaitCnt = 0;
+				dbError.bErrorOccured = false;
+			}			
+		} else {
+			dbError.nErrorWaitCnt = 0;
+			dbError.bErrorOccured = false;
+		}
+		
+		errorData.set(eErrorType.eDBConnection.ordinal(), dbError);
+		return false;		
+	}
+	
+	public boolean isDisplayWHError() {
+		DisplayErrorData hwError = errorData.get(eErrorType.eWareHouse.ordinal());
+		if (isWarehouseSystemError()) {
+			hwError.bErrorOccured = true;
+			
+			if (hwError.bErrorOccured && hwError.nErrorWaitCnt == 0) {
+				//< "0"인 경우에만 popup이 표시가 되도록
+				hwError.nErrorWaitCnt++;				
+				errorData.set(eErrorType.eWareHouse.ordinal(), hwError);
+				return true;
+			}
+			
+			hwError.nErrorWaitCnt++;			
+			if (hwError.nErrorWaitCnt > nMaxErrorWaitCnt) {
+				hwError.nErrorWaitCnt = 0;
+				hwError.bErrorOccured = false;
+			}
+		} else {
+			hwError.nErrorWaitCnt = 0;
+			hwError.bErrorOccured = false;
+		}
+		
+		errorData.set(eErrorType.eWareHouse.ordinal(), hwError);
+		return false;
+	}
+	
+	public boolean isDisplayRobotError() {		
+		DisplayErrorData robotError = errorData.get(eErrorType.eRobot.ordinal());
+		if (isRobotError()) {					
+			robotError.bErrorOccured = true;	
+			
+			if (robotError.bErrorOccured && robotError.nErrorWaitCnt == 0) {
+				//< "0"인 경우에만 popup이 표시가 되도록
+				robotError.nErrorWaitCnt++;				
+				errorData.set(eErrorType.eRobot.ordinal(), robotError);				
+				return true;
+			}
+			
+			robotError.nErrorWaitCnt++;			
+			if (robotError.nErrorWaitCnt > nMaxErrorWaitCnt) {
+				robotError.nErrorWaitCnt = 0;
+				robotError.bErrorOccured = false;
+			}			
+		} else {
+			robotError.nErrorWaitCnt = 0;
+			robotError.bErrorOccured = false;
+		}
+		
+		errorData.set(eErrorType.eRobot.ordinal(), robotError);
+		return false;
 	}
 	
 	private boolean isDBConnectionError() {
 		if (!SupervisorController.getInstance().isConnectedDB()) {
-			errorMessage += "Cannot connect Database System.\nCould you check Database System\n\n";
+			errorMessage = "Cannot connect Database System.\nCould you check Database System\n\n";
 			return true;
 		}
 		
@@ -40,7 +159,7 @@ public class MessageView extends SupervisorView {
 	
 	private boolean isWarehouseSystemError() {
 		if (!SupervisorController.getInstance().isConnectedDB()) {
-			errorMessage += "Warehouse Management System maybe has some problems.\nCould you check Warehouse Management System\n\n";
+			errorMessage = "Warehouse Management System maybe has some problems.\nCould you check Warehouse Management System\n\n";
 			return true;
 		}
 		
@@ -52,6 +171,11 @@ public class MessageView extends SupervisorView {
 		
 		if (errRbts == null || errRbts.size() == 0) {
 			return false;
+		}
+		
+		errorMessage = "";
+		for (Robot rbt : errRbts) {
+			errorMessage += "Robot " + rbt.getRobotId() + ": " + "error occured\n";	
 		}
 		
 		return true;

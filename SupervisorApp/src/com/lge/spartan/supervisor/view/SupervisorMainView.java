@@ -496,8 +496,7 @@ public class SupervisorMainView extends SupervisorView {
     	DefaultTableModel dtm = (DefaultTableModel) jTblMonitor.getModel();
         dtm.getDataVector().removeAllElements();
         dtm.fireTableDataChanged();
-        //DefaultTableModel model = (DefaultTableModel) jTblMonitor.getModel();
-        
+               
     	ArrayList<OrderInfo> processOrderLists = SupervisorController.getInstance().getCurProgressOrder();
     	if (processOrderLists == null || processOrderLists.size() == 0) {
     	
