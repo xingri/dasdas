@@ -68,7 +68,7 @@ public class AddWidgetView extends SupervisorView {
             }
         });
 
-        jLabel5.setText("Warehouse System");
+        jLabel5.setText("Warehouse ID");
 
         warehouseId.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Item 1"}));
 
@@ -96,8 +96,8 @@ public class AddWidgetView extends SupervisorView {
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(desc, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,11 +183,11 @@ public class AddWidgetView extends SupervisorView {
     }//GEN-LAST:event_closebtnActionPerformed
 
     public void updateWarehouseId() {        
-        ArrayList<Integer> warehouseIdList = SupervisorController.getInstance().getWarehouseIdList();
+        /*ArrayList<Integer> warehouseIdList = SupervisorController.getInstance().getWarehouseIdList();
         
         for (Integer id : warehouseIdList) {
            warehouseId.addItem(Integer.toString(id));            
-        }
+        }*/
     }
     
     public void updateStationId(int warehoudId) {

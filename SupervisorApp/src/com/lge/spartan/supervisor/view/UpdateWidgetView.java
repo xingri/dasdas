@@ -55,6 +55,9 @@ public class UpdateWidgetView extends SupervisorView {
         jLabel5 = new javax.swing.JLabel();
         textFieldNewQuant = new javax.swing.JTextField();
         closeBtn = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        textFieldWarehouseId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Widget Quantity");
@@ -82,6 +85,7 @@ public class UpdateWidgetView extends SupervisorView {
         textFieldDesc.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         textFieldDesc.setEnabled(false);
 
+        textFieldCurQuant.setEditable(false);
         textFieldCurQuant.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         textFieldCurQuant.setEnabled(false);
         textFieldCurQuant.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +114,11 @@ public class UpdateWidgetView extends SupervisorView {
             }
         });
 
+        jLabel6.setText("Warehouse ID");
+
+        textFieldWarehouseId.setEditable(false);
+        textFieldWarehouseId.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,16 +131,21 @@ public class UpdateWidgetView extends SupervisorView {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(btnUpdateWidget))
+                    .addComponent(btnUpdateWidget)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(102, 102, 102)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textFieldStation)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textFieldCurQuant)
                     .addComponent(textFieldDesc)
-                    .addComponent(comboName, 0, 147, Short.MAX_VALUE)
+                    .addComponent(comboName, 0, 176, Short.MAX_VALUE)
                     .addComponent(textFieldNewQuant)
-                    .addComponent(closeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(closeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(textFieldStation)
+                    .addComponent(textFieldWarehouseId))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,19 +159,24 @@ public class UpdateWidgetView extends SupervisorView {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2))
                     .addComponent(textFieldDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textFieldCurQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel3)
+                    .addComponent(textFieldCurQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(textFieldNewQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(textFieldStation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(textFieldWarehouseId, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(textFieldStation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdateWidget)
                     .addComponent(closeBtn))
@@ -184,6 +203,7 @@ public class UpdateWidgetView extends SupervisorView {
                 textFieldDesc.setText(w.getDesc());                
                 textFieldCurQuant.setText(Integer.toString(w.getQuantity()));
                 textFieldStation.setText(Integer.toString(w.getStationId() + 1));
+                textFieldWarehouseId.setText("1");
                 break;
             }
         }
@@ -220,6 +240,10 @@ public class UpdateWidgetView extends SupervisorView {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_closeBtnActionPerformed
+
+    private void jTextFieldWarehouseIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldWarehouseIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldWarehouseIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,9 +295,12 @@ public class UpdateWidgetView extends SupervisorView {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField textFieldCurQuant;
     private javax.swing.JTextField textFieldDesc;
     private javax.swing.JTextField textFieldNewQuant;
     private javax.swing.JTextField textFieldStation;
+    private javax.swing.JTextField textFieldWarehouseId;
     // End of variables declaration//GEN-END:variables
 }

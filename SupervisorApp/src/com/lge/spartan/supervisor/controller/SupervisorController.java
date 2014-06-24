@@ -46,10 +46,15 @@ public class SupervisorController extends Thread/*implements IController*/ {
         return bDBConnectState;
     }
     
+    public boolean isConnectedDB() {
+    	setConnectDBState(db.IsDBAvailable());
+    	return isConnectDB();
+    }
+    
     public boolean disconnectDB() {
         // TODO
         setConnectDBState(false);
-        return false;        
+        return true;        
     }
     
     void setConnectDBState(boolean dbState) {
@@ -107,6 +112,10 @@ public class SupervisorController extends Thread/*implements IController*/ {
     	return db.GetOrders(OrderStatus.Backordered);
     }
     
+    public ArrayList <Robot> getAllRobotLists() {
+    	return db.GetRobots();
+    }
+    
     public RobotStatus getRobotStatus(int orderNo){
     	ArrayList <Robot> robotInfo = db.GetRobots();
     	
@@ -150,5 +159,23 @@ public class SupervisorController extends Thread/*implements IController*/ {
         //ArrayList<Integer> list = new ArrayList<>();       
         ArrayList <Integer> test = null;
         return test;
+    }
+    
+    public ArrayList<Robot> getErrorRobotList() {
+    	ArrayList<Robot> robotLists = getAllRobotLists();
+    	
+    	if (robotLists == null || robotLists.size() == 0) {
+    		return null;
+    	}
+    	
+    	ArrayList<Robot> errRbts = new ArrayList<>(); 
+    	for (Robot rt : robotLists) {
+    		
+    		if (rt.getStatus() == RobotState.Error) {
+    			errRbts.add(rt);    			
+    		}
+    	}
+    	
+    	return errRbts;
     }
 }

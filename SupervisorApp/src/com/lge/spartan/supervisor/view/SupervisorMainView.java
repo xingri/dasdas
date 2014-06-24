@@ -467,11 +467,6 @@ public class SupervisorMainView extends SupervisorView {
     
     private void updateBackorderStatus() {
     	ArrayList<OrderInfo> orderList = SupervisorController.getInstance().getBackorderedOrder();    			
-        /*
-         *  TODO : 3rd station visited 이후에 robot status를 바꿀 수가 없음.
-         *  		CurOrder가 "0" 이라서...
-         */
-        
         if (orderList == null) {
         	return;
         }
@@ -487,11 +482,11 @@ public class SupervisorMainView extends SupervisorView {
         int i = 0;
         for (OrderInfo oi : orderList) {
             i++;
-            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            //DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
             ArrayList <OrderDetails> ordDetails = oi.getListOrderDetails();   
             for (OrderDetails ordDetail : ordDetails) {
-            	model.addRow(new Object[]{i, oi.getOrderNo(),ordDetail.getWidgetName() 
+            	/*model*/dtm.addRow(new Object[]{i, oi.getOrderNo(),ordDetail.getWidgetName() 
             			, ordDetail.getQuantity(), oi.getOrderTime()});
             }
         }
