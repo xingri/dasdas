@@ -16,9 +16,11 @@ RobotHostInterface robotHostIf;
 WiFiServer robotServer(ROBOT_SERVER_PORT);
 
 struct HostCommand command;
+struct HostCommand prevCommand;
 
 int loopCount = 0;
-int ledStatus = 0;
+
+int robotStatus = 0;
 
 int watchdogStauts = 0;
 
@@ -34,7 +36,7 @@ void setup()
 
 	watchdogStauts = EEPROM.read(EEPROM_IDX_WATCHDOG);
 	EEPROM.write(EEPROM_IDX_WATCHDOG, 0);
-	Serial.print("Watchdog Status: ");
+	Serial.print("### Watchdog Status: ");
 	Serial.println(watchdogStauts);
 
 	Watchdog::init(cbForWdt, 8);
@@ -56,8 +58,12 @@ void loop()
 	WiFiClient client = robotServer.available();
 
 	if (client) {
+		robotCtrl.stop();
+
+		prevCommand = command;
+		command.cmd = CMD_NONE;
+
 		Serial.print("Robot Client connected...");
-		Serial.println("Waiting for a command......" );
 
 		while (client.available() == 0 ) {
 			delay( 100 );
@@ -93,31 +99,45 @@ void loop()
 		delay(100);
 
 		client.stop();
+
+		Serial.print("Ping: ");
+		Serial.println(loopCount);
+		loopCount = 0;
+
 		Serial.println("Client Disconnected.\n");
 	}
 #else
 	robotHostIf.rcvCommand(&command);
 #endif
 
+	wdt_reset();
+
+	if (command.cmd == CMD_PING)
+		command = prevCommand;
+
 	switch (command.cmd) {
 		case CMD_GO_FORWWRD:
 			robotCtrl.goForward();
 			command.arg--;
+			delay(10);
 			break;
 		case CMD_GO_BACKWARD:
 			robotCtrl.goBackward();
 			command.arg--;
+			delay(10);
 			break;
 		case CMD_TURN_LEFT:
 			robotCtrl.turnLeft();
 			command.arg--;
+			delay(10);
 			break;
 		case CMD_TURN_RIGHT:
 			robotCtrl.turnRight();
 			command.arg--;
+			delay(10);
 			break;
 		case CMD_GO_NEXT_STATION:
-			robotCtrl.goNextStation();
+			robotStatus = robotCtrl.goNextStation();
 			break;
 		case CMD_NEAR_STATION:
 			robotCtrl.nearStation();
@@ -134,16 +154,18 @@ void loop()
 			break;
 	}
 
-	if (command.cmd <= CMD_TURN_RIGHT && command.arg == 0)
+	if ((command.cmd <= CMD_TURN_RIGHT && command.arg == 0)
+		|| robotStatus != 0) {
+		Serial.println("Done: stop");
 		command.cmd = CMD_STOP;
-
-	loopCount++;
-	if ((loopCount % 3000) == 0) {
-		digitalWrite(13, ledStatus);
-		ledStatus = !ledStatus;
-		Serial.print(".");
 	}
 
-	wdt_reset();
-	// delay(10); // XXX:
+	if (loopCount > 20000) {
+		Serial.println("WARNING: WMS might shutdown or network failure happens");
+		robotCtrl.stop();
+		command.cmd = CMD_STOP;
+		loopCount = 0;
+	}
+
+	loopCount++;
 }
