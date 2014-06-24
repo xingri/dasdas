@@ -81,6 +81,7 @@ public class ISSwitchWorker implements WHWorker {
         RobotStatus robotStatus = dal.GetRobotMoves(1, orderInfo.getOrderNo());
 
         ArrayList<Integer> visitedList = robotStatus.getStationsVisited();
+        if (visitedList == null) visitedList = new ArrayList<Integer>();
 
         switch(idx) {
             case 1:
@@ -92,7 +93,7 @@ public class ISSwitchWorker implements WHWorker {
                 break;
 
             case 2:
-                if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {
+                if(isNumExistsInArrayList(2, robotStatus.getStationsToVisit())) {
                     needProc = true;
                     stn2Visited = true;
                     visitedList.add(new Integer(2));
@@ -100,7 +101,7 @@ public class ISSwitchWorker implements WHWorker {
                 break;
 
             case 3:
-                if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {
+                if(isNumExistsInArrayList(3, robotStatus.getStationsToVisit())) {
                     needProc = true;
                     stn3Visited = true;
                     visitedList.add(new Integer(3));
@@ -128,12 +129,12 @@ public class ISSwitchWorker implements WHWorker {
             robotStatus.setNextStation(3);
         }
 
-
         if(isSameList(robotStatus.getStationsToVisit(), visitedList) ) {
             robotStatus.setNextStation(4);
         }
 
         robotStatus.setStationsVisited(visitedList);
+        robotStatus.setCurrentStation(idx);
 
         // Update Next Visit Stn
         dal.UpdateRobotStatus(robotStatus);

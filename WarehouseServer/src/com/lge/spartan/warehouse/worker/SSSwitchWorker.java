@@ -43,6 +43,7 @@ public class SSSwitchWorker implements WHWorker {
 
         dal.SetRobotState(1, RobotState.Idle);
         robotStatus.setNextStation(-1);
+        robotStatus.setCurrentStation(idx);
 
         dal.UpdateOrderStatus(orderInfo.getOrderNo(), OrderStatus.Complete);
         dal.UpdateRobotStatus(robotStatus);

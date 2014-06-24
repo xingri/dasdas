@@ -62,6 +62,9 @@ public class ISSensorWorker implements WHWorker {
 
         RobotStatus robotStatus = dal.GetRobotMoves(1, orderInfo.getOrderNo());
 
+        robotStatus.setCurrentStation(idx);
+        dal.UpdateRobotStatus(robotStatus);
+
         switch(idx) {
             case 1:
                 if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {

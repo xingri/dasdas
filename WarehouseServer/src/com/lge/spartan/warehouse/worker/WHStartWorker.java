@@ -8,8 +8,10 @@ public class WHStartWorker implements WHWorker {
 
     String dbURL = WHConfig.GetDBIP();
     WHRobotInf rb;
+    int currIndex = -1;
 
     public void procRequest(int idx) {
+        currIndex = idx;
         rb = new WHRobotInf(WHConfig.GetRobotIP());
         if( WHConfig.IsEmulator() ) {
             rb.setEmulationMode();
@@ -135,11 +137,19 @@ public class WHStartWorker implements WHWorker {
             robotStatus.setStationsToVisit(stationsToVisit);
 
             robotStatus.setNextStation(nextStn);
+            robotStatus.setCurrentStation(currIndex);
 
             dal.SetRobotState(1, RobotState.Busy);
 
             // Update Order into Robot Status
             dal.UpdateOrderStatus(orderInfo.getOrderNo(), OrderStatus.Inprogress);
+
+            //RobotStatus chkRobotStatus = dal.GetRobotMoves(1, 1);
+
+            //System.out.println("\n\n\n\n check robotStatus \n\n\n\n");
+            //System.out.println("ToVisit: " + chkRobotStatus.getStationsToVisit());
+            //System.out.println("Visited: " + chkRobotStatus.getStationsVisited());
+
             dal.AddRobotStatus(robotStatus);
 
             //RobotStatus resRobotStatus = dal.GetRobotStatus(orderInfo.getOrderNo());

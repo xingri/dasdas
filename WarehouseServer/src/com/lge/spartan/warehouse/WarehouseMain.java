@@ -26,7 +26,10 @@ public class WarehouseMain implements StationManager {
                 } else {
                     if (currEvent.isValid() && ( cachedSwEvent == null 
                             || !currEvent.isSameSensor(cachedSwEvent.getEventList())) ) {
+
                         System.out.println("Sensor IDX: " + currEvent.getSensorIdx());
+
+                        cachedSwEvent = new WHEvent(inputLine);
 
                         if(currIndex == currEvent.getSensorIdx() || getNextIndex() != currEvent.getSensorIdx()) {
                             System.out.println("Invalid Event Sequence CurrIdex [" + currEvent.getSensorIdx() 
@@ -34,11 +37,18 @@ public class WarehouseMain implements StationManager {
                             return;
                         }
 
+                        currIndex = currEvent.getSensorIdx();
+
                         //try {Thread.sleep(300);} catch (InterruptedException ie) {}
                         try {Thread.sleep(200);} catch (InterruptedException ie) {}
+
                         whWorker.procRequest(currEvent.getSensorIdx());
-                        cachedSwEvent = new WHEvent(inputLine);
-                        currIndex = currEvent.getSensorIdx();
+                    }
+                    else {
+                        System.out.println("Sensor IDX (outCond): " + currEvent.getSensorIdx());
+                        System.out.println("Sensor IDX (outCond): " + currEvent.isValid());
+                        System.out.println("Sensor IDX (outCond): " + cachedSwEvent);
+                        System.out.println("Sensor IDX (outCond): " + currEvent.isSameSensor(cachedSwEvent.getEventList()));
                     }
                 }
             } else {
