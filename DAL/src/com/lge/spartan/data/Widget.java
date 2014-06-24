@@ -18,19 +18,21 @@ public class Widget implements Serializable {
     private String desc;
     private int quantity;
     private int stationId;
+    private double cost;
 
-    public Widget(String nm, String de, int quan, int stId) {
+    public Widget(String nm, String de, int quan, int stId, double cost) {
         setName(nm);
         setDesc(de);
         setQuantity(quan);
         setStationId(stId);
+        setCost(cost);
     }
 
     public Widget() {
     }
 
     public String toString() {
-        return widgetId + " " + name + " " + quantity + " " + stationId;
+        return widgetId + " " + name + " " + quantity + " " + stationId + " " + cost;
     }
 
     /**
@@ -101,5 +103,19 @@ public class Widget implements Serializable {
      */
     public void setStationId(int stationId) {
         this.stationId = stationId;
+    }
+
+    /**
+     * @return the cost
+     */
+    public double getCost() {
+        return cost;
+    }
+
+    /**
+     * @param cost the cost to set
+     */
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 }

@@ -38,7 +38,7 @@ public interface DAL {
     //Orders - End
 
     //Widgets - Start
-    public int AddWidget(String widgetName, String widgetDesc, int quant, int stationId);
+    public int AddWidget(String widgetName, String widgetDesc, int quant, int stationId, double cost);
     public int IncWidgets(String widgetName, int increment);
     public int DecWidgets(String widgetName, int decrement);
     public int GetWidgetQuantity(String widgetName);

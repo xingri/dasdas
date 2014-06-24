@@ -268,13 +268,13 @@ public class MySQLDALImpl implements DAL {
     }
 
     ///Return OrderNo if success. If failure, return -1
-    public synchronized int AddWidget(String widgetName, String widgetDesc, int quant, int stationId) {
+    public synchronized int AddWidget(String widgetName, String widgetDesc, int quant, int stationId, double cost) {
         logger.entry();
         System.out.println("DAL:AddWidget:widgetName: " + widgetName + ", widgetDesc: " + widgetDesc + ", quantity:" + quant + ", stationId:" + stationId);
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             CreateStmnt();
-            SQLStatement = "insert into widget (name, description, quantity, stationId) values ('" + widgetName + "','" + widgetDesc + "'," + quant + "," + stationId + ");";
+            SQLStatement = "insert into widget (name, description, quantity, stationId, cost) values ('" + widgetName + "','" + widgetDesc + "'," + quant + "," + stationId + "," + cost + ");";
             executeUpdateVal = s.executeUpdate(SQLStatement);
             if (executeUpdateVal > 0) {
                 System.out.println("DAL:AddWidget:Widget added successfully");
@@ -566,6 +566,7 @@ public class MySQLDALImpl implements DAL {
                 w.setDesc(res.getString(3));
                 w.setQuantity(res.getInt(4));
                 w.setStationId(res.getInt(5));
+                w.setCost(res.getInt(6));
                 widgetList.add(w);
             }
         } catch (Exception e) {
@@ -1061,7 +1062,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     //This API should be invoked by Supervisor app every 2 seconds or greater (recommended is 2 seconds)
-    public boolean IsWarehouseServerAvailable(int warehouseId) {
+    public synchronized boolean IsWarehouseServerAvailable(int warehouseId) {
         logger.entry();
         System.out.println("DAL:IsWarehouseServerAvailable()");
         ResultSet rs = null;
@@ -1095,7 +1096,7 @@ public class MySQLDALImpl implements DAL {
     }
 
     //This API should be invoked by Warehouse server every x seconds ( x <= 1 ) preferable x is 1
-    public boolean SetWarehouseServerTS(int warehouseId) {
+    public synchronized boolean SetWarehouseServerTS(int warehouseId) {
         logger.entry();
         System.out.println("DAL:IsWarehouseServerAvailable()");
         ResultSet rs = null;
