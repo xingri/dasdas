@@ -18,6 +18,7 @@ import com.lge.spartan.data.Station;
 import com.lge.spartan.data.Warehouse;
 import com.lge.spartan.data.Widget;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,12 +28,26 @@ import javax.swing.JOptionPane;
 public class DALTestForm extends javax.swing.JFrame {
 
     static DAL dal = null;
+    long startTime = 0;
 
     /**
      * Creates new form DALTestForm
      */
     public DALTestForm() {
         initComponents();
+    }
+    
+    private void StartTime()
+    {
+      Date d = new Date();
+        startTime = d.getTime();
+    }
+    private long EndTime()
+    {
+        Date d1 = new Date();
+        long end = d1.getTime();
+        long diff = (end - startTime)/1000;
+        return diff;
     }
 
     /**
@@ -68,6 +83,8 @@ public class DALTestForm extends javax.swing.JFrame {
         jbtnGetOrderStatus = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jtfOrderNoStatus = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jtfNoOfOrders = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jbtnGetWidgets = new javax.swing.JButton();
         jbtnAddWidget = new javax.swing.JButton();
@@ -267,6 +284,10 @@ public class DALTestForm extends javax.swing.JFrame {
 
         jtfOrderNoStatus.setText("jTextField1");
 
+        jLabel17.setText("No of orders ");
+
+        jtfNoOfOrders.setText("1");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -289,28 +310,36 @@ public class DALTestForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtfOrderNoStatus))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtfPhone)
-                                    .addComponent(jtfOrderNo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jtfOrderNoStatus)))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jtfPhone)
+                                        .addComponent(jtfOrderNo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel17)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jtfNoOfOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(jcbOrderStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jbtnAddOrder)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnAddOrder)
+                    .addComponent(jLabel17)
+                    .addComponent(jtfNoOfOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addComponent(jbtnPendingOrders)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -840,10 +869,12 @@ public class DALTestForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jbtnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddOrderActionPerformed
-        AddOrders(1);
+        int i = Integer.parseInt(jtfNoOfOrders.getText());
+        AddOrders(i);
     }//GEN-LAST:event_jbtnAddOrderActionPerformed
 
     private void AddOrders(int n) {
+       StartTime();
         // TODO add your handling code here:
         ArrayList<OrderDetails> list = new ArrayList<OrderDetails>();
         Customer cust = new Customer("ankit", "rachabattuni", "1234", "Outer ring road , Bangalore India 55439945");
@@ -860,6 +891,7 @@ public class DALTestForm extends javax.swing.JFrame {
             else
                 dal.AddOrder(list, cust);
         }
+        System.out.println("AddOrders: Time taken for " + n + " orders is " + EndTime() + " seconds");
     }
     
    
@@ -869,7 +901,7 @@ public class DALTestForm extends javax.swing.JFrame {
         String strWDec = jtfWDesc.getText();
         int q = Integer.parseInt(jtfWQuant.getText());
         int sid = Integer.parseInt(jtfWStationId.getText());
-        dal.AddWidget(strWName, strWDec, q, sid);
+        dal.AddWidget(strWName, strWDec, q, sid, 10.0);
     }//GEN-LAST:event_jbtnAddWidgetActionPerformed
 
     private void jbtnIncWidgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIncWidgetActionPerformed
@@ -909,7 +941,9 @@ public class DALTestForm extends javax.swing.JFrame {
 
     private void jbtnGetAllOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGetAllOrdersActionPerformed
         // TODO add your handling code here:
+        StartTime();
         ArrayList<OrderInfo> listOI = dal.GetOrders(OrderStatus.All);
+        System.out.println("GetOrders timetaken for " + listOI.size() + " orders: " + EndTime());
         for (OrderInfo oi : listOI) {
             System.out.println(oi.toString());
         }
@@ -1117,6 +1151,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1183,6 +1218,7 @@ public class DALTestForm extends javax.swing.JFrame {
     private javax.swing.JTextField jtfGetWQuantName;
     private javax.swing.JTextField jtfIncBy;
     private javax.swing.JTextField jtfIncWName;
+    private javax.swing.JTextField jtfNoOfOrders;
     private javax.swing.JTextField jtfOrderNo;
     private javax.swing.JTextField jtfOrderNoStatus;
     private javax.swing.JTextField jtfPhone;
