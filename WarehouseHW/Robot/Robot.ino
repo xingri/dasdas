@@ -1,11 +1,15 @@
 #include <Servo.h>
 #include <WiFi.h>
+#include <EEPROM.h>
+#include "Watchdog.h"
 #include "RobotCtrl.h"
 #include "RobotHostInterface.h"
 
 #define ROBOT_LEFT_SERVOPIN 5
 #define ROBOT_RIGHT_SERVOPIN 6
 #define ROBOT_SERVER_PORT 501
+
+#define EEPROM_IDX_WATCHDOG 0
 
 RobotCtrl robotCtrl;
 RobotHostInterface robotHostIf;
@@ -16,12 +20,30 @@ struct HostCommand command;
 int loopCount = 0;
 int ledStatus = 0;
 
+int watchdogStauts = 0;
+
+void cbForWdt()
+{
+	Serial.println("Watchdog!!");
+	EEPROM.write(EEPROM_IDX_WATCHDOG, 1);
+}
+
 void setup()
 {
 	Serial.begin(9600);
 
+	watchdogStauts = EEPROM.read(EEPROM_IDX_WATCHDOG);
+	EEPROM.write(EEPROM_IDX_WATCHDOG, 0);
+	Serial.print("Watchdog Status: ");
+	Serial.println(watchdogStauts);
+
+	Watchdog::init(cbForWdt, 8);
+	Watchdog::resetFlag = true;
+
 	robotCtrl.init(ROBOT_LEFT_SERVOPIN, ROBOT_RIGHT_SERVOPIN);
 	robotHostIf.connect(&robotServer);
+
+	Watchdog::configure();
 
 	command.cmd = 0xF;
 	command.arg = 0xF;
@@ -57,8 +79,9 @@ void loop()
 			if (command.cmd == CMD_ARRIVAL && robotHostIf.getArrival()) {
 				rawCmd = CMD_ARRIVAL << 3;
 				robotHostIf.setArrival(false);
-			} else if (command.cmd == CMD_WATCHDOG) {
-				rawCmd = 0xFF;
+			} else if (command.cmd == CMD_WATCHDOG && watchdogStauts == 1) {
+				rawCmd = CMD_WATCHDOG << 3;
+				watchdogStauts = 0;
 			} else {
 				rawCmd = 0xFF;
 			}
@@ -115,11 +138,12 @@ void loop()
 		command.cmd = CMD_STOP;
 
 	loopCount++;
-
 	if ((loopCount % 3000) == 0) {
-		  digitalWrite(13, ledStatus);
-		  ledStatus = !ledStatus;
-		  Serial.print(".");
+		digitalWrite(13, ledStatus);
+		ledStatus = !ledStatus;
+		Serial.print(".");
 	}
+
+	wdt_reset();
 	// delay(10); // XXX:
 }
