@@ -53,7 +53,7 @@ public class SupervisorMainView extends SupervisorView {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabRbtRecovery = new javax.swing.JTabbedPane();
+    	jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -155,9 +155,8 @@ public class SupervisorMainView extends SupervisorView {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jTabRbtRecovery.addTab("Inventory", jPanel1);
+        jTabbedPane1.addTab("Inventory", jPanel1);
 
-        jTblMonitor.setFont(new java.awt.Font("굴림", 0, 12)); // NOI18N
         jTblMonitor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -181,12 +180,17 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
-        jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        
+        //jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         jTblMonitor.setEnabled(false);
-        jTblMonitor.setRowHeight(45);
+        jTblMonitor.setRowHeight(60);
         jScrollPane5.setViewportView(jTblMonitor);
+        
+        jTblMonitor.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+        
 
-        jLabel1.setText("Robot Recovery");
+		jLabel1.setText("Robot Recovery");
 
         jLabel2.setText("Robot Id");
 
@@ -196,7 +200,6 @@ public class SupervisorMainView extends SupervisorView {
                 jBtnRecoveryActionPerformed(evt);
             }
         });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -232,7 +235,7 @@ public class SupervisorMainView extends SupervisorView {
                 .addGap(276, 276, 276))
         );
 
-        jTabRbtRecovery.addTab("Monitor", jPanel2);
+        jTabbedPane1.addTab("Monitor", jPanel2);
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -257,9 +260,13 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        jTable3.setEnabled(false);
         jTable3.setRowHeight(60);
         jScrollPane3.setViewportView(jTable3);
+        
+        jTable3.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+                
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setMinWidth(50);
             jTable3.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -306,7 +313,7 @@ public class SupervisorMainView extends SupervisorView {
                 .addGap(258, 258, 258))
         );
 
-        jTabRbtRecovery.addTab("Orders", jPanel4);
+        jTabbedPane1.addTab("Orders", jPanel4);
 
         jBtnAddWidgetQnt.setText("Add Widget Quantity");
         jBtnAddWidgetQnt.addActionListener(new java.awt.event.ActionListener() {
@@ -338,8 +345,14 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
+        
+        jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        jTable2.setEnabled(false);
+        jTable2.setRowHeight(60);
         jScrollPane1.setViewportView(jTable2);
-
+        
+        jTable2.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+                
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -364,8 +377,9 @@ public class SupervisorMainView extends SupervisorView {
                 .addContainerGap())
         );
 
-        jTabRbtRecovery.addTab("Backordered order", jPanel3);
-
+        jTabbedPane1.addTab("Backordered order", jPanel3);
+        
+        
         jMenu1.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
@@ -405,14 +419,14 @@ public class SupervisorMainView extends SupervisorView {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabRbtRecovery, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 44, Short.MAX_VALUE)
-                .addComponent(jTabRbtRecovery, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -440,7 +454,7 @@ public class SupervisorMainView extends SupervisorView {
         for (Widget w : widgetList) {
             i++;
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.addRow(new Object[]{i, w.getName(), w.getDesc(), w.getQuantity(), w.getStationId()});
+            model.addRow(new Object[]{i, w.getName(), w.getDesc(), w.getQuantity(), w.getStationId(), w.getCost()});
         }
     }
     
@@ -648,6 +662,28 @@ public class SupervisorMainView extends SupervisorView {
         );*/
     }
     
+    public void recoveryRobotStatus() {
+    	if (recoveryRobotId.getText().length() <= 0) {
+    		JOptionPane.showMessageDialog(this, "Please enter the Robot ID");
+    		recoveryRobotId.requestFocus();
+    	} else {
+    		try {
+    			Integer.parseInt(recoveryRobotId.getText());
+            } catch (NumberFormatException e) {
+                //Not an integer
+                JOptionPane.showMessageDialog(this, "Please enter the Robot ID as Numeric.");
+                recoveryRobotId.requestFocus();
+            }
+    	}
+    	
+    	boolean res = SupervisorController.getInstance().recoveryRobotError(Integer.parseInt(recoveryRobotId.getText()));
+        
+        if (!res)
+            JOptionPane.showMessageDialog(this, "Changing Robot state failed.\n Check written Robot id \nOr server is not connected.");
+        else 
+        	JOptionPane.showMessageDialog(this, "Changing Robot State success.");
+    }
+    
     private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOrderRefreshActionPerformed
         // TODO add your handling code here:
         updateOrderLists();
@@ -676,8 +712,8 @@ public class SupervisorMainView extends SupervisorView {
     }//GEN-LAST:event_jbtnAddOrderActionPerformed
 
     private void jBtnRecoveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRecoveryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnRecoveryActionPerformed
+    	recoveryRobotStatus();
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -702,7 +738,7 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabRbtRecovery;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
