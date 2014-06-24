@@ -47,6 +47,8 @@ public class AddWidgetView extends SupervisorView {
         jLabel5 = new javax.swing.JLabel();
         warehouseId = new javax.swing.JComboBox();
         closebtn = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        widgetCost = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create New Widget");
@@ -70,7 +72,7 @@ public class AddWidgetView extends SupervisorView {
 
         jLabel5.setText("Warehouse ID");
 
-        warehouseId.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Item 1"}));
+        warehouseId.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"1"}));
 
         closebtn.setText("Close");
         closebtn.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +80,8 @@ public class AddWidgetView extends SupervisorView {
                 closebtnActionPerformed(evt);
             }
         });
+
+        jLabel6.setText("Cost");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,24 +91,30 @@ public class AddWidgetView extends SupervisorView {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(createWidget, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(closebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(desc, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(warehouseId, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(stationId, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(28, 28, 28))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(createWidget, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(closebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(desc, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                                    .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                                    .addComponent(quantity, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                                    .addComponent(warehouseId, 0, 156, Short.MAX_VALUE)
+                                    .addComponent(stationId, 0, 156, Short.MAX_VALUE)
+                                    .addComponent(widgetCost))))
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +131,11 @@ public class AddWidgetView extends SupervisorView {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(widgetCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(warehouseId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -150,6 +164,9 @@ public class AddWidgetView extends SupervisorView {
         } else if (quantity.getText().length() <= 0) {
             JOptionPane.showMessageDialog(this, "Please enter the Quantity of the Widget.");
             quantity.requestFocus();
+        } else if (widgetCost.getText().length() <= 0) {
+        	JOptionPane.showMessageDialog(this, "Please enter the Cost of the Widget.");
+        	widgetCost.requestFocus();
         } else {
             try {
                 Integer.parseInt(quantity.getText());
@@ -157,6 +174,14 @@ public class AddWidgetView extends SupervisorView {
                 //Not an integer
                 JOptionPane.showMessageDialog(this, "Please enter the Quantity as Numeric.");
                 quantity.requestFocus();
+            }
+            
+            try {
+                Integer.parseInt(widgetCost.getText());
+            } catch (NumberFormatException e) {
+                //Not an integer
+                JOptionPane.showMessageDialog(this, "Please enter the Cost as Numeric.");
+                widgetCost.requestFocus();
             }
         }
 
@@ -166,7 +191,8 @@ public class AddWidgetView extends SupervisorView {
         addInventory.setDesc(desc.getText());
         addInventory.setQuantity(Integer.parseInt(quantity.getText()));
         addInventory.setStationId(stationId.getSelectedIndex() + 1);
-                
+        //addInventory.setCost(Integer.parseInt(widgetCost.getText()));
+        
         int res = SupervisorController.getInstance().createNewInventory(addInventory);
         
         if (res == -1)
@@ -246,6 +272,8 @@ public class AddWidgetView extends SupervisorView {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField widgetCost;
     private javax.swing.JTextField name;
     private javax.swing.JTextField quantity;
     private javax.swing.JComboBox stationId;

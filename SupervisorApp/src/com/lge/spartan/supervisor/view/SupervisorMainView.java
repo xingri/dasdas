@@ -53,7 +53,7 @@ public class SupervisorMainView extends SupervisorView {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+    	jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -65,8 +65,7 @@ public class SupervisorMainView extends SupervisorView {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jbtnOrderRefresh = new javax.swing.JButton();
-        jbtnAddOrder = new javax.swing.JButton();
+        jbtnOrderRefresh = new javax.swing.JButton();        
         jlblOrderNo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jBtnAddWidgetQnt = new javax.swing.JButton();
@@ -138,7 +137,7 @@ public class SupervisorMainView extends SupervisorView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbtnRefresh)
                 .addContainerGap())
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,8 +147,8 @@ public class SupervisorMainView extends SupervisorView {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                     .addComponent(jbtnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inventory", jPanel1);
@@ -177,23 +176,30 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
+        
+        //jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        jTblMonitor.setEnabled(false);
+        jTblMonitor.setRowHeight(60);
         jScrollPane5.setViewportView(jTblMonitor);
-
+        
+        jTblMonitor.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+        
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Monitor", jPanel2);
@@ -203,14 +209,14 @@ public class SupervisorMainView extends SupervisorView {
 
             },
             new String [] {
-                "S No", "Order No", "Submit Date", "Status", "Shipped Date", "Widget Name", "Widget Quantity"
+                "S No", "Order No", "Submit Date", "Status", "Shipped Date", "Widget Name & Qantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -221,7 +227,13 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
+        jTable3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        jTable3.setEnabled(false);
+        jTable3.setRowHeight(60);
         jScrollPane3.setViewportView(jTable3);
+        
+        jTable3.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+                
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setMinWidth(50);
             jTable3.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -236,13 +248,6 @@ public class SupervisorMainView extends SupervisorView {
             }
         });
 
-        jbtnAddOrder.setText("AddDummyOrders");
-        jbtnAddOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnAddOrderActionPerformed(evt);
-            }
-        });
-
         jlblOrderNo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jlblOrderNo.setText("        ");
 
@@ -253,14 +258,13 @@ public class SupervisorMainView extends SupervisorView {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jbtnOrderRefresh)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnAddOrder))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(jlblOrderNo)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbtnOrderRefresh)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(80, 80, 80)
+                                .addComponent(jlblOrderNo)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -268,12 +272,10 @@ public class SupervisorMainView extends SupervisorView {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnOrderRefresh)
-                    .addComponent(jbtnAddOrder))
+                .addComponent(jbtnOrderRefresh)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlblOrderNo)
                 .addGap(258, 258, 258))
         );
@@ -292,7 +294,7 @@ public class SupervisorMainView extends SupervisorView {
 
             },
             new String [] {
-                "S No", "Order No", "Widget Name", "Quantity"
+                "S No", "Order No", "Widget Name", "Order Quantity"
             }
         ) {
             Class[] types = new Class [] {
@@ -310,8 +312,14 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
+        
+        jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        jTable2.setEnabled(false);
+        jTable2.setRowHeight(60);
         jScrollPane1.setViewportView(jTable2);
-
+        
+        jTable2.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+                
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -320,11 +328,11 @@ public class SupervisorMainView extends SupervisorView {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jBtnAddWidgetQnt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(397, 397, 397))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jBtnAddWidgetQnt, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                        .addGap(397, 397, 397))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +345,8 @@ public class SupervisorMainView extends SupervisorView {
         );
 
         jTabbedPane1.addTab("Backordered order", jPanel3);
-
+        
+        
         jMenu1.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
@@ -494,8 +503,6 @@ public class SupervisorMainView extends SupervisorView {
     
     private void updateCurOrderStatus() {
     	DefaultTableModel dtm = (DefaultTableModel) jTblMonitor.getModel();
-        dtm.getDataVector().removeAllElements();
-        dtm.fireTableDataChanged();
                
     	ArrayList<OrderInfo> processOrderLists = SupervisorController.getInstance().getCurProgressOrder();
     	if (processOrderLists == null || processOrderLists.size() == 0) {
@@ -503,7 +510,11 @@ public class SupervisorMainView extends SupervisorView {
     	   ArrayList <Robot> robotLists = SupervisorController.getInstance().getAllRobotLists();
     	   SupervisorController.getInstance().getAllRobotLists();
     	   
+    	   dtm.getDataVector().removeAllElements();
+	       dtm.fireTableDataChanged();
+	       
     	   if (robotLists != null && robotLists.size() != 0) {
+    		    
     		   for (Robot rbt : robotLists) {
     			   /*model*/dtm.addRow(new Object[]{
 	            		   	rbt.getWarehouseId()
@@ -535,6 +546,9 @@ public class SupervisorMainView extends SupervisorView {
         	   orderDetails += "\n";
            }
            
+           dtm.getDataVector().removeAllElements();
+	       dtm.fireTableDataChanged();
+	       
            /*model*/dtm.addRow(new Object[]{
         		   robotInfo.getWarehouseId()
         		   , robotInfo.getRobotId(), robotInfo.getStatus().toString()       		   
@@ -559,17 +573,21 @@ public class SupervisorMainView extends SupervisorView {
         int i = 0;
         for (OrderInfo oi : orderList) {
             i++;
-            //DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-
             ArrayList <OrderDetails> ordDetails = oi.getListOrderDetails();
             
+            
+            String orderDetailStr = "";
             for (OrderDetails ord : ordDetails) {
-            	/*model*/dtm.addRow(new Object[]{i, oi.getOrderNo(), oi.getOrderTime(), oi.getStatus(),                    
-                        oi.getShippingTime() != null ? oi.getShippingTime() : ' ',
-                        ord.getWidgetName(), ord.getQuantity(),
-                        oi.getCust() != null ? oi.getCust().getFname() : ' ',
-                        oi.getCust() != null ? oi.getCust().getPhone() : ' '});
+            	orderDetailStr += ord.getWidgetName() + ":" + ord.getQuantity();            	
+            	orderDetailStr += "\n";
             }
+            
+            dtm.addRow(new Object[]{i, oi.getOrderNo(), oi.getOrderTime(), oi.getStatus(),                    
+                    oi.getShippingTime() != null ? oi.getShippingTime() : ' ',
+                    orderDetailStr,
+                    oi.getCust() != null ? oi.getCust().getFname() : ' ',
+                    oi.getCust() != null ? oi.getCust().getPhone() : ' '});
+            
         }
         
         /*jTable3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -613,22 +631,6 @@ public class SupervisorMainView extends SupervisorView {
         dtm.fireTableDataChanged();
     }
 
-    private void jbtnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddOrderActionPerformed
-        // TODO add your handling code here:
-        ArrayList<OrderDetails> list = new ArrayList<>();
-        
-        // TODO
-        /*for (int i = 0; i < 4; i++) {
-            OrderDetails od = new OrderDetails();
-            od.setQuantity() = i * 4;
-            od.setWidgetId() = (i % 4) + 1;
-            list.add(od);
-        }
-        
-        SupervisorController.getInstance().addOrderForTest(list, "amar", "rachabattuni", "1-123-2344", "NewYork");
-        */
-    }//GEN-LAST:event_jbtnAddOrderActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAddWidgetQnt;
@@ -645,6 +647,7 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -653,8 +656,8 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable5;
     private javax.swing.JTable jTblMonitor;
-    private javax.swing.JButton jbtnAddOrder;
     private javax.swing.JButton jbtnOrderRefresh;
     private javax.swing.JButton jbtnRefresh;
     private javax.swing.JLabel jlblOrderNo;
