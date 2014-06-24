@@ -929,10 +929,13 @@ public class MySQLDALImpl implements DAL {
             } // for each ele
             else {
                 System.out.println("DAL:SetRobotState(): Failed");
+                return false;
             }
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:SetRobotState:Exception:" + e);
+            CleanUp(null, s);
+            return false;
         } // end try-catch
         finally {
             CleanUp(null, s);
