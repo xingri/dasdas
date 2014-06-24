@@ -53,7 +53,7 @@ public class SupervisorMainView extends SupervisorView {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-    	jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabRbtRecovery = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -62,10 +62,14 @@ public class SupervisorMainView extends SupervisorView {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTblMonitor = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        recoveryRobotId = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jBtnRecovery = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jbtnOrderRefresh = new javax.swing.JButton();        
+        jbtnOrderRefresh = new javax.swing.JButton();
         jlblOrderNo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jBtnAddWidgetQnt = new javax.swing.JButton();
@@ -95,14 +99,14 @@ public class SupervisorMainView extends SupervisorView {
 
             },
             new String [] {
-                "S No", "Widget Name", "Widget Description", "Quantity", "StationId"
+                "S No", "Widget Name", "Widget Description", "Quantity", "StationId", "Cost"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -151,8 +155,9 @@ public class SupervisorMainView extends SupervisorView {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Inventory", jPanel1);
+        jTabRbtRecovery.addTab("Inventory", jPanel1);
 
+        jTblMonitor.setFont(new java.awt.Font("굴림", 0, 12)); // NOI18N
         jTblMonitor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -176,33 +181,58 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
-        
-        //jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        jTblMonitor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTblMonitor.setEnabled(false);
-        jTblMonitor.setRowHeight(60);
+        jTblMonitor.setRowHeight(45);
         jScrollPane5.setViewportView(jTblMonitor);
-        
-        jTblMonitor.setDefaultRenderer(String.class, new LineWrapCellRenderer());
-        
+
+        jLabel1.setText("Robot Recovery");
+
+        jLabel2.setText("Robot Id");
+
+        jBtnRecovery.setText("Recovery");
+        jBtnRecovery.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnRecoveryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(recoveryRobotId, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jBtnRecovery)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recoveryRobotId)
+                    .addComponent(jBtnRecovery))
+                .addGap(276, 276, 276))
         );
 
-        jTabbedPane1.addTab("Monitor", jPanel2);
+        jTabRbtRecovery.addTab("Monitor", jPanel2);
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -227,13 +257,9 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        jTable3.setEnabled(false);
+        jTable3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTable3.setRowHeight(60);
         jScrollPane3.setViewportView(jTable3);
-        
-        jTable3.setDefaultRenderer(String.class, new LineWrapCellRenderer());
-                
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setMinWidth(50);
             jTable3.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -280,7 +306,7 @@ public class SupervisorMainView extends SupervisorView {
                 .addGap(258, 258, 258))
         );
 
-        jTabbedPane1.addTab("Orders", jPanel4);
+        jTabRbtRecovery.addTab("Orders", jPanel4);
 
         jBtnAddWidgetQnt.setText("Add Widget Quantity");
         jBtnAddWidgetQnt.addActionListener(new java.awt.event.ActionListener() {
@@ -312,14 +338,8 @@ public class SupervisorMainView extends SupervisorView {
                 return canEdit [columnIndex];
             }
         });
-        
-        jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        jTable2.setEnabled(false);
-        jTable2.setRowHeight(60);
         jScrollPane1.setViewportView(jTable2);
-        
-        jTable2.setDefaultRenderer(String.class, new LineWrapCellRenderer());
-                
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -344,9 +364,8 @@ public class SupervisorMainView extends SupervisorView {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Backordered order", jPanel3);
-        
-        
+        jTabRbtRecovery.addTab("Backordered order", jPanel3);
+
         jMenu1.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
@@ -386,24 +405,18 @@ public class SupervisorMainView extends SupervisorView {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabRbtRecovery, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 44, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTabRbtRecovery, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        AddWidgetView aw = new AddWidgetView();
-        aw.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jBtnAddWidgetQntActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
@@ -451,11 +464,6 @@ public class SupervisorMainView extends SupervisorView {
         } 
     }
     
-    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRefreshActionPerformed
-        // TODO add your handling code here:
-        updateWidgetLists();
-    }//GEN-LAST:event_jbtnRefreshActionPerformed
-
     
     /*private void jbtnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCustRefreshActionPerformed
         // TODO add your handling code here:
@@ -472,6 +480,26 @@ public class SupervisorMainView extends SupervisorView {
             model.addRow(new Object[]{i, c.getFname(), c.getLname(), c.getPhone(), c.getAddress()});
         }
     }//GEN-LAST:event_jbtnCustRefreshActionPerformed
+
+    private void jBtnAddWidgetQntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddWidgetQntActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnAddWidgetQntActionPerformed
+
+    private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+        updateOrderLists();
+    }                                                
+
+    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRefreshActionPerformed
+        // TODO add your handling code here:
+        updateWidgetLists();
+    }//GEN-LAST:event_jbtnRefreshActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        AddWidgetView aw = new AddWidgetView();
+        aw.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 */
     
     private void updateBackorderStatus() {
@@ -631,10 +659,33 @@ public class SupervisorMainView extends SupervisorView {
         dtm.fireTableDataChanged();
     }
 
+    private void jbtnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAddOrderActionPerformed
+        // TODO add your handling code here:
+        ArrayList<OrderDetails> list = new ArrayList<>();
+        
+        // TODO
+        /*for (int i = 0; i < 4; i++) {
+            OrderDetails od = new OrderDetails();
+            od.setQuantity() = i * 4;
+            od.setWidgetId() = (i % 4) + 1;
+            list.add(od);
+        }
+        
+        SupervisorController.getInstance().addOrderForTest(list, "amar", "rachabattuni", "1-123-2344", "NewYork");
+        */
+    }//GEN-LAST:event_jbtnAddOrderActionPerformed
+
+    private void jBtnRecoveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRecoveryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnRecoveryActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAddWidgetQnt;
+    private javax.swing.JButton jBtnRecovery;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -647,19 +698,18 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabRbtRecovery;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTable jTblMonitor;
     private javax.swing.JButton jbtnOrderRefresh;
     private javax.swing.JButton jbtnRefresh;
     private javax.swing.JLabel jlblOrderNo;
+    private javax.swing.JTextField recoveryRobotId;
     // End of variables declaration//GEN-END:variables
 }
