@@ -2,6 +2,7 @@ package com.lge.spartan.supervisor.view;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -75,14 +76,6 @@ public class SupervisorMainView extends SupervisorView {
         jBtnAddWidgetQnt = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Supervisor");
@@ -152,7 +145,7 @@ public class SupervisorMainView extends SupervisorView {
                     .addComponent(jbtnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inventory", jPanel1);
@@ -378,41 +371,6 @@ public class SupervisorMainView extends SupervisorView {
         );
 
         jTabbedPane1.addTab("Backordered order", jPanel3);
-        
-        
-        jMenu1.setText("File");
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem1.setText("Exit");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Connect");
-
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("DB");
-        jMenu2.add(jMenuItem2);
-
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("WH Server");
-        jMenu2.add(jMenuItem3);
-
-        jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Help");
-
-        jMenuItem4.setText("About");
-        jMenu3.add(jMenuItem4);
-
-        jMenuBar1.add(jMenu3);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -432,8 +390,27 @@ public class SupervisorMainView extends SupervisorView {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    	/*if (SupervisorController.getInstance().isConnectedDB()) {
+        	String errorMessage = "Cannot connect Database System.\nCould you check Database System\n\n";
+        	JOptionPane.showMessageDialog(this, errorMessage, "Error", -1);
+        	return;
+        }*/
+    	
+        AddWidgetView aw = new AddWidgetView();
+        aw.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void jBtnAddWidgetQntActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
+    	
+    	/*if (SupervisorController.getInstance().isConnectedDB()) {
+        	String errorMessage = "Cannot connect Database System.\nCould you check Database System\n\n";
+        	JOptionPane.showMessageDialog(this, errorMessage, "Error", -1);
+        	return;
+        }*/
+    	
         UpdateWidgetView aw = new UpdateWidgetView();
         aw.setVisible(true);
     }
@@ -478,6 +455,17 @@ public class SupervisorMainView extends SupervisorView {
         } 
     }
     
+    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRefreshActionPerformed
+        // TODO add your handling code here:
+        /*if (SupervisorController.getInstance().isConnectedDB()) {
+        	String errorMessage = "Cannot connect Database System.\nCould you check Database System\n\n";
+        	JOptionPane.showMessageDialog(this, errorMessage, "Error", -1);
+        	return;
+        }*/
+        
+        updateWidgetLists();        
+    }//GEN-LAST:event_jbtnRefreshActionPerformed
+
     
     /*private void jbtnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCustRefreshActionPerformed
         // TODO add your handling code here:
@@ -494,26 +482,6 @@ public class SupervisorMainView extends SupervisorView {
             model.addRow(new Object[]{i, c.getFname(), c.getLname(), c.getPhone(), c.getAddress()});
         }
     }//GEN-LAST:event_jbtnCustRefreshActionPerformed
-
-    private void jBtnAddWidgetQntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddWidgetQntActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnAddWidgetQntActionPerformed
-
-    private void jbtnOrderRefreshActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
-        updateOrderLists();
-    }                                                
-
-    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRefreshActionPerformed
-        // TODO add your handling code here:
-        updateWidgetLists();
-    }//GEN-LAST:event_jbtnRefreshActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        AddWidgetView aw = new AddWidgetView();
-        aw.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
 */
     
     private void updateBackorderStatus() {
@@ -711,7 +679,7 @@ public class SupervisorMainView extends SupervisorView {
         */
     }//GEN-LAST:event_jbtnAddOrderActionPerformed
 
-    private void jBtnRecoveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRecoveryActionPerformed
+    private void jBtnRecoveryActionPerformed(java.awt.event.ActionEvent evt) {                                             
     	recoveryRobotStatus();
     }
 
@@ -722,14 +690,6 @@ public class SupervisorMainView extends SupervisorView {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
