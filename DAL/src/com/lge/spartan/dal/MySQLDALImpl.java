@@ -480,7 +480,7 @@ public class MySQLDALImpl implements DAL {
     public synchronized OrderInfo PickFirstOrder() {
         logger.entry();
         ArrayList<OrderInfo> orderList = GetOrders(
-                "SELECT * FROM orderinfo WHERE (status = 0 OR status = 2) ORDER BY status DESC, orderTime LIMIT 1");
+                "SELECT * FROM orderinfo WHERE (status = 0) ORDER BY status DESC, orderTime LIMIT 1");
 
         if (orderList.size() == 1) {
             GetOrderDetails(orderList.get(0));
