@@ -9,3 +9,4 @@ drop table orderinfo;
 drop table customer;
 drop table station;
 drop table warehouse;
+drop table roboterr;

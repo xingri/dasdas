@@ -71,6 +71,8 @@ CREATE TABLE IF NOT EXISTS `robot` (
   `desc` varchar(50) DEFAULT NULL,
   `ipaddress` varchar(20) DEFAULT NULL,
   `status` tinyint(2) NOT NULL,
+  `errcode` int(4) NULL DEFAULT 0,
+  `heartbeatts` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`robotId`),
   UNIQUE KEY `robotId` (`robotId`),
   UNIQUE KEY `name` (`name`),
@@ -78,11 +80,22 @@ CREATE TABLE IF NOT EXISTS `robot` (
   CONSTRAINT `FK_robot_warehouse` FOREIGN KEY (`warehouseId`) REFERENCES `warehouse` (`warehouseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='status\r\n0 - Idle\r\n1 - Busy\r\n2 - Error\r\n3 - Complete';
 
+
 -- Dumping data for table spartan.robot: ~0 rows (approximately)
 /*!40000 ALTER TABLE `robot` DISABLE KEYS */;
 INSERT INTO `robot` (`robotId`, `warehouseId`, `name`, `desc`, `ipaddress`, `status`) VALUES
 	(1, 1, 'SpartanRobot1', 'Spartan Robot at Warehouse 1', '10.221.34.11', 0);
 /*!40000 ALTER TABLE `robot` ENABLE KEYS */;
+
+
+CREATE TABLE IF NOT EXISTS `roboterr` (
+  `errcode` int(4) NOT NULL,
+  `msg` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`errcode`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `roboterr` (`errcode`, `msg`) VALUES
+    (1111, 'Network Disconnected');
 
 
 -- Dumping structure for table spartan.robotmoves
@@ -202,3 +215,5 @@ INSERT INTO `widget` (`widgetId`, `name`, `description`, `quantity`, `stationId`
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+
