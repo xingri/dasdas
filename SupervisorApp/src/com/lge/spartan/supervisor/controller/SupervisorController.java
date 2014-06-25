@@ -41,8 +41,8 @@ public class SupervisorController extends Thread/*implements IController*/ {
     
     public boolean connectDB() {
         // TODO                
-        //setConnectDBState(db.Initialize("localhost", "root", "1234"));
-    	setConnectDBState(db.Initialize("128.237.247.93", "spartan", "spartan"));
+        setConnectDBState(db.Initialize("localhost", "root", "1234"));
+    	//setConnectDBState(db.Initialize("128.237.247.93", "spartan", "spartan"));
         return bDBConnectState;
     }
     
