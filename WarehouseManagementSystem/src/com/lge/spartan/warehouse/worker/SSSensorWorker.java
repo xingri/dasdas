@@ -13,8 +13,24 @@ public class SSSensorWorker implements WHWorker {
     String dbURL = WHConfig.GetDBIP();
     WHRobotInf rb;
     DAL dal;
+    int currIndex = -1;
 
     public void procRequest(int idx) {
+        currIndex = idx;
+
+        Thread t=new Thread() {                                                             
+            public void run() {                                                         
+                handleRequest();
+            }
+        };
+
+        t.start();
+    }
+
+    public void handleRequest() {
+
+        int idx = currIndex; 
+
         System.out.println("proc Request@SSSensorWorker[" + idx + "]");
 
         boolean needStop = false;
@@ -45,7 +61,16 @@ public class SSSensorWorker implements WHWorker {
 
         if(robotStatus.getNextStation() == 4) {
             System.out.println("Check send NearStation(SS) to Robot");
-            rb.nearStation();
+            ret = rb.nearStation();
+            if(ret) dal.SetRobotTS(1);
+        } else {
+            boolean res1 = false;
+            boolean res2 = false;
+            res1 = rb.nearStation();
+            res2 = rb.goNextStation();
+            if(res1 && res2) {
+                dal.SetRobotTS(1);
+            }
         }
     }
 }

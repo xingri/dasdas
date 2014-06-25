@@ -79,8 +79,6 @@ public class WHStartWorker implements WHWorker {
         ret = dal.Initialize(dbURL, "spartan", "spartan");
         if(ret) System.out.println("dal Initialization success");
 
-        System.out.println("proc Request@WHStartWorker Robot Err: " + dal.GetRobotErr(1) );
-
         progressList = dal.GetOrders(OrderStatus.Inprogress);
         if(progressList.size() > 0 ) {
             System.out.println("There are already in-progressing Orders.... " + progressList.size());
@@ -221,12 +219,15 @@ public class WHStartWorker implements WHWorker {
 
             // Order Robot to Move Next Station..
             System.out.println("Check send Go NextStation to Robot");
-            rb.goNextStation();
+
+            ret = rb.goNextStation();
+            if(ret) dal.SetRobotTS(1);
+
             WarehouseMain.setIndex(4);
 
         } else {
-            System.out.println("Order is Deficient");
-            //dal.UpdateOrderStatus(orderInfo.getOrderNo(), OrderStatus.Deficient);
+            System.out.println("Order is Deficient, so make it complete...");
+            dal.UpdateOrderStatus(orderInfo.getOrderNo(), OrderStatus.Complete);
         }
     }
 }

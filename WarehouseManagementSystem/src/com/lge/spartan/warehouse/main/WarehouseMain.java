@@ -8,6 +8,8 @@ import com.lge.spartan.warehouse.order.WarehouseManagementSystem;
 public class WarehouseMain implements StationManager {
 
     static int currIndex = -1;
+    static int currSwIndex = -1;
+
     WHEvent cachedSwEvent = null;
 
     public void eventHandler(String inputLine) {
@@ -22,12 +24,19 @@ public class WarehouseMain implements StationManager {
 
                     if(currIndex != currEvent.getSwitchIdx()) {
                         System.out.println("Invalid Event Sequence CurrIdex [" + currEvent.getSwitchIdx() 
-                            + "] expected Index [!" + currIndex + "]!!!");
+                            + "] expected Index [" + currIndex + "]!!!");
+                        return;
+                    }
+
+                    if(currSwIndex == currEvent.getSwitchIdx()) { 
+                        System.out.println("Invalid Event Switch Sequence CurrIdex [" + currEvent.getSwitchIdx() 
+                            + "] expected Index [!" + currSwIndex + "]!!!");
                         return;
                     }
 
                     whWorker.procRequest(currEvent.getSwitchIdx());
-                    //currIndex = currEvent.getSwitchIdx();
+                    currSwIndex = currEvent.getSwitchIdx();
+
                 } else {
                     if (currEvent.isValid() && ( cachedSwEvent == null 
                             || !currEvent.isSameSensor(cachedSwEvent.getEventList())) ) {
@@ -85,6 +94,7 @@ public class WarehouseMain implements StationManager {
         Thread orderThread = new Thread() {
             public void run() {
                 new WarehouseManagementSystem().init();
+                try {Thread.sleep(10000000);} catch (InterruptedException ie) {}
             }
         };
 
@@ -106,27 +116,18 @@ public class WarehouseMain implements StationManager {
         serialInput.initialize();
 
         whMain.setIndex(4);
+
         WHStartWorker startWorker = new WHStartWorker();
         startWorker.procRequest(0); // arg 0 has no meaning in case of startWorker
 
+        WHMonitorWorker monitorWorker = new WHMonitorWorker();
+        monitorWorker.procRequest(0);
+
         Thread t=new Thread() {
             public void run() {
-
-                boolean res = false;
-                WHRobotInf rb = new WHRobotInf(WHConfig.GetRobotIP());
-                if( WHConfig.IsEmulator() ) {
-                    rb.setEmulationMode();
-                }
-
-                while(true) {
-                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
-                    res = rb.getHealth();
-                    if(!res) System.out.println("\n\n\n\n\n Robot not responding!!!!!");
-                }
-
                 //the following line will keep this app alive for 10000 seconds,
                 //waiting for events to occur and responding to them (printing incoming messages to console).
-                //try {Thread.sleep(10000000);} catch (InterruptedException ie) {}
+                try {Thread.sleep(10000000);} catch (InterruptedException ie) {}
             }
         };
 

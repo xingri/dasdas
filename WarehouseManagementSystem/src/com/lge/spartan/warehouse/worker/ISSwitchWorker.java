@@ -167,7 +167,9 @@ public class ISSwitchWorker implements WHWorker {
 
         // Let robot to go next station
         System.out.println("Check send Go Next Station to Robot");
-        rb.goNextStation();
+        ret = rb.goNextStation();
+        if(ret) dal.SetRobotTS(1);
+
         System.out.println("proc Request@ISSwitchWorker[" + idx + "] Done");
     }
 

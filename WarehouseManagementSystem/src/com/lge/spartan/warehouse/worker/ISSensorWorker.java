@@ -25,6 +25,7 @@ public class ISSensorWorker implements WHWorker {
         };
 
         t.start();
+
     }
 
     public boolean isNumExistsInArrayList(int num, ArrayList<Integer> list) {
@@ -67,6 +68,7 @@ public class ISSensorWorker implements WHWorker {
         RobotStatus robotStatus = dal.GetRobotMoves(1, orderInfo.getOrderNo());
 
         robotStatus.setCurrentStation(idx);
+        System.out.println("\n\n\n\n *********** \n Check Current Station info: " + idx);
         dal.UpdateRobotStatus(robotStatus);
 
         switch(idx) {
@@ -102,7 +104,7 @@ public class ISSensorWorker implements WHWorker {
             if(!res) {
                 System.out.println("[send NearStation to Robot failed!!!]\n\n\n\n");
             }
-
+            dal.SetRobotTS(1);
 /*
             try {Thread.sleep(1000);} catch (InterruptedException ie) {}
             res = rb.getArrival();
@@ -113,8 +115,17 @@ public class ISSensorWorker implements WHWorker {
 */
             needStop = false;
         } else {
-            rb.nearStation();
-            rb.goNextStation();
+
+            boolean res1 = false;
+            boolean res2 = false;
+
+            System.out.println("\n\n\n\n *********** \n Skipt Current Station info: " + idx);
+
+            res1 = rb.nearStation();
+            res2 = rb.goNextStation();
+            if(res1 && res2) {
+                dal.SetRobotTS(1);
+            }
         }
 
     }
