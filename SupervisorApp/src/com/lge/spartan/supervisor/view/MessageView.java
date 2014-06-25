@@ -11,6 +11,8 @@ public class MessageView extends SupervisorView {
 	String errorMessage = "";
 	ArrayList <DisplayErrorData> errorData;
 	
+	boolean bNoBtnOption = false;
+	
 	public enum  eErrorType {
 		eDBConnection,
 		eWareHouse,
@@ -50,28 +52,46 @@ public class MessageView extends SupervisorView {
 		errorMessage = "";
 		
 		if (isDisplayErrorMessage()) {
-			JOptionPane.showMessageDialog(this, errorMessage, "Error", -1);
+			
+			if (bNoBtnOption) {			
+				
+				int res = JOptionPane.showOptionDialog(this, errorMessage,
+								            "Error", JOptionPane.DEFAULT_OPTION,
+								            JOptionPane.ERROR_MESSAGE, null, new Object[] {},
+								            null);				
+				
+				if (res == JOptionPane.CLOSED_OPTION) {
+					System.exit(0);
+				}
+				
+			} else {
+				JOptionPane.showMessageDialog(this, errorMessage, "Error", -1);
+			}			
 		}
 	}
-	
+
 	private boolean isDisplayErrorMessage() {
-		if (isDisplayDBError()) {			 
+		if (isDisplayDBError()) {
+			bNoBtnOption = true;
 			return true;
 		}
 		
 		if (!isDBConnectionError() && isDisplayWHError()) {
+			bNoBtnOption = false;
 			return true;
 		} 
 		
 		if (!isDBConnectionError() && !isWarehouseSystemError() && isDisplayRobotError()) {
+			bNoBtnOption = false;
 			return true;
 		}
 		
 		return false;		
 	}
 	
-	public boolean isDisplayDBError() {		
-		DisplayErrorData dbError = errorData.get(eErrorType.eDBConnection.ordinal());
+	public boolean isDisplayDBError() {
+		return isDBConnectionError();
+		/*DisplayErrorData dbError = errorData.get(eErrorType.eDBConnection.ordinal());
 		if (isDBConnectionError()) {					
 			dbError.bErrorOccured = true;
 			
@@ -87,13 +107,13 @@ public class MessageView extends SupervisorView {
 				dbError.nErrorWaitCnt = 0;
 				dbError.bErrorOccured = false;
 			}			
-		} else {
+		} else {			
 			dbError.nErrorWaitCnt = 0;
 			dbError.bErrorOccured = false;
 		}
 		
 		errorData.set(eErrorType.eDBConnection.ordinal(), dbError);
-		return false;		
+		return false;*/		
 	}
 	
 	public boolean isDisplayWHError() {
@@ -150,7 +170,7 @@ public class MessageView extends SupervisorView {
 	
 	private boolean isDBConnectionError() {
 		if (!SupervisorController.getInstance().isConnectedDB()) {
-			errorMessage = "Cannot connect Database System.\nCould you check Database System\n\n";
+			errorMessage = "There is a problem with the database connection.\nAfter resolving the problem.\nPlease re-operation.";					
 			return true;
 		}
 		

@@ -503,11 +503,14 @@ public class SupervisorMainView extends SupervisorView {
             i++;
             //DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
-            ArrayList <OrderDetails> ordDetails = oi.getListOrderDetails();   
+            ArrayList <OrderDetails> ordDetails = oi.getListOrderDetails();
+            String ordInfo = "";
             for (OrderDetails ordDetail : ordDetails) {
-            	/*model*/dtm.addRow(new Object[]{i, oi.getOrderNo(),ordDetail.getWidgetName() 
-            			, ordDetail.getQuantity(), oi.getOrderTime()});
+            	ordInfo += ordDetail.getWidgetName() + ":" + ordDetail.getQuantity();
+            	ordInfo += "\n";
             }
+            
+            /*model*/dtm.addRow(new Object[]{i, oi.getOrderNo(),ordInfo});
         }
     }
     
