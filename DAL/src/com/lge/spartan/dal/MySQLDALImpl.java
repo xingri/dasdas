@@ -929,6 +929,7 @@ public class MySQLDALImpl implements DAL {
     public synchronized boolean SetRobotTS(int robotId) {
         logger.entry();
         System.out.println("DAL:SetRobotTS()");
+        boolean bRes = false;
         ResultSet rs = null;
         try {
             CreateStmnt();
@@ -936,27 +937,23 @@ public class MySQLDALImpl implements DAL {
             long lDateTime = new Date().getTime();
             System.out.println("Date() - Time in milliseconds: " + lDateTime);
 
-            Calendar lCDateTime = Calendar.getInstance();
-            System.out.println("Calender - Time in milliseconds :" + lCDateTime.getTimeInMillis());
-
             SQLStatement = "update robot set heartbeatts = " + lDateTime + " where robotId = " + robotId + ";";
 
             int retVal = s.executeUpdate(SQLStatement);
             if (retVal > 0) {
                 System.out.println("DAL:SetRobotTS:Success");
+                bRes = true;
             } else {
                 System.out.println("DAL:SetRobotTS:failed");
             }
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:SetRobotTS:Exception:" + e);
-            CleanUp(rs, s);
-            return false;
         } // end try-catch
         finally {
             CleanUp(rs, s);
         }
-        return true;
+        return bRes;
     }
 
     public synchronized void SetRobotErr(int robotId, int errCode) {
@@ -1248,33 +1245,29 @@ public class MySQLDALImpl implements DAL {
         logger.entry();
         System.out.println("DAL:IsWarehouseServerAvailable()");
         ResultSet rs = null;
+        boolean bRes = false;
         try {
             CreateStmnt();
 
             long lDateTime = new Date().getTime();
             System.out.println("Date() - Time in milliseconds: " + lDateTime);
 
-            Calendar lCDateTime = Calendar.getInstance();
-            System.out.println("Calender - Time in milliseconds :" + lCDateTime.getTimeInMillis());
-
             SQLStatement = "update warehouse set serverheartbeatts = " + lDateTime + " where warehouseId = " + warehouseId + ";";
 
             int retVal = s.executeUpdate(SQLStatement);
             if (retVal > 0) {
                 System.out.println("DAL:IsWarehouseServerAvailable:Success");
+                bRes = true;
             } else {
                 System.out.println("DAL:IsWarehouseServerAvailable:failed");
             }
         } catch (Exception e) {
             logger.error("Exception " + e);
             System.out.println("DAL:IsWarehouseServerAvailable:Exception:" + e);
-            CleanUp(rs, s);
-            return false;
         } // end try-catch
         finally {
             CleanUp(rs, s);
         }
-        return true;
+        return bRes;
     }
-
 }
