@@ -65,6 +65,10 @@ public class SupervisorController extends Thread/*implements IController*/ {
         return bDBConnectState;
     }
     
+    public boolean isWarehouseServerAvailable() {    	
+    	return db.IsWarehouseServerAvailable(1);    	
+    }
+    
     /*
      @return param : -2 : disconnected db, -1 : DB query error, 0 : succes
     */
@@ -190,6 +194,15 @@ public class SupervisorController extends Thread/*implements IController*/ {
     	}
     	
     	return errorStr;
+    }
+    
+    public String getWarehouseErrorStr() {
+    	if (!isWarehouseServerAvailable()) {
+    		String errorStr = "Warehouse Management System maybe has some problems.\nCould you check Warehouse Management System\n";
+    		return errorStr;
+    	};    	
+    	
+    	return null;
     }
     
     public boolean recoveryRobotError (int robotId) {

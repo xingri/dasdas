@@ -178,8 +178,8 @@ public class MessageView extends SupervisorView {
 	}
 	
 	private boolean isWarehouseSystemError() {
-		if (!SupervisorController.getInstance().isConnectedDB()) {
-			errorMessage = "Warehouse Management System maybe has some problems.\nCould you check Warehouse Management System\n\n";
+		if (!SupervisorController.getInstance().isWarehouseServerAvailable()) {
+			errorMessage = SupervisorController.getInstance().getWarehouseErrorStr();
 			return true;
 		}
 		
