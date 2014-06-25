@@ -202,7 +202,7 @@ public class UpdateWidgetView extends SupervisorView {
             {
                 textFieldDesc.setText(w.getDesc());                
                 textFieldCurQuant.setText(Integer.toString(w.getQuantity()));
-                textFieldStation.setText(Integer.toString(w.getStationId() + 1));
+                textFieldStation.setText(Integer.toString(w.getStationId()));
                 textFieldWarehouseId.setText("1");
                 break;
             }

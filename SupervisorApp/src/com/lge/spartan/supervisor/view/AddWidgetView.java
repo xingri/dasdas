@@ -158,15 +158,19 @@ public class AddWidgetView extends SupervisorView {
         if (name.getText().length() <= 0) {
             JOptionPane.showMessageDialog(this, "Please enter the Name of the Widget.");
             name.requestFocus();
+            return;
         } else if (desc.getText().length() <= 0) {
             JOptionPane.showMessageDialog(this, "Please enter the Description of the Widget.");
             desc.requestFocus();
+            return;
         } else if (quantity.getText().length() <= 0) {
             JOptionPane.showMessageDialog(this, "Please enter the Quantity of the Widget.");
             quantity.requestFocus();
+            return;
         } else if (widgetCost.getText().length() <= 0) {
         	JOptionPane.showMessageDialog(this, "Please enter the Cost of the Widget.");
         	widgetCost.requestFocus();
+        	return;
         } else {
             try {
                 Integer.parseInt(quantity.getText());
@@ -174,14 +178,16 @@ public class AddWidgetView extends SupervisorView {
                 //Not an integer
                 JOptionPane.showMessageDialog(this, "Please enter the Quantity as Numeric.");
                 quantity.requestFocus();
+                return;
             }
             
             try {
-                Integer.parseInt(widgetCost.getText());
+                Double.parseDouble(widgetCost.getText());
             } catch (NumberFormatException e) {
                 //Not an integer
                 JOptionPane.showMessageDialog(this, "Please enter the Cost as Numeric.");
                 widgetCost.requestFocus();
+                return;
             }
         }
 
@@ -191,7 +197,7 @@ public class AddWidgetView extends SupervisorView {
         addInventory.setDesc(desc.getText());
         addInventory.setQuantity(Integer.parseInt(quantity.getText()));
         addInventory.setStationId(stationId.getSelectedIndex() + 1);
-        //addInventory.setCost(Integer.parseInt(widgetCost.getText()));
+        addInventory.setCost(Double.parseDouble(widgetCost.getText()));
         
         int res = SupervisorController.getInstance().createNewInventory(addInventory);
         
