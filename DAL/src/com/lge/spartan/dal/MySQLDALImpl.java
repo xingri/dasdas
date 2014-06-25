@@ -804,23 +804,23 @@ public class MySQLDALImpl implements DAL {
             CreateStmnt();
 
             int executeUpdateVal;           // Return value from execute indicating effected rows
+            String stmnt;
+            ArrayList<Integer> tmpList = robotStatus.getStationsVisited();
 
-            String stmnt
-                    = /*"update robotstatus set stn1Visited = " + robotStatus.getStn1Visited()
-                     + ", stn2Visited = " + robotStatus.getStn2Visited()
-                     + ", stn3Visited = " + robotStatus.getStn3Visited()
-                     + ", stn4Visited = " + robotStatus.getStn4Visited()
-                     + ", stn1Need = " + robotStatus.getStn1Need()
-                     + ", stn2Need = " + robotStatus.getStn2Need()
-                     + ", stn3Need = " + robotStatus.getStn3Need()
-                     + ", stn4Need = " + robotStatus.getStn4Need()
-                     + ", nextStn = " + robotStatus.getNextStn()
-                     + ", state = " + robotStatus.getState().ordinal()
-                     + " where orderNo = '" + robotStatus.getOrderNo() + "';";*/ "update robotmoves set stationsToVisit = '" + GetStringFromArrayWithComma(robotStatus.getStationsToVisit())
-                    + "', stationsVisited = '" + GetStringFromArrayWithComma(robotStatus.getStationsVisited())
-                    + "', currentStation = " + robotStatus.getCurrentStation()
-                    + ", nextStation = " + robotStatus.getNextStation()
-                    + " where orderNo = '" + robotStatus.getOrderNo() + "' and robotId = " + robotStatus.getRobotId() + ";";
+            if(tmpList == null || tmpList.size() == 0) {
+                stmnt
+                        = "update robotmoves set stationsToVisit = '" + GetStringFromArrayWithComma(robotStatus.getStationsToVisit())
+                        + "', currentStation = " + robotStatus.getCurrentStation()
+                        + ", nextStation = " + robotStatus.getNextStation()
+                        + " where orderNo = '" + robotStatus.getOrderNo() + "' and robotId = " + robotStatus.getRobotId() + ";";
+            } else {
+                stmnt
+                        = "update robotmoves set stationsToVisit = '" + GetStringFromArrayWithComma(robotStatus.getStationsToVisit())
+                        + "', stationsVisited = '" + GetStringFromArrayWithComma(robotStatus.getStationsVisited())
+                        + "', currentStation = " + robotStatus.getCurrentStation()
+                        + ", nextStation = " + robotStatus.getNextStation()
+                        + " where orderNo = '" + robotStatus.getOrderNo() + "' and robotId = " + robotStatus.getRobotId() + ";";
+            }
 
             executeUpdateVal = s.executeUpdate(stmnt);
             if (executeUpdateVal > 0) {
@@ -1170,7 +1170,7 @@ public class MySQLDALImpl implements DAL {
                 r.setCurrentStation(rs.getInt(5));
                 r.setNextStation(rs.getInt(6));
                 r.setStationsToVisit(DelimitStringWithComma(stnsToVisit));
-                r.setStationsVisited(DelimitStringWithComma(stnsVisited));
+                if(stnsVisited != null) r.setStationsVisited(DelimitStringWithComma(stnsVisited));
                 System.out.println("DAL:GetRobotMoves():Success: RobotId:" + robotId + ", StnsToVisit:" + stnsToVisit + ", StnsVisited:" + stnsVisited + ", CurStn:" + r.getCurrentStation() + ", NextStn:" + r.getNextStation());
             } // for each ele
             else {
