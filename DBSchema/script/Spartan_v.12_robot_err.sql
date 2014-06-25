@@ -96,7 +96,6 @@ CREATE TABLE IF NOT EXISTS `roboterr` (
 
 INSERT INTO `roboterr` (`errcode`, `msg`) VALUES
     (1000, 'Robot Not Responding');
-    (1001, 'Network Disconnected');
 
 -- Dumping structure for table spartan.robotmoves
 CREATE TABLE IF NOT EXISTS `robotmoves` (
