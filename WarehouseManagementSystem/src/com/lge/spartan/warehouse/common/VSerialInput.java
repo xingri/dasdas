@@ -47,9 +47,13 @@ public class VSerialInput implements SerialInf {
                                 myMan.eventHandler("1,1,0,0,0,0,0,0,0");
                                 try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                                 myMan.eventHandler("1,0,0,0,0,1,0,0,0");
+                                try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                                myMan.eventHandler("1,0,0,0,0,1,0,0,0");
                                 break;
                             case 3:
                                 myMan.eventHandler("1,0,1,0,0,0,0,0,0");
+                                try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                                myMan.eventHandler("1,0,0,0,0,0,1,0,0");
                                 try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                                 myMan.eventHandler("1,0,0,0,0,0,1,0,0");
                                 break;
@@ -57,9 +61,13 @@ public class VSerialInput implements SerialInf {
                                 myMan.eventHandler("1,0,0,1,0,0,0,0,0");
                                 try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                                 myMan.eventHandler("1,0,0,0,0,0,0,1,0");
+                                try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                                myMan.eventHandler("1,0,0,0,0,0,0,1,0");
                                 break;
                             case 1:
                                 myMan.eventHandler("1,0,0,0,1,0,0,0,0");
+                                try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                                myMan.eventHandler("1,0,0,0,0,0,0,0,1");
                                 try {Thread.sleep(3000);} catch (InterruptedException ie) {}
                                 myMan.eventHandler("1,0,0,0,0,0,0,0,1");
                                 break;
