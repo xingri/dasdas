@@ -187,15 +187,10 @@ public class MessageView extends SupervisorView {
 	}
 	
 	private boolean isRobotError() {
-		ArrayList<Robot> errRbts = SupervisorController.getInstance().getErrorRobotList();
+		errorMessage = SupervisorController.getInstance().getRobotErrorStr();
 		
-		if (errRbts == null || errRbts.size() == 0) {
+		if (errorMessage == null || errorMessage.length() == 0) {				
 			return false;
-		}
-		
-		errorMessage = "";
-		for (Robot rbt : errRbts) {
-			errorMessage += "Robot " + rbt.getRobotId() + ": " + "error occured\n";	
 		}
 		
 		return true;

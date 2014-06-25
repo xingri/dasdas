@@ -179,6 +179,19 @@ public class SupervisorController extends Thread/*implements IController*/ {
     	return errRbts;
     }
     
+    public String getRobotErrorStr() {
+    	String errorStr = "";
+    	ArrayList<Robot> errorRbtLists = getErrorRobotList();
+    	
+    	for (Robot rt : errorRbtLists) {
+    		
+    		errorStr += "RobotId " + rt.getRobotId() + ": " + db.GetRobotErr(rt.getRobotId());
+    		errorStr += "\n";
+    	}
+    	
+    	return errorStr;
+    }
+    
     public boolean recoveryRobotError (int robotId) {
     	return db.SetRobotState(robotId, RobotState.Idle);
     }
