@@ -890,6 +890,57 @@ public class MySQLDALImpl implements DAL {
         return robotList;
     }
 
+    public String GetRobotErr(int robotId) {
+        logger.entry();
+        System.out.println("DAL:GetRobotState(): RobotId:" + robotId);
+        ResultSet rs = null;
+        int errCode = 0;
+
+        try {
+            CreateStmnt();
+            SQLStatement = "select errcode from robot where robotId = " + robotId + ";";
+            rs = s.executeQuery(SQLStatement);
+            if (rs.next()) {
+                errCode = rs.getInt(1);
+                System.out.println("DAL:GetRobotErr():Succe: RobotId:" + robotId + ", ErrCode: " + errCode);
+            } // for each ele
+            else {
+                System.out.println("DAL:GetRobotErr(): Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobotErr:Exception:" + e);
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+
+        if(errCode == 0) return null;
+
+        String errMsg = null;
+        
+        try {
+            CreateStmnt();
+            SQLStatement = "select msg from roboterr where errcode = " + errCode + ";";
+            rs = s.executeQuery(SQLStatement);
+            if (rs.next()) {
+                errMsg = rs.getString(1);
+                System.out.println("DAL:GetRobotErr():Succe: RobotId:" + robotId + ", ErrMsg: " + errMsg);
+            } // for each ele
+            else {
+                System.out.println("DAL:GetRobotErr(): Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobotErr:Exception:" + e);
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+
+        return errMsg;
+    }
+
     public synchronized RobotState GetRobotState(int robotId) {
         logger.entry();
         System.out.println("DAL:GetRobotState(): RobotId:" + robotId);
