@@ -15,6 +15,7 @@ import com.lge.spartan.dal.MySQLDALImpl;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
 import com.lge.spartan.data.Widget;
+import com.lge.spartan.warehouse.common.*;
 
 
 public class OrderReceiver extends Thread{
@@ -25,7 +26,9 @@ public class OrderReceiver extends Thread{
 	public void run(){
 		System.out.println("OrderServer is now running....");
 	
-		boolean dbCheck = db.Initialize("localhost", "spartan", "spartan");
+		boolean dbCheck = db.Initialize(WHConfig.GetDBIP(), "spartan", "spartan");
+		//boolean dbCheck = db.Initialize("10.254.17.157", "spartan", "spartan");
+		//boolean dbCheck = db.Initialize("128.237.247.93", "spartan", "spartan");
 		if(dbCheck == false){
 			System.out.println("DB initailization Error");
 		}

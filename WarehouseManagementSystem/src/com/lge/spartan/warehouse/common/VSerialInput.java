@@ -1,3 +1,5 @@
+package com.lge.spartan.warehouse.common;
+
 import java.io.File;
 
 public class VSerialInput implements SerialInf {

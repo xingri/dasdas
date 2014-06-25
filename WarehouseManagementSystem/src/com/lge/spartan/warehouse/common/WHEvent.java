@@ -1,3 +1,5 @@
+package com.lge.spartan.warehouse.common;
+
 public class WHEvent {
 
     private String[] inputList;

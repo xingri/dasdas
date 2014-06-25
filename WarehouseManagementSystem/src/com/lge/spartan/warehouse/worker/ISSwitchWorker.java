@@ -1,8 +1,12 @@
+package com.lge.spartan.warehouse.worker;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.lge.spartan.dal.*;
 import com.lge.spartan.data.*;
+import com.lge.spartan.warehouse.common.*;
+import com.lge.spartan.warehouse.main.*;
 
 public class ISSwitchWorker implements WHWorker {
 
@@ -88,7 +92,10 @@ public class ISSwitchWorker implements WHWorker {
                 if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit())) {
                     needProc = true;
                     stn1Visited = true;
-                    visitedList.add(new Integer(1));
+                    if( robotStatus.getStationsVisited() == null 
+                        || !isNumExistsInArrayList(1, robotStatus.getStationsVisited())) {
+                        visitedList.add(new Integer(1));
+                    }
                 }
                 break;
 
@@ -96,7 +103,10 @@ public class ISSwitchWorker implements WHWorker {
                 if(isNumExistsInArrayList(2, robotStatus.getStationsToVisit())) {
                     needProc = true;
                     stn2Visited = true;
-                    visitedList.add(new Integer(2));
+                    if( robotStatus.getStationsVisited() == null 
+                        || !isNumExistsInArrayList(2, robotStatus.getStationsVisited())) {
+                        visitedList.add(new Integer(2));
+                    }
                 }
                 break;
 
@@ -104,7 +114,10 @@ public class ISSwitchWorker implements WHWorker {
                 if(isNumExistsInArrayList(3, robotStatus.getStationsToVisit())) {
                     needProc = true;
                     stn3Visited = true;
-                    visitedList.add(new Integer(3));
+                    if( robotStatus.getStationsVisited() == null 
+                        || !isNumExistsInArrayList(3, robotStatus.getStationsVisited())) {
+                        visitedList.add(new Integer(3));
+                    }
                 }
                 break;
         }

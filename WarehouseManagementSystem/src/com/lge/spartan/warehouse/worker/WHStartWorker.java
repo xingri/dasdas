@@ -1,8 +1,12 @@
+package com.lge.spartan.warehouse.worker;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.lge.spartan.dal.*;
 import com.lge.spartan.data.*;
+import com.lge.spartan.warehouse.common.*;
+import com.lge.spartan.warehouse.main.*;
 
 public class WHStartWorker implements WHWorker {
 
@@ -29,6 +33,39 @@ public class WHStartWorker implements WHWorker {
         t.start();
     }
 
+    public boolean checkAvailability(OrderInfo myOrder, DAL myDal) {
+
+        ArrayList<OrderDetails> widgetList = new ArrayList<OrderDetails>();
+        widgetList = myOrder.getListOrderDetails();
+        if(widgetList == null) {
+            return false;
+        }
+
+        if(widgetList.size() > 0) { 
+            // Check Available Widget on Warehouse System
+
+            int widgetCnt = 0;
+            for(int idx=0; idx < widgetList.size() ; idx++) {
+
+                // Check availability of widget....
+                widgetCnt = myDal.GetWidgetQuantity(widgetList.get(idx).getWidgetId());
+
+                if(widgetCnt < widgetList.get(idx).getQuantity()) {
+                    System.out.println("Widget of Id[" + widgetList.get(idx).getWidgetId() 
+                        + "] is not enough Req[" + widgetList.get(idx).getQuantity() 
+                        + "] : In-Stock[" + widgetCnt + "]");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } else {
+            return false;
+        }
+
+        return false;
+    }
+
     public void handleRequest() {
         System.out.println("proc Request@WHStartWorker");
 
@@ -36,15 +73,33 @@ public class WHStartWorker implements WHWorker {
         DAL dal = new MySQLDALImpl();
         OrderInfo orderInfo; 
         ArrayList<OrderInfo> progressList = new ArrayList<OrderInfo>();
+        ArrayList<OrderInfo> backOrderList = new ArrayList<OrderInfo>();
         ArrayList<OrderDetails> widgetList = new ArrayList<OrderDetails>();
 
         ret = dal.Initialize(dbURL, "spartan", "spartan");
         if(ret) System.out.println("dal Initialization success");
 
+        System.out.println("proc Request@WHStartWorker Robot Err: " + dal.GetRobotErr(1) );
+
         progressList = dal.GetOrders(OrderStatus.Inprogress);
         if(progressList.size() > 0 ) {
             System.out.println("There are already in-progressing Orders.... " + progressList.size());
             return;
+        }
+
+        backOrderList = dal.GetOrders(OrderStatus.Backordered);
+        if(backOrderList.size() > 0 ) {
+            OrderInfo currOrderInfo;
+            // Update backorder to pending order when it is available....
+            System.out.println("There are back Orders.... " + backOrderList.size());
+            for(int idx=0; idx<backOrderList.size(); idx++) {
+                if(checkAvailability(backOrderList.get(idx), dal)) {
+                    currOrderInfo = backOrderList.get(idx);
+                    dal.UpdateOrderStatus(currOrderInfo.getOrderNo(), OrderStatus.Pending);
+                } else {
+                    System.out.println("widget items are still insufficient");
+                }
+            }
         }
 
         /*
@@ -85,6 +140,7 @@ public class WHStartWorker implements WHWorker {
                     System.out.println("Widget of Id[" + widgetList.get(idx).getWidgetId() 
                         + "] is not enough Req[" + widgetList.get(idx).getQuantity() 
                         + "] : In-Stock[" + widgetCnt + "]");
+                    dal.UpdateOrderStatus(orderInfo.getOrderNo(), OrderStatus.Backordered);
                     return;
                 } else {
                     int staId = dal.GetWidgetStation(widgetList.get(idx).getWidgetId());

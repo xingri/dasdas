@@ -1,4 +1,9 @@
-//package com.lge.spartan.warehouse;
+package com.lge.spartan.warehouse.main;
+
+import com.lge.spartan.warehouse.common.*;
+import com.lge.spartan.warehouse.worker.*;
+
+import com.lge.spartan.warehouse.order.WarehouseManagementSystem;
 
 public class WarehouseMain implements StationManager {
 
@@ -77,12 +82,15 @@ public class WarehouseMain implements StationManager {
 
         System.out.println("Warehouse System Start.... ");
 
-        if (argv.length == 0) {
-            System.out.println ( "\nPlease specify an IP address on the command line.\n" );
-            System.exit(1);
-        } else {
-            System.out.println ( "\n\nUsing server " + argv[0] + ".\n" );
-        }
+        Thread orderThread = new Thread() {
+            public void run() {
+                new WarehouseManagementSystem().init();
+            }
+        };
+
+        orderThread.start();
+
+        System.out.println("Warehouse Order Server Started.... ");
 
         WarehouseMain whMain = new WarehouseMain();
 
@@ -103,9 +111,22 @@ public class WarehouseMain implements StationManager {
 
         Thread t=new Thread() {
             public void run() {
+
+                boolean res = false;
+                WHRobotInf rb = new WHRobotInf(WHConfig.GetRobotIP());
+                if( WHConfig.IsEmulator() ) {
+                    rb.setEmulationMode();
+                }
+
+                while(true) {
+                    try {Thread.sleep(3000);} catch (InterruptedException ie) {}
+                    res = rb.getHealth();
+                    if(!res) System.out.println("\n\n\n\n\n Robot not responding!!!!!");
+                }
+
                 //the following line will keep this app alive for 10000 seconds,
                 //waiting for events to occur and responding to them (printing incoming messages to console).
-                try {Thread.sleep(10000000);} catch (InterruptedException ie) {}
+                //try {Thread.sleep(10000000);} catch (InterruptedException ie) {}
             }
         };
 
