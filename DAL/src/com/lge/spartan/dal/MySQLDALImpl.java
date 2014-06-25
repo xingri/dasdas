@@ -55,6 +55,8 @@ public class MySQLDALImpl implements DAL {
     DataSource ds;
     Connection con = null;
     final int WAREHOUSE_SERVER_HEARTBEAT = 2000;//2 seconds
+    final int ROBOT_HEARTBEAT = 3000;   //3 seconds
+
     final boolean CONNECTION_POOL = false;
 
     public boolean Initialize(String serverIPAddress, String user, String p) {
@@ -890,6 +892,98 @@ public class MySQLDALImpl implements DAL {
         return robotList;
     }
 
+    public synchronized boolean IsRobotAvailable(int robotId) {
+        logger.entry();
+        System.out.println("DAL:IsRobotAvailable()");
+        ResultSet rs = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select heartbeatts from robot where robotId = " + robotId + ";";
+            rs = s.executeQuery(SQLStatement);
+            if (rs.next()) {
+                long lDateTime = new Date().getTime();
+                long lPrevTime = 0;
+                System.out.println("Date() - Time in milliseconds: " + lDateTime);
+                lPrevTime = rs.getLong(1);
+                long ldiff = lDateTime - lPrevTime;
+                System.out.println("DAL:IsWarehouseServerAvailable:CurTS: " + lDateTime + ", PrevTS:" + lPrevTime + ", Diff:" + ldiff);
+                if (ldiff > ROBOT_HEARTBEAT){
+                    System.out.println("DAL:IsRobotAvailable:Not available");
+                    return false;
+                }
+            } // for each ele
+            System.out.println("DAL:IsRobotAvailable: Available");
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:IsRobotAvailable:Exception:" + e);
+            CleanUp(rs, s);
+            return false;
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return true;
+    }
+
+    //This API should be invoked by Robot every x seconds ( x <= 1 ) preferable x is 1
+    public synchronized boolean SetRobotTS(int robotId) {
+        logger.entry();
+        System.out.println("DAL:SetRobotTS()");
+        ResultSet rs = null;
+        try {
+            CreateStmnt();
+
+            long lDateTime = new Date().getTime();
+            System.out.println("Date() - Time in milliseconds: " + lDateTime);
+
+            Calendar lCDateTime = Calendar.getInstance();
+            System.out.println("Calender - Time in milliseconds :" + lCDateTime.getTimeInMillis());
+
+            SQLStatement = "update robot set heartbeatts = " + lDateTime + " where robotId = " + robotId + ";";
+
+            int retVal = s.executeUpdate(SQLStatement);
+            if (retVal > 0) {
+                System.out.println("DAL:SetRobotTS:Success");
+            } else {
+                System.out.println("DAL:SetRobotTS:failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:SetRobotTS:Exception:" + e);
+            CleanUp(rs, s);
+            return false;
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return true;
+    }
+
+    public synchronized void SetRobotErr(int robotId, int errCode) {
+        logger.entry();
+        System.out.println("DAL:SetRobotErr:robotId " + robotId + ", errCode " + errCode);
+        try {
+            CreateStmnt();
+
+            int executeUpdateVal;           // Return value from execute indicating effected rows
+
+            SQLStatement = "update robot set errcode = " + errCode + ", status = 2 where robotId = '" + robotId + "';";
+            executeUpdateVal = s.executeUpdate(SQLStatement);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:IncWidgets:Incremented Widget quantity successfully");
+            } else {
+                System.out.println("DAL:IncWidgets:Increment Widget quantity failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:SetRobotErr:Exception:" + e);
+            CleanUp(res, s);
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+    }
+
     public String GetRobotErr(int robotId) {
         logger.entry();
         System.out.println("DAL:GetRobotState(): RobotId:" + robotId);
@@ -898,7 +992,7 @@ public class MySQLDALImpl implements DAL {
 
         try {
             CreateStmnt();
-            SQLStatement = "select errcode from robot where robotId = " + robotId + ";";
+            SQLStatement = "select errcode from robot where status = 2 and robotId = " + robotId + ";";
             rs = s.executeQuery(SQLStatement);
             if (rs.next()) {
                 errCode = rs.getInt(1);
@@ -1182,4 +1276,5 @@ public class MySQLDALImpl implements DAL {
         }
         return true;
     }
+
 }
