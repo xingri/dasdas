@@ -109,11 +109,12 @@ public class CustomerApplicationGUI {
 		
 		spWidget = new JScrollPane();
 		spWidget.setViewportView(widgetNameList);;
-
 	}
 	
 	public void showList(){
 		List<Widget> wList = controller.getWidgetType();
+                if(wList == null) 
+                    return;
 		Widget[] ca= new Widget[wList.size()];
 		wList.toArray(ca);
 		widgetNameList.setListData(ca);
@@ -121,6 +122,8 @@ public class CustomerApplicationGUI {
 	}
 	public void showListTuple(){
 		ArrayList<OrderDetails> owtList= controller.getWidgetTuple();
+                if(owtList == null)
+                    return;
 		OrderDetails[] owt = new OrderDetails[owtList.size()];
 		owtList.toArray(owt); 
 		widgetListForOrder.setListData(owt);

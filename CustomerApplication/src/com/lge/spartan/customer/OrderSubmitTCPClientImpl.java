@@ -34,13 +34,23 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 	@Override
 	public ArrayList<Widget> getWidgetType() {
 		ArrayList<Widget> widgetList = new ArrayList<Widget>();
+                Socket s= null;
 		try{
-			Socket s=new Socket(ipAddress, port);
-			if(s == null)
-			{
-				JOptionPane.showMessageDialog(null, "Connection failed. May be network is lost or IPAddress (" + ipAddress + ") is wrong.");
-			}
-			System.out.println("Socket created...");
+			s=new Socket(ipAddress, port);
+                }catch(Exception ex){
+                      //JOptionPane.showMessageDialog(null, "");
+                      ipAddress = JOptionPane.showInputDialog("Connection failed. May be network is lost or IPAddress (" + ipAddress + ") is wrong. \nEnter IP Address again and try", ipAddress);
+                      try
+                      {
+                      port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number", port));
+                      }catch(Exception ex1){
+                         JOptionPane.showMessageDialog(null, "Enter a numeric");
+                      }
+                      return null;
+                }
+                System.out.println("Socket created...");
+
+                try{
 			ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
 			ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());
 			System.out.println("ObjectOutputStream created...");
