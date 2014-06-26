@@ -568,7 +568,7 @@ public class MySQLDALImpl implements DAL {
                 w.setDesc(res.getString(3));
                 w.setQuantity(res.getInt(4));
                 w.setStationId(res.getInt(5));
-                w.setCost(res.getInt(6));
+                w.setCost(res.getFloat(6));
                 widgetList.add(w);
             }
         } catch (Exception e) {
