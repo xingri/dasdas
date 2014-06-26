@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.lge.spartan.customer.data.Message;
 import com.lge.spartan.data.OrderDetails;
 import com.lge.spartan.data.OrderInfo;
@@ -34,6 +36,10 @@ public class OrderSubmitTCPClientImpl implements IOrderSubmit{
 		ArrayList<Widget> widgetList = new ArrayList<Widget>();
 		try{
 			Socket s=new Socket(ipAddress, port);
+			if(s == null)
+			{
+				JOptionPane.showMessageDialog(null, "Connection failed. May be network is lost or IPAddress (" + ipAddress + ") is wrong.");
+			}
 			System.out.println("Socket created...");
 			ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
 			ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());

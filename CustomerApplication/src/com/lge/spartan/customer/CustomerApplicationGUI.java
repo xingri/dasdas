@@ -1,6 +1,7 @@
 package com.lge.spartan.customer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -86,17 +88,17 @@ public class CustomerApplicationGUI {
 		
 		lPhoneNumber = new JLabel("Phone Number: ", JLabel.LEFT);
 		lAddress = new JLabel("Address: ", JLabel.LEFT);	
-		lOrderStatus = new JLabel("OrderNo.    Status       OrderTime                       ShipTime                    Desc.");
+		lOrderStatus = new JLabel("OrderNo.    Status          OrderTime                          ShipTime                                 Desc.");
 		
 		taPhoneNumber = new JTextField();
 		taAddress = new JTextArea(30, 5);
 		spAddress = new JScrollPane();
 		spAddress.setViewportView(taAddress);
-		bSubmit = new JButton("Order Submit");
+		bSubmit = new JButton("Submit Order");
 		bSubmit.setSize(20,5);
 		bAddWidget = new JButton(">>");
-		bGetWidgetName = new JButton("Referesh WidgetName");
-		bGetOrderStatus = new JButton("GetOrderStatus");
+		bGetWidgetName = new JButton("Refresh Widgets");
+		bGetOrderStatus = new JButton("Get Order Status");
 		bClear = new JButton("Clear");
 		
 		lWidgetName = new JLabel("Widgets: ");
@@ -161,7 +163,6 @@ public class CustomerApplicationGUI {
 		
 		ListSelectionListener listener=new ListHandler();
 		widgetNameList.addListSelectionListener(listener);
-
 	}
 	
 	public void display(){
@@ -209,19 +210,14 @@ public class CustomerApplicationGUI {
 		pListOrder.add(orderDisplay);
 		pGetStatus.add(bGetOrderStatus);
 
-	
-		
 		//showList();
 		registerHandler(); 
-		
-
 		fMain.setLayout(new GridLayout(2, 1));
 		fMain.getContentPane().add(pNewOrder);
 		fMain.getContentPane().add(pOrderStatus); 
 		
 		fMain.setSize(800, 500);
 		fMain.setVisible(true);
-		
 	}
 	
 	class ButtonHandler implements ActionListener{
@@ -237,16 +233,45 @@ public class CustomerApplicationGUI {
 				customer.setEmail("AAA");
 				order.setCust(customer);
 				ArrayList<OrderDetails> listWidget = controller.getWidgetTuple();
-				order.setListOrderDetails(listWidget);
-				controller.submitOrder(order);
-				controller.clearOrder();
-				showListTuple(); 
+				if(listWidget.size() <= 0)
+				{
+					JOptionPane.showMessageDialog(null, "Please add Widgets before submitting the Order");
+				}
+				else
+				{
+					order.setListOrderDetails(listWidget);
+					controller.submitOrder(order);
+					controller.clearOrder();
+					showListTuple();
+				}
 			}else if(e.getSource()== bAddWidget){
-				String quantity = JOptionPane.showInputDialog("How many ?");
-				System.out.println(selectedWidgetID + ":" + selectedWidgetName + ":" + quantity);
-				controller.addWidgetTuple(selectedWidgetID, selectedWidgetName, Integer.parseInt(quantity));
-				showListTuple(); 
-				
+				if(selectedWidgetName == null)
+				{
+					JOptionPane.showMessageDialog(null, "Please select the Widgets before adding to the Order");
+				}
+				else
+				{
+					int quant = -1;
+					String quantity = null;
+					do
+					{
+						boolean validQuant = false;
+						quantity = JOptionPane.showInputDialog("How many ?");
+						try
+						{
+							quant = Integer.parseInt(quantity);
+							validQuant = true;
+						}
+						catch(Exception ex){
+							JOptionPane.showMessageDialog(null, "Please enter the numeric value");
+						}
+						if(validQuant == true && quant <= 0)
+							JOptionPane.showMessageDialog(null, "Please enter a value > 0");
+					} while(quant <= 0);
+					System.out.println(selectedWidgetID + ":" + selectedWidgetName + ":" + quantity);
+					controller.addWidgetTuple(selectedWidgetID, selectedWidgetName, quant);
+					showListTuple();
+				}
 			}else if(e.getSource()==bGetWidgetName){
 				showList(); 
 			}else if(e.getSource()==bGetOrderStatus){

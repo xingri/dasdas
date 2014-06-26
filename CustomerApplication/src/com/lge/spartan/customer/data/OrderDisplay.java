@@ -43,13 +43,14 @@ public class OrderDisplay {
 	}
 	@Override
 	public String toString() {
-		return "   " + orderNo + "          " + 
-				((orderStatus == OrderStatus.Complete) ? "Shipped" : "Ordered") + 
+		String shipTime = shippingTime == null ? "                                       " : shippingTime;
+		String status = orderStatus.toString();
+		if(status.equals("Complete"))
+			status = "Shipped";
+		return "   " + orderNo + 
+				"          " +	status + 
 				"          " + orderTime + 
-				"          " + shippingTime + 
-				"          " + details;
-	} 
-	
-	
-	
+				"        " +  shipTime + 
+				"    " + details;
+	} 	
 }
