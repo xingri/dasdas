@@ -40,7 +40,7 @@ public class Main {
                     dbNotifier.notifyObservers();
 
                     try {                
-                        sleep(1000);
+                        sleep(2000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(DBNotifier.class.getName()).log(Level.SEVERE, null, ex);
                     }
