@@ -167,7 +167,9 @@ public class WHRobotInf {
 			//clientSocket = new Socket(robotIP, portNum);
             clientSocket = new Socket();
             SocketAddress addr = new InetSocketAddress(robotIP, portNum);
-            clientSocket.connect(addr, 3000); // 5 seconds timeout
+
+            clientSocket.setSoTimeout(3000);  // 3 seconds read timeout 
+            clientSocket.connect(addr, 3000); // 3 seconds conn timeout
 
 			out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 			out.write(cmd);

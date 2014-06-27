@@ -37,17 +37,55 @@ public class ISSwitchWorker implements WHWorker {
     }
 
     public boolean isSameList(ArrayList<Integer> toVisit, ArrayList<Integer> visited) {
+
+        if(visited == null || toVisit == null) return false;
+        if(visited.size() == 0 || toVisit.size() == 0) return false;
+
         if(toVisit.size() != visited.size()) {
             return false;
         }
 
-        for(int idx=0; idx< toVisit.size(); idx++) {
-            if(toVisit.get(idx).intValue() != visited.get(idx).intValue()) {
-                return false;
+        for(int idx=0; idx<toVisit.size(); idx++) {
+            boolean found = false;
+
+            for(int idy=0; idy<visited.size(); idy++) {
+                if(visited.get(idy).intValue() == toVisit.get(idx).intValue() ) {
+                    found = true;
+                }
             }
+            if(!found) return false;
         }
 
         return true;
+    }
+
+    public int getNextVisitStn(ArrayList<Integer> toVisit, ArrayList<Integer> visited) {
+
+        int tmpNext = 9999;
+
+        if(visited == null) return toVisit.get(0);
+
+        ArrayList<Integer> tmpList = new ArrayList<Integer>();
+
+        for(int idx=0; idx<toVisit.size(); idx++) {
+            tmpList.add(toVisit.get(idx).intValue());
+        }
+
+        for(int idx=0; idx<toVisit.size(); idx++) {
+            for(int idy=0; idy<visited.size(); idy++) {
+                if(visited.get(idy).intValue() == toVisit.get(idx).intValue() ) {
+                    tmpList.remove(toVisit.get(idx));
+                }
+            }
+        }
+
+        if(tmpList.size() == 0) return 4;
+
+        for(int idx=0; idx<tmpList.size(); idx++) {
+            if(tmpList.get(idx).intValue() < tmpNext) tmpNext = tmpList.get(idx).intValue();
+        }
+
+        return tmpNext;
     }
 
     public void handleRequest() {
@@ -127,24 +165,10 @@ public class ISSwitchWorker implements WHWorker {
             return;
         }
 
-        if(isNumExistsInArrayList(1, robotStatus.getStationsToVisit()) 
-            && !stn1Visited ) {
-            robotStatus.setNextStation(1);
-        }
+        int tmpNextVisitStn = 
+            getNextVisitStn(robotStatus.getStationsToVisit(), visitedList);
 
-        if(isNumExistsInArrayList(2, robotStatus.getStationsToVisit()) 
-            && !stn2Visited ) {
-            robotStatus.setNextStation(2);
-        }
-
-        if(isNumExistsInArrayList(3, robotStatus.getStationsToVisit()) 
-            && !stn3Visited ) {
-            robotStatus.setNextStation(3);
-        }
-
-        if(isSameList(robotStatus.getStationsToVisit(), visitedList) ) {
-            robotStatus.setNextStation(4);
-        }
+        robotStatus.setNextStation(tmpNextVisitStn);
 
         robotStatus.setStationsVisited(visitedList);
         robotStatus.setCurrentStation(idx);

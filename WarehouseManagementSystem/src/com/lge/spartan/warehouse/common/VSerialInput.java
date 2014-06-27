@@ -34,6 +34,10 @@ public class VSerialInput implements SerialInf {
         myMan = staMan;
     }
 
+    public void close() {
+        System.out.println("....VSerial Input close called...\n");
+    }
+
     public void initialize() {
         Thread t = new Thread() {
             public void run() {

@@ -62,10 +62,12 @@ public class SSSensorWorker implements WHWorker {
         if(robotStatus.getNextStation() == 4) {
             System.out.println("Check send NearStation(SS) to Robot");
             ret = rb.nearStation();
+            dal.SetRobotMoveTS(1, orderInfo.getOrderNo());
             if(ret) dal.SetRobotTS(1);
         } else {
             boolean res1 = false;
             boolean res2 = false;
+            dal.SetRobotMoveTS(1, orderInfo.getOrderNo());
             res1 = rb.nearStation();
             res2 = rb.goNextStation();
             if(res1 && res2) {
