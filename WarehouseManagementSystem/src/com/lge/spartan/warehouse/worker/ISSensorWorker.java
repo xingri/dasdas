@@ -102,7 +102,15 @@ public class ISSensorWorker implements WHWorker {
             System.out.println("[send NearStation to Robot]\n\n\n\n");
             res = rb.nearStation();
             if(!res) {
-                System.out.println("[send NearStation to Robot failed!!!]\n\n\n\n");
+                System.out.println("\n\n\n*********\n*********\n*********\n NearStation stop Not Working, send again \n\n\n\n\n\n");
+                boolean ret2 = rb.nearStation();
+                if(!ret2) {
+                System.out.println("\n\n\n*********\n*********\n*********\n NearStation stop Not Working, send Stop to Robot \n\n\n\n\n\n");
+                    rb.stop();
+                    dal.SetRobotErr(1, 1000);
+                    dal.SetRobotTS(1);
+                    System.out.println("[send NearStation to Robot failed!!!]\n\n\n\n");
+                }
             }
             dal.SetRobotTS(1);
 /*
@@ -123,6 +131,9 @@ public class ISSensorWorker implements WHWorker {
 
             res1 = rb.nearStation();
             res2 = rb.goNextStation();
+
+            dal.SetRobotMoveTS(1, orderInfo.getOrderNo());
+
             if(res1 && res2) {
                 dal.SetRobotTS(1);
             }

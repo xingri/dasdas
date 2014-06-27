@@ -164,7 +164,10 @@ public class WHMonitorWorker implements WHWorker {
                 else {
                     robotErrCnt++;
                     if(robotErrCnt > MAX_ROBOT_ERR_CNT) {
+                        System.out.println("\n\n\n*********\n*********\n*********\n Robot connection lost, let's Stop the Robot... \n\n\n\n\n\n");
                         robotErrCnt = 0;
+
+                        rbInf.stop();
                         dal.SetRobotErr(1, 1000);
                     }
                 }
@@ -173,7 +176,10 @@ public class WHMonitorWorker implements WHWorker {
 
                 robotErrCnt++;
                 if(robotErrCnt > MAX_ROBOT_ERR_CNT) {
+                    System.out.println("\n\n\n*********\n*********\n*********\n Robot connection lost, let's Stop the Robot... \n\n\n\n\n\n");
                     robotErrCnt = 0;
+
+                    rbInf.stop();
                     dal.SetRobotErr(1, 1000);
                 }
             }
@@ -206,11 +212,13 @@ public class WHMonitorWorker implements WHWorker {
                 OrderInfo currOrder = progressList.get(0);
 
                 ret = rb.goNextStation();
-                if(ret) { 
-                    dal.SetRobotTS(1);
-                    dal.SetRobotState(1, RobotState.Busy);
-                    dal.SetRobotMoveTS(1, currOrder.getOrderNo());
+                if(!ret) {
+                    System.out.println(
+                    "\n\n\n\n *****\n\n Something wrong with goNext.. but keep going.....");
                 }
+                dal.SetRobotMoveTS(1, currOrder.getOrderNo());
+                dal.SetRobotTS(1);
+                dal.SetRobotState(1, RobotState.Busy);
             }
         }
 
