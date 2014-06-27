@@ -121,10 +121,13 @@ public class WarehouseMain implements StationManager {
         startWorker.procRequest(0); // arg 0 has no meaning in case of startWorker
 
         WHMonitorWorker monitorWorker = new WHMonitorWorker();
+        monitorWorker.setSerialInput(serialInput);
+
         monitorWorker.procRequest(0);
 
         Thread t=new Thread() {
             public void run() {
+
                 //the following line will keep this app alive for 10000 seconds,
                 //waiting for events to occur and responding to them (printing incoming messages to console).
                 try {Thread.sleep(10000000);} catch (InterruptedException ie) {}
