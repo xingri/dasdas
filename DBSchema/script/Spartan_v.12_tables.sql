@@ -95,7 +95,9 @@ CREATE TABLE IF NOT EXISTS `roboterr` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `roboterr` (`errcode`, `msg`) VALUES
-    (1000, 'Robot Not Responding');
+    (1000, 'Robot Not Responding'),
+    (2000, 'Robot Control lost'),
+    (3000, 'Warehouse HW Not Responding');
 
 -- Dumping structure for table spartan.robotmoves
 CREATE TABLE IF NOT EXISTS `robotmoves` (
@@ -105,6 +107,7 @@ CREATE TABLE IF NOT EXISTS `robotmoves` (
   `stationsVisited` varchar(50) DEFAULT NULL COMMENT 'Example: 1,2 if 1 and 2 stations are visited in that order',
   `currentStation` int(11) DEFAULT NULL COMMENT 'stationId of the current Station',
   `nextStation` int(11) DEFAULT NULL COMMENT 'stationId of the next Station to be visited',
+  `heartbeatts` bigint(20) DEFAULT NULL,
   UNIQUE KEY `orderNo` (`orderNo`),
   KEY `FK_robotmoves_robot` (`robotId`),
   KEY `FK_robotmoves_station` (`stationsToVisit`),
