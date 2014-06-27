@@ -53,86 +53,127 @@ void RobotCtrl::stop()
 int RobotCtrl::goNextStation()
 {
 	int ret = 0;
-	static bool isLocChanges = false;
 
-	updateSensors();
+	updateSensors(2);
 
-#if 0
+#if 1
 	static int prevOP = OP_FORWARD;
+	static int prevLoc = LOC_ON_NAVLINE;
 
 	switch (getLocation()) {
-		case LOC_ON_NAVLINE:
-		if (!isCenterSensorBlack && (isLeftSensorBlack || isRightSensorBlack)) {
-			if (isLeftSensorBlack) {
-				//Serial.println("NAVLINE: turnLeft");
-				turnLeft();
-				prevOP = OP_TURNLEFT;
-			} else if (isRightSensorBlack) {
-				//Serial.println("NAVLINE: turnRight");
-				turnRight();
-				prevOP = OP_TURNRIGHT;
-			}
-		} else {
-			//Serial.println("NAVLINE: goForward");
-			if (prevOP == OP_TURNLEFT) {
-				turnRight();
-				delay(50);
-			} else if (prevOP == OP_TURNRIGHT) {
-				turnLeft();
-				delay(50);
-			}
-			goForward();
-			prevOP = OP_FORWARD;
-		}
-		break;
-		case LOC_NEAR_STATION:
-		if (isCenterSensorBlack && (!isLeftSensorBlack || !isRightSensorBlack)) {
-			if (!isLeftSensorBlack) {
-				turnLeft();
-				prevOP = OP_TURNLEFT;
-			} else if (!isRightSensorBlack) {
-				turnRight();
-				prevOP = OP_TURNRIGHT;
-			}
-		} else {
-			if (prevOP == OP_TURNLEFT) {
-				turnRight();
-				delay(50);
-			} else if (prevOP == OP_TURNRIGHT) {
-				turnLeft();
-				delay(50);
-			}
-			goForward();
-			prevOP = OP_FORWARD;
-		}
-		break;
-		case LOC_WHITE:
-		case LOC_BLACK:
-		switch (prevOP) {
-			case OP_FORWARD:
-			goForward();
-			break;
-			case OP_TURNLEFT:
-			turnLeft();
-			break;
-			case OP_TURNRIGHT:
-			turnRight();
-			break;
-			case OP_NONE:
-			stop();
-			break;
-		}
-		wrongLocCount++;
-		if (wrongLocCount > 5000) {
-			stop();
+		case LOC_ON_NAVLINE: {
 			wrongLocCount = 0;
-			Serial.println("WARNING: wrong location");
-			prevOP = OP_NONE;
-			ret = -1;
+			prevLoc = LOC_ON_NAVLINE;
+			if (!isCenterSensorBlack && (isLeftSensorBlack || isRightSensorBlack)) {
+				if (isLeftSensorBlack) {
+					turnLeft();
+					prevOP = OP_TURNLEFT;
+				} else if (isRightSensorBlack) {
+					turnRight();
+					prevOP = OP_TURNRIGHT;
+				}
+			} else {
+				goForward();
+				prevOP = OP_FORWARD;
+			}
+			break;
 		}
-		break;
+		case LOC_NEAR_STATION: {
+			wrongLocCount = 0;
+			prevLoc = LOC_NEAR_STATION;
+			if (isCenterSensorBlack && (!isLeftSensorBlack || !isRightSensorBlack)) {
+				if (!isLeftSensorBlack) {
+					turnLeft();
+					prevOP = OP_TURNLEFT;
+				} else if (!isRightSensorBlack) {
+					turnRight();
+					prevOP = OP_TURNRIGHT;
+				}
+			} else {
+				goForward();
+				prevOP = OP_FORWARD;
+			}
+			break;
+		}
+		case LOC_WHITE:
+		case LOC_BLACK: {
+			switch (prevOP) {
+				case OP_FORWARD:
+				case OP_TURNLEFT:
+				case OP_TURNRIGHT:
+				goForward();
+				break;
+				// case OP_NONE:
+				// stop();
+				break;
+			}
+			wrongLocCount++;
+
+			if (wrongLocCount > 100) {
+
+				for (int i = 0; i < 50; i++) {
+					turnLeft();
+
+					updateSensors(1);
+					if (prevLoc == LOC_ON_NAVLINE) {
+						if (isCenterSensorBlack) {
+							// wrongLocCount = 0;
+							turnRight();
+							delay(i);
+							goForward();
+							delay(10);
+							goto RETURN;
+						}
+					} else {
+						if (!isCenterSensorBlack) {
+							// wrongLocCount = 0;
+							turnRight();
+							delay(i);
+							goForward();
+							delay(10);
+							goto RETURN;
+						}
+					}
+				}
+
+				for (int i = 0; i < 100; i++) {
+					turnRight();
+
+					updateSensors(1);
+					if (prevLoc == LOC_ON_NAVLINE) {
+						if (isCenterSensorBlack) {
+							// wrongLocCount = 0;
+							turnLeft();
+							delay(i);
+							goForward();
+							delay(10);
+							goto RETURN;
+						}
+					} else {
+						if (!isCenterSensorBlack) {
+							// wrongLocCount = 0;
+							turnLeft();
+							delay(i);
+							goForward();
+							delay(10);
+							goto RETURN;
+						}
+					}
+				}
+
+
+				stop();
+				wrongLocCount = 0;
+				Serial.println("WARNING: wrong location");
+				//prevOP = OP_NONE;
+				ret = -1;
+			}
+			break;
+		}
 	}
 #else
+	static bool isLocChanges = false;
+
 	if (isOnNavLine()) {
 		if (isLocChanges) {
 			Serial.print(">>>>> On Line: ");
@@ -166,14 +207,15 @@ int RobotCtrl::goNextStation()
 			// We prefer to turn right at the station
 			turnRight();
 			delay(10);
-		// } else if (isLeftSensorBlack && isCenterSensorBlack && isRightSensorBlack) {
-		// 	stop();
+			// } else if (isLeftSensorBlack && isCenterSensorBlack && isRightSensorBlack) {
+			// 	stop();
 		} else {
 			goForward();
 		}
 	}
 #endif
 
+RETURN:
 	return ret;
 }
 
@@ -187,7 +229,7 @@ void RobotCtrl::nearStation()
 	for (int i = 0; i < count; i++) {
 		goForward();
 
-		updateSensors();
+		updateSensors(2);
 
 		if (isLeftSensorBlack &&
 			isCenterSensorBlack && isRightSensorBlack) {
@@ -205,20 +247,20 @@ void RobotCtrl::nearStation()
 	for (int i = 0; i < count; i++) {
 		turnRight();
 
-		updateSensors();
+		updateSensors(2);
 		if (!isCenterSensorBlack) {
 #if DEBUG
 			Serial.print("nearStation: end count -> ");
 			Serial.println(i);
 #endif
-			break;
-		}
+		break;
 	}
+}
 
 	// XXX:
-	delay(50);
+delay(50);
 
-	stop();
+stop();
 }
 
 boolean RobotCtrl::isOnNavLine()
@@ -286,7 +328,7 @@ int RobotCtrl::getLocation()
 	return ret;
 }
 
-void RobotCtrl::updateSensors()
+void RobotCtrl::updateSensors(int retry)
 {
 #if DEBUG
 	// Serial.println("updateSensors..........");
@@ -294,9 +336,9 @@ void RobotCtrl::updateSensors()
 
 	// XXX: Stop()?
 
-	for (int i = 0; i < 2; i++) {
-	isCenterSensorBlack  = centerSensor.isBlack();
-	isLeftSensorBlack = leftSensor.isBlack();
-	isRightSensorBlack = rightSensor.isBlack();
+	for (int i = 0; i < retry; i++) {
+		isCenterSensorBlack  = centerSensor.isBlack();
+		isLeftSensorBlack = leftSensor.isBlack();
+		isRightSensorBlack = rightSensor.isBlack();
 	}
 }

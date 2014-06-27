@@ -138,6 +138,7 @@ void loop()
 			break;
 		case CMD_GO_NEXT_STATION:
 			robotStatus = robotCtrl.goNextStation();
+			loopCount += 1000;
 			break;
 		case CMD_NEAR_STATION:
 			robotCtrl.nearStation();
@@ -156,7 +157,7 @@ void loop()
 
 	if ((command.cmd <= CMD_TURN_RIGHT && command.arg == 0)
 		|| robotStatus != 0) {
-		Serial.println("Done: stop");
+		// Serial.println("Done: stop");
 		command.cmd = CMD_STOP;
 	}
 
@@ -166,6 +167,9 @@ void loop()
 		command.cmd = CMD_STOP;
 		loopCount = 0;
 	}
+
+	// if ((loopCount % 1000) == 0)
+	// 	Serial.println(loopCount);
 
 	loopCount++;
 }

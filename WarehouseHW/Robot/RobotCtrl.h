@@ -35,7 +35,7 @@ private:
 
 	boolean isOnNavLine();
 	int getLocation();
-	void updateSensors();
+	void updateSensors(int retry);
 
 	int wrongLocCount;
 
