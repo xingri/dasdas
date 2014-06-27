@@ -61,12 +61,16 @@ public interface DAL {
     public RobotState GetRobotState(int robotId);
     public boolean SetRobotState(int robotId, RobotState rs);
     public RobotStatus GetRobotMoves(int robotId, int orderId);
+    public void SetRobotMoveTS(int robotId, int orderId);
 
     public String GetRobotErr(int robotId);
     public void SetRobotErr(int robotId, int errCode);
 
     public boolean IsRobotAvailable(int robotId);
     public boolean SetRobotTS(int robotId);
+
+    public boolean IsRobotMovesMinCond(int robotId, int orderId);
+    public boolean IsRobotMovesMaxCond(int robotId, int orderId);
 
     //Robot - End
     

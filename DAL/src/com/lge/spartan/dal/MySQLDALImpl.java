@@ -57,6 +57,9 @@ public class MySQLDALImpl implements DAL {
     final int WAREHOUSE_SERVER_HEARTBEAT = 2000;//2 seconds
     final int ROBOT_HEARTBEAT = 3000;   //3 seconds
 
+    final int ROBOT_MIN_TIMEOUT = 3000;   // Sensor or Switch event need to be ignored.. < 3 seconds 
+    final int ROBOT_MAX_TIMEOUT = 10000;   // It robot doens't updated > 30 seconds, set robot status err...
+
     final boolean CONNECTION_POOL = false;
 
     public boolean Initialize(String serverIPAddress, String user, String p) {
@@ -568,7 +571,7 @@ public class MySQLDALImpl implements DAL {
                 w.setDesc(res.getString(3));
                 w.setQuantity(res.getInt(4));
                 w.setStationId(res.getInt(5));
-                w.setCost(res.getFloat(6));
+                w.setCost(res.getInt(6));
                 widgetList.add(w);
             }
         } catch (Exception e) {
@@ -694,6 +697,110 @@ public class MySQLDALImpl implements DAL {
         return true;
     }
 
+    public synchronized boolean IsRobotMovesMaxCond(int robotId, int orderId) {
+        logger.entry();
+        System.out.println("DAL:GetRobotMoves(): RobotId:" + robotId + ", OrderId:" + orderId);
+        ResultSet rs = null;
+        RobotStatus r = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select heartbeatts from robotmoves where nextStation != -1 and robotId = " 
+                + robotId + " and orderNo = " + orderId + ";";
+
+            rs = s.executeQuery(SQLStatement);
+            if (rs.next()) {
+                long lDateTime = new Date().getTime();
+                long lPrevTime = 0;
+                lPrevTime = rs.getLong(1);
+                long ldiff = lDateTime - lPrevTime;
+
+                if(ldiff > ROBOT_MAX_TIMEOUT ) {
+                    System.out.println("DAL:RobotMoves:less than min condition");
+                    return true;
+                }
+
+            } // for each ele
+            else {
+                System.out.println("DAL:GetRobotMoves(): Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobotMoves:Exception:" + e);
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return false;
+    }
+
+    public synchronized void SetRobotMoveTS(int robotId, int orderId) {
+
+        logger.entry();
+        try {
+            CreateStmnt();
+
+            int executeUpdateVal;           // Return value from execute indicating effected rows
+
+            String stmnt;
+            long lDateTime = new Date().getTime();
+
+            stmnt = "update robotmoves set heartbeatts = " + lDateTime
+                    + " where orderNo = '" + orderId + "' and robotId = " + robotId + ";";
+
+            executeUpdateVal = s.executeUpdate(stmnt);
+            if (executeUpdateVal > 0) {
+                System.out.println("DAL:SetRobotMoveTS executed successfully");
+            } else {
+                System.out.println("DAL:SetRobotMoveTS failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:SetRobotMoveTS:Exception:" + e);
+            CleanUp(res, s);
+        } // end try-catch
+        finally {
+            CleanUp(res, s);
+        }
+
+        System.out.println("DAL:SetRobotMoveTS finished successfully.");
+    }
+
+    public synchronized boolean IsRobotMovesMinCond(int robotId, int orderId) {
+        logger.entry();
+        System.out.println("DAL:GetRobotMoves(): RobotId:" + robotId + ", OrderId:" + orderId);
+        ResultSet rs = null;
+        RobotStatus r = null;
+        try {
+            CreateStmnt();
+            SQLStatement = "select heartbeatts from robotmoves where nextStation != -1 and robotId = " 
+                + robotId + " and orderNo = " + orderId + ";";
+
+            rs = s.executeQuery(SQLStatement);
+            if (rs.next()) {
+                long lDateTime = new Date().getTime();
+                long lPrevTime = 0;
+                lPrevTime = rs.getLong(1);
+                long ldiff = lDateTime - lPrevTime;
+
+                if(ldiff < ROBOT_MIN_TIMEOUT ) {
+                    System.out.println("DAL:RobotMoves:less than min condition");
+                    return true;
+                }
+
+            } // for each ele
+            else {
+                System.out.println("DAL:GetRobotMoves(): Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Exception " + e);
+            System.out.println("DAL:GetRobotMoves:Exception:" + e);
+        } // end try-catch
+        finally {
+            CleanUp(rs, s);
+        }
+        return false;
+    }
+
     ///Return 0 if success. If failure, return -1
     @Override
     public synchronized int AddRobotStatus(RobotStatus robotStatus) {
@@ -702,24 +809,14 @@ public class MySQLDALImpl implements DAL {
         try {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             CreateStmnt();
+
+            long lDateTime = new Date().getTime();
             SQLStatement
-                    /* = "insert into robotstatus (orderNo, stn1Visited, stn2Visited, stn3Visited, stn4Visited, stn1Need, stn2Need, stn3Need, stn4Need, nextStn, state) values ('"
-                     + robotStatus.getOrderNo() + "','"
-                     + robotStatus.getStn1Visited() + "','"
-                     + robotStatus.getStn2Visited() + "','"
-                     + robotStatus.getStn3Visited() + "','"
-                     + robotStatus.getStn4Visited() + "','"
-                     + robotStatus.getStn1Need() + "','"
-                     + robotStatus.getStn2Need() + "','"
-                     + robotStatus.getStn3Need() + "','"
-                     + robotStatus.getStn4Need() + "','"
-                     + robotStatus.getNextStn() + "','"
-                     + robotStatus.getState().ordinal() + "'"
-                     + ");";*/
-                    = "insert into robotmoves (robotId, orderNo, stationsToVisit, currentStation, nextStation) values ('"
+                    = "insert into robotmoves (robotId, orderNo, stationsToVisit, heartbeatts, currentStation, nextStation) values ('"
                     + robotStatus.getRobotId() + "','"
                     + robotStatus.getOrderNo() + "','"
                     + GetStringFromArrayWithComma(robotStatus.getStationsToVisit()) + "','"
+                    + lDateTime + "','"
                     + robotStatus.getCurrentStation() + "','"
                     + robotStatus.getNextStation() + "'"
                     + ");";
@@ -806,12 +903,14 @@ public class MySQLDALImpl implements DAL {
             int executeUpdateVal;           // Return value from execute indicating effected rows
             String stmnt;
             ArrayList<Integer> tmpList = robotStatus.getStationsVisited();
+            long lDateTime = new Date().getTime();
 
             if(tmpList == null || tmpList.size() == 0) {
                 stmnt
                         = "update robotmoves set stationsToVisit = '" + GetStringFromArrayWithComma(robotStatus.getStationsToVisit())
                         + "', currentStation = " + robotStatus.getCurrentStation()
                         + ", nextStation = " + robotStatus.getNextStation()
+                        + ", heartbeatts = " + lDateTime
                         + " where orderNo = '" + robotStatus.getOrderNo() + "' and robotId = " + robotStatus.getRobotId() + ";";
             } else {
                 stmnt
@@ -819,6 +918,7 @@ public class MySQLDALImpl implements DAL {
                         + "', stationsVisited = '" + GetStringFromArrayWithComma(robotStatus.getStationsVisited())
                         + "', currentStation = " + robotStatus.getCurrentStation()
                         + ", nextStation = " + robotStatus.getNextStation()
+                        + ", heartbeatts = " + lDateTime
                         + " where orderNo = '" + robotStatus.getOrderNo() + "' and robotId = " + robotStatus.getRobotId() + ";";
             }
 
@@ -981,7 +1081,7 @@ public class MySQLDALImpl implements DAL {
         }
     }
 
-    public String GetRobotErr(int robotId) {
+    public synchronized String GetRobotErr(int robotId) {
         logger.entry();
         System.out.println("DAL:GetRobotState(): RobotId:" + robotId);
         ResultSet rs = null;
@@ -1058,7 +1158,7 @@ public class MySQLDALImpl implements DAL {
         return r;
     }
 
-    public boolean SetRobotState(int robotId, RobotState r) {
+    public synchronized boolean SetRobotState(int robotId, RobotState r) {
         logger.entry();
         System.out.println("DAL:SetRobotState(): RobotId:" + robotId);
         try {
